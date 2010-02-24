@@ -1,0 +1,559 @@
+<!doctype html>
+<html>
+<head>
+<link rel='stylesheet' type='text/css' href='jquery.tooltip.css'>
+<style type="text/css">
+
+html, body
+{
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.html_tmode
+{
+    background-color: #000001;
+}
+
+div#content
+{
+    padding: 5px;
+}
+
+.full
+{
+    width: 100%;
+    height: 100%;
+}
+
+.translation_orig
+{
+    font-size: 120%;
+}
+
+.trans_name, .trans_name_tmode
+{
+    width: 5em;
+    text-align: right;
+    vertical-align: top;
+}
+
+.span_word_tmode:hover
+{
+    background: #088; 
+}
+
+.span_word2_tmode:hover
+{
+    background: #088; 
+}
+
+div.DIV_AS_HR
+{
+    display:none;
+}
+
+.trans_table
+{
+    width: 100%;
+}
+
+.trans_row td
+{
+    border-bottom: 1px solid;
+    padding: 3px 0px 3px 3px;
+}
+
+.trans_row_tmode td
+{
+    padding: 1px 0px 1px 3px;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+.padding_up
+{
+    padding-top: 1em;
+}
+
+.padding_down
+{
+    padding-bottom: 1em;
+}
+
+.shadow
+{
+    filter:progid:DXImageTransform.Microsoft.Shadow(color:#808080,direction:135,strength:2);
+    /*filter:progid:DXImageTransform.Microsoft.DropShadow(offx:1,offy:1,color:’#AA404040’);*/
+    zoom:1;
+}
+
+.trans_value
+{
+    vertical-align: bottom;
+}
+
+ruby.romaji
+{
+    ruby-align: center;
+}
+
+</style>
+<title>ChiiTrans main window</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.dimensions.js"></script>
+<script type="text/javascript" src="jquery.tooltip.js"></script>
+<script type="text/jscript">
+
+//// PUBLIC /////
+
+// こんにちは、世界！
+
+var blocks = {};
+
+var cancel = function() {event.cancelBubble = true; return true;}
+var deny = function() {return false;}
+
+var first_block = true;
+var appendBottom = false;
+var dropShadow = false;
+var tmode = false;
+
+function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
+{
+    var pnum = 5;
+    
+    blocks[id] = {};
+    blocks[id].source = s.replaceAll('\n', '').replaceAll('\r', '');
+    blocks[id].trans = {};
+    blocks[id].display_readings = !!display_readings;
+    blocks[id].romaji = !!romaji;
+
+    var tbl = table("trans_table");
+    if (s_fixed != "")
+    {
+        s_fixed = s_fixed.replaceAll('　', ' ');
+        tbl.add(row(tmode ? "trans_row_tmode" : "trans_row", cell(tmode ? "trans_name_tmode" : "trans_name", textnode("Fixed:")), cell({cls: (tmode ? "trans_value fixed_text_tmode" : "trans_value fixed_text")}, textnode(s_fixed))));
+    }
+    if (arguments.length > pnum)
+    {
+        if (arguments.length > pnum + 1 || s_fixed != "")
+        {
+            for (var i = pnum; i < arguments.length; ++i)
+            {
+                var dd = make("div", 0, textnode("..."));
+                var name = arguments[i];
+                var dn = make("div");
+                $(dn).html(getTranslatorTitle(name));
+                tbl.add(row(tmode ? "trans_row_tmode" : "trans_row", cell(tmode ? "trans_name_tmode" : "trans_name", dn), cell("trans_value", dd)));
+                blocks[id].trans[name] = dd;
+            }
+        }
+        else
+        {
+            var dd = make("div", 0, textnode("..."));
+            tbl.add(row(tmode ? "trans_row_tmode" : "trans_row", cell({cls: "trans_value", colspan: 2}, dd)));
+            var name = arguments[pnum];
+            blocks[id].trans[name] = dd;
+        }
+    }
+
+    if (!display_readings || s.length == 0)
+    {
+        blocks[id].orig = make("div", tmode ? "translation_orig tmode" : "translation_orig", textnode(s));
+    }
+    else
+    {
+        var ll = 2;
+        if (s.length < ll)
+            ll = s.length;
+        blocks[id].orig = make("div", tmode ? "translation_orig tmode" : "translation_orig");
+        var dummytext;
+        if (blocks[id].romaji)
+        {
+            dummytext = "a";            
+        }
+        else
+        {
+            dummytext = "は";
+        }
+        $(blocks[id].orig).html("<ruby>" + s.substr(0, ll) + "<rt style='visibility:hidden'>" + dummytext + "</rt></ruby>").append(textnode(s.substr(ll))); 
+    } 
+
+    blocks[id].main = make("div", "translation_block", blocks[id].orig, tbl);
+    if (appendBottom)
+    {
+        if (first_block)
+        {
+            first_block = false;
+        }
+        else
+        {
+            $(blocks[id].main).addClass("padding_up");
+        }
+        $("#content").append(blocks[id].main);
+    }
+    else
+    {
+        $(blocks[id].main).addClass("padding_down");
+        $("#content").prepend(blocks[id].main);
+    }
+   
+    scrollWnd();
+}
+
+function UpdateTranslation(id, name, translated_text, status)
+{
+    try
+    {
+        var block = $(blocks[id].trans[name]); 
+        block.html(translated_text);
+        scrollWnd();        
+    }
+    catch(e) {}
+}
+
+function test(x)
+{
+    alert(x);
+}
+
+function ClearContent()
+{
+    $("#content").empty();
+    blocks = {};
+}
+
+function UpdateWords(id, s, status)
+{
+    if (status <= 0)
+    {
+        return;
+    }
+    var orig = blocks[id].orig;
+    var ss = s.split('\r');
+    var i;
+    var data = []; 
+    for (i = 0; i < ss.length; i += 5)
+    {
+        data.push({text: ss[i], reading: ss[i + 1], text2: ss[i + 2], reading2: ss[i + 3], meaning: ss[i + 4]});
+    }
+    $(orig).empty();
+    var src = blocks[id].source.replaceAll('\r', '');
+    var nya = 1;
+    var div = orig;
+    
+    var pos = 0;
+    var span_other_class = "span_other";
+    var romaji = blocks[id].romaji;
+    var display_readings = blocks[id].display_readings;
+    for (i = 0; i < data.length; ++i)
+    {
+        var cur = data[i];
+        if (cur.meaning == "")
+            continue;
+        var newpos = src.indexOf(cur.text, pos);
+        if (newpos < 0)
+            continue;
+        if (newpos > pos)
+        {
+            div.appendChild(make("span", span_other_class, textnode(src.substring(pos, newpos))));
+        }
+        pos = newpos + cur.text.length;
+
+        var _cls;
+        if (tmode)
+        {
+            _cls = (nya++ % 2 ? "span_word_tmode" : "span_word2_tmode");
+        }
+        else
+        {
+            _cls = (nya++ % 2 ? "span_word" : "span_word2");
+        }
+        var title = (cur.text2 == "" ? cur.text : cur.text2);
+        if (cur.reading && cur.reading != "")
+            title += " (" + (cur.reading2 == "" ? cur.reading : cur.reading2) + ")";
+        if (cur.meaning && cur.meaning != "" && cur.meaning != "-")
+            title += "$" + cur.meaning;
+        var sp = make("span", _cls, textnode(cur.text));
+        $(sp).attr('title', title).tooltip({delay: 0, showBody: '$'});
+        if (display_readings)
+        {
+            var ruby = make("ruby", romaji ? "romaji" : 0, sp, make("rt", 0, textnode(cur.reading)));
+            div.appendChild(ruby);
+        }
+        else
+        {
+            div.appendChild(sp);
+        }
+    }
+    if (pos < src.length)
+        div.appendChild(make("span", span_other_class, textnode(src.substring(pos))));
+    scrollWnd();        
+}
+
+function ApplySettings(font_name, font_size, _appendBottom, _dropShadow)
+{
+    $(document.body).css({fontFamily: font_name, fontSize: font_size + "pt"});
+    appendBottom = _appendBottom;
+    dropShadow = _dropShadow;
+    updateShadow();
+    scrollWnd();
+}
+
+var colorStyleSheet = null;
+function ApplyColors()
+{
+    var clr = {};
+    var i;
+    for (i = 0; i < arguments.length; i += 2)
+    {
+        clr[arguments[i]] = arguments[i + 1];
+    }
+    if (!colorStyleSheet)
+    {
+        colorStyleSheet = document.createStyleSheet();
+    }
+    var len = colorStyleSheet.rules.length; 
+    
+    colorStyleSheet.addRule(".html_normal", "color:" + clr.text + ";background-color:" + clr.back);
+    colorStyleSheet.addRule(".html_tmode", "color:" + clr.text_tmode);
+    colorStyleSheet.addRule(".trans_name", "color:" + clr.trans_name);
+    colorStyleSheet.addRule(".fixed_text", "color:" + clr.fixed);
+    colorStyleSheet.addRule(".span_word", "background-color:" + clr.highlight1);
+    colorStyleSheet.addRule(".span_word2", "background-color:" + clr.highlight2);
+    colorStyleSheet.addRule(".trans_row", "border-bottom-color:" + clr.hr);
+    colorStyleSheet.addRule(".trans_name_tmode", "color:" + clr.trans_name_tmode);
+    colorStyleSheet.addRule(".fixed_text_tmode", "color:" + clr.fixed_tmode);
+
+    for (i = 0; i < len; ++i)
+    {
+        colorStyleSheet.removeRule();
+    }
+}
+
+function GetSelectedText()
+{
+    var sel = document.selection;
+    if (sel.type == "Text")
+        return sel.createRange().text;
+    else
+        return null;
+}
+
+function TransparentModeOn()
+{
+    tmode = true;
+    $("html").addClass("html_tmode").removeClass("html_normal");
+    $("body").addClass("html_tmode").removeClass("html_normal");
+    $(".span_word").addClass("span_word_tmode").removeClass("span_word");
+    $(".span_word2").addClass("span_word2_tmode").removeClass("span_word2");
+    $(".trans_row").addClass("trans_row_tmode").removeClass("trans_row");
+    $(".trans_name").addClass("trans_name_tmode").removeClass("trans_name");
+    $(".fixed_text").addClass("fixed_text_tmode").removeClass("fixed_text");
+    updateShadow();
+    scrollWnd();
+}
+
+function TransparentModeOff()
+{
+    tmode = false;
+    updateShadow();
+    $("html").addClass("html_normal").removeClass("html_tmode");
+    $("body").addClass("html_normal").removeClass("html_tmode");
+    $(".span_word_tmode").addClass("span_word").removeClass("span_word_tmode");
+    $(".span_word2_tmode").addClass("span_word2").removeClass("span_word2_tmode");
+    $(".trans_row_tmode").addClass("trans_row").removeClass("trans_row_tmode");
+    $(".trans_name_tmode").addClass("trans_name").removeClass("trans_name_tmode");
+    $(".fixed_text_tmode").addClass("fixed_text").removeClass("fixed_text_tmode");
+    scrollWnd();
+}
+
+//// PRIVATE ////
+
+$(function()
+{
+    window.external.UpdateBrowserSettings();
+});
+
+function el(elementId) {
+    return document.getElementById(elementId);
+}
+
+function update(obj, dict) {
+    for (var i in dict)
+        obj[i] = dict[i];
+}
+
+String.prototype.replaceAll = function(x, y) {
+    var tmp = this;
+    var qq;
+    var pos = 0;
+    while ((qq = tmp.indexOf(x, pos)) >= 0) {
+        tmp = tmp.slice(0, qq) + y + tmp.slice(qq + x.length);
+        pos = qq + y.length;
+    }
+    return tmp;
+}
+
+String.prototype.trim = function () {
+    return this.replace(/^\s*/, "").replace(/\s*$/, "");
+}
+
+function now() {
+    return new Date().getTime();
+}
+
+function myEscape(x) {
+    return x.toString().replaceAll("\\", "\\\\").replaceAll("\"", "\\\"").replaceAll("\n", "\\n").replaceAll("\r", "\\r");
+}
+
+function serialize(x) {
+    try {
+        if (x instanceof Array) return serializeArray(x);
+        if (x instanceof Object) return serializeObject(x);
+        return "\"" + myEscape(x) + "\"";
+    }
+    catch (e) {
+        alert(serialize(e));
+    }
+}
+
+function serializeArray(x) {
+    var ar = [];
+    for (var i = 0; i < x.length; ++i) {
+        ar.push(serialize(x[i]));
+    }
+    return "[" + ar.join(",") + "]";
+}
+
+function serializeObject(x) {
+    var ar = [];
+    for (var i in x) {
+        ar.push(serialize(i) + ":" + serialize(x[i]));
+    }
+    return "{" + ar.join(",") + "}";
+}
+
+function updateElement(elem, opt, children) {
+    var i;
+    if (opt) {
+        if (typeof opt == "object") {
+            for (i in opt) {
+                if (i == "style")
+                    $(elem).css(opt[i]);
+                else if (i == "cls")
+                    $(elem).addClass(opt[i]);
+                else
+                    $(elem).attr(i, opt[i]);
+            }
+        }
+        else {
+            elem.className = opt;
+        }
+    }
+    if (children) {
+        for (i = 0; i < children.length; ++i) {
+            elem.appendChild(children[i]);
+        }
+    }
+}
+
+function make(elem_name, opt) {
+    var elem = document.createElement(elem_name);
+    var children = [];
+    for (var i = 2; i < arguments.length; ++i)
+        children.push(arguments[i]);
+    updateElement(elem, opt, children);
+    return elem;
+}
+
+function table(opt) {
+    var res = make("table", opt);
+    res.add = tableAdd;
+    for (var i = 1; i < arguments.length; ++i)
+        res.add(arguments[i]);
+    return res;
+}
+
+function row(opt) {
+    var args = [];
+    for (var i = 1; i < arguments.length; ++i)
+        args.push(arguments[i]);
+    return { in_table: "row", add: rowAdd, opt: opt, children: args };
+}
+
+function cell(opt) {
+    var args = [];
+    for (var i = 1; i < arguments.length; ++i)
+        args.push(arguments[i]);
+    return { in_table: "cell", opt: opt, children: args };
+}
+
+function rowAdd(x) {
+    if (typeof x == "object" && x.in_table == "cell")
+        this.children.push(x);
+}
+
+function tableAdd(x) {
+    if (typeof x == "object" && x.in_table) {
+        var row = this.insertRow(this.rows.length);
+        if (x.in_table == "row")
+        {
+            updateElement(row, x.opt);
+            for (var i = 0; i < x.children.length; ++i)
+            {
+                var cell = row.insertCell(row.cells.length);
+                updateElement(cell, x.children[i].opt, x.children[i].children);
+            }
+        }
+        else if (x.in_table == "cell")
+        {
+            updateElement(row, x.opt, x.children);
+        }
+    }
+}
+
+function textnode(x) {
+    return document.createTextNode(x);
+}
+
+function getTranslatorTitle(s)
+{
+    if (s == "Translit (Google)")
+        s = "Google TL";
+    else if (s == "Translit (MeCab)")
+        s = "MeCab TL";
+    return s + ":";
+}
+
+function scrollWnd()
+{
+    if (appendBottom)
+        window.scrollTo(0, 999999);
+    else
+        window.scrollTo(0, 0);
+}
+    
+function updateShadow()
+{    
+    if (dropShadow && tmode)
+    {
+        $("#content").addClass("shadow");
+    }
+    else
+    {
+        $("#content").removeClass("shadow");
+    }
+}
+
+</script>
+</head>
+<body><div style='overflow-x:hidden'><div id='content'></div></div></body>
+</html>

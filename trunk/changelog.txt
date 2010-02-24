@@ -1,0 +1,65 @@
+Version 1.7
+ - New feature: Implemented eDict support. You can now choose from MeCab + eDict or WWWJDIC to parse words.
+ - New feature: option to display ruby text in romaji instead of hiragana.
+ - Improved formatting of WWWJDIC and eDict translation results.
+ - Atlas is no longer used to translate particular words, using eDict instead.
+
+Version 1.6
+ - Fixed initial delay when making an online request.
+ - Now showing translations of particular words in the tooltips when using MeCab (if Atlas is available).
+ - Some fixes of text rendering.
+ - Removing all 'ー' symbols at word endings.
+ - Upgraded jQuery version to 1.4.2.
+
+Version 1.5
+ - New feature: custom text and background colors.
+ - Option to use PROMT online service for English to Russian translation.
+ - Added version info to about box.
+ - Bugfix: correct version in executable file.
+ - Bugfix: restore display mode when game is closed in fullscreen mode.
+
+Version 1.4b
+ - Bugfix: Run Game window did not show when Always On Top is enabled.
+
+Version 1.4
+ - Optimized text rendering.
+ - Added option to display text shadow in transparent mode.
+ - Added option to insert new text on top of document.
+ - Changed some toolbar icons.
+ - Added "Full Translate" button.
+ - Various minor bugfixes.
+
+Version 1.3
+ - Ability to display furigana added.
+ - Implemented MeCab support.
+ - Implemented transliteration to romaji via MeCab.
+ - Various minor bugfixes and improvements.
+
+Version 1.2
+ - Added -kun and -dono (written in kanji) name suffixes.
+ - Fixed dot characters handling.
+ - Better translations for Atlas.
+ - Automatic remove of duplicates in replacement list.
+ - Threads are now sorted by name in "Monitored threads" window.
+ - Bugfix: threads' content was not being updated when restoring "Monitored threads" window.
+ - Improved Translit results (removing bogus '~tsu')
+ - Added System40 and RealLive to preferred thread names.
+ - Moved configuration files to 'config' directory.
+ - Keeping more window positions: main window, fullscreen mode window, "Monitored threads" window.
+
+Version 1.1
+ - Bugfix: flood of text when switching off then on again.
+ - New option: display fixed text.
+ - Full-width numbers replacement.
+ - Added shortcut to 'Repeat last translation' button (R).
+ - Bugfix: katakana replacements after '・' dots did not work.
+ - Bugfix: new default regex for 'Exclude names' option.
+ - Removed 'Possible...' clause for JDic.
+ - New default max source length: 500 chars.
+ - Will not remove small hiragana vowels from text.
+ - Bugfix: atlas module hangs up translating empty string.
+ - Auto replacing half-width katakana with hiragana.
+ - Better JDic output handling.
+
+Version 1.0
+ - Initial release.
