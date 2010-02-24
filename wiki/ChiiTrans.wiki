@@ -15,8 +15,7 @@ ChiiTrans is a software tool that automatically captures text from the game in J
   * Japanese text transliteration support (romaji) via Google Translate.
   * Using WWWJDIC and EDICT to separate and translate individual words.
   * Optional Atlas support. Available if installation of Atlas is detected. Versions V13 and V14 are supported.
-  * Optional MeCab support. MeCab is a mophological analyzer for Japanese language.
-Download link: http://sourceforge.net/projects/mecab/files/.
+  * Optional MeCab support. MeCab is a mophological analyzer for Japanese language. Download link: http://sourceforge.net/projects/mecab/files/.
   * Ability to display furigana (word readings) as hiragana or romaji.
   * Can translate to English, Russian and other languages.
   * Automatic text formatting before translation:
@@ -24,5 +23,5 @@ Download link: http://sourceforge.net/projects/mecab/files/.
     * Smart extraction of repeating phrases.
     * User-defined replacement words list with regular expressions syntax support.
     * AGTH: direct text capturing (clipboard is not used). Can monitor multiple contexts.
-Caching of translation results.
+  * Caching of translation results.
   * Option to enable semi-transparent background (transparent mode) and switch to fullscreen mode for comfortable play.
