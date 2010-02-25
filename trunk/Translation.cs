@@ -503,7 +503,7 @@ namespace ChiiTrans
             for (i = 0; i < src.Length; ++i)
             {
                 char ch = src[i];
-                if (char.IsPunctuation(ch) && ch != '-' && ch != ',' && ch != '、' && ch != ';' && ch != '〜' && ch != ':' && ch != '：')
+                if (char.IsPunctuation(ch) && ch != '-' && ch != ',' && ch != '、' && ch != ';' && ch != '〜' && ch != ':' && ch != '：' && ch != '・')
                 {
                     if (buf.Length > 0)
                     {
@@ -933,6 +933,16 @@ namespace ChiiTrans
             }
             return hasLetters && s.Length >= 3;
         }
+
+        private bool hasKanji(string s)
+        {
+            foreach (char ch in s)
+            {
+                if (isKanji(ch))
+                    return true;
+            }
+            return false;
+        }
         
         private string MecabLookupTranslateWords(List<MecabLookupRecord> _list)
         {
@@ -1015,10 +1025,11 @@ namespace ChiiTrans
                         }
                         else
                         {
-                            res.Add(formatReading(key, reading));
+                            bool kanji = hasKanji(key);
+                            res.Add(kanji ? formatReading(key, reading) : "");
                             res.Add("");
                             res.Add("");
-                            res.Add(isWord(key) ? "-" : "");
+                            res.Add(kanji ? "-" : "");
                         }
                     }
                     i += 2;
@@ -1035,18 +1046,20 @@ namespace ChiiTrans
                     }
                     else
                     {
-                        res.Add(formatReading(list[i].key, list[i].reading));
                         if (e != null)
                         {
+                            res.Add(formatReading(list[i].key, list[i].reading));
                             res.Add(e.key);
                             res.Add(formatReading(e.key, e.reading));
                             res.Add(formatMeaning(e.meaning));
                         }
                         else
                         {
+                            bool kanji = hasKanji(list[i].key);
+                            res.Add(kanji ? formatReading(list[i].key, list[i].reading) : "");
                             res.Add("");
                             res.Add("");
-                            res.Add(isWord(list[i].key) ? "-" : "");
+                            res.Add(kanji ? "-" : "");
                         }
                     }
                     ++i;
@@ -1275,4 +1288,3 @@ namespace ChiiTrans
 }
 
 // こんにちは、世界！
-// それは

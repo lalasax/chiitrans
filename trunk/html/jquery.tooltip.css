@@ -4,8 +4,8 @@
 	border: 1px solid #111;
 	background-color: #FFFFE0;
 	padding: 5px;
-    max-width: 400px;
-    min-width: 250px;
+    max-width: 15em;
+    min-width: 10em;
 }
 #tooltip h3
 {

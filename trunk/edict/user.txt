@@ -7,6 +7,7 @@
 どうして/why/
 いつも/always/
 ひとつ/single/
+これ/this/
 それ/that/
 ただ/however/
 おまえ/you/
@@ -23,6 +24,10 @@
 じゃない/not/
 ヘン/strange/
 こと/thing/
+あんた/you/
+クソ/shit/
+クソッ/shit/
+なんでも/nothing/
 てい/
 じゃない/
 なの/
@@ -31,6 +36,7 @@
 たの/
 して/
 んだ/
+さし/
 って/
 しろ/
 たん/
