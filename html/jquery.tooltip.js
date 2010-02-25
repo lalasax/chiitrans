@@ -248,8 +248,11 @@
 		if (v.x + v.cx < h.offsetLeft + h.offsetWidth) {
 			/*left -= h.offsetWidth + 20 + settings(current).left;
 			helper.parent.css({left: left + 'px'}).addClass("viewport-right");*/
-            right = $(window).width() - event.pageX + settings(current).left;
-            helper.parent.css({left: "auto", right: right + "px"});
+            if (event)
+            {
+                right = $(window).width() - event.pageX + settings(current).left;
+                helper.parent.css({left: "auto", right: right + "px"});
+            }
             if (h.offsetLeft < v.x)
             {
                 left = v.x + v.cx - h.offsetWidth;

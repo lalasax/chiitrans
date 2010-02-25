@@ -274,13 +274,21 @@ function UpdateWords(id, s, status)
             _cls = (nya++ % 2 ? "span_word" : "span_word2");
         }
         var title = (cur.text2 == "" ? cur.text : cur.text2);
+        var hasReadingOrMeaning = false;
         if (cur.reading && cur.reading != "")
+        {
             title += " (" + (cur.reading2 == "" ? cur.reading : cur.reading2) + ")";
+            hasReadingOrMeaning = true;
+        }
         if (cur.meaning && cur.meaning != "" && cur.meaning != "-")
+        {
             title += "$" + cur.meaning;
+            hasReadingOrMeaning = true;
+        }
         var sp = make("span", _cls, textnode(cur.text));
-        $(sp).attr('title', title).tooltip({delay: 0, showBody: '$'});
-        if (display_readings)
+        if (hasReadingOrMeaning)
+            $(sp).attr('title', title).tooltip({delay: 0, showBody: '$'});
+        if (display_readings && cur.reading)
         {
             var rt = make("rt", 0, textnode(cur.reading));
             var ruby = make("ruby", {cls: (romaji ? "romaji" : 0)}, sp, rt);
