@@ -1,0 +1,36 @@
+﻿# User dictionary (eDict format)
+そこ/there/
+ここ/here/
+どこ/where/
+この/this/
+その/that/
+どうして/why/
+いつも/always/
+ひとつ/single/
+それ/that/
+ただ/however/
+おまえ/you/
+こいつ/this guy/
+いま/now/
+わからない/do not understand/
+あたし/I/
+わたし/I/
+ごめんなさい/I'm sorry/
+やっぱり/after all/
+いい/good/
+なに/what/
+ほら/hey/
+じゃない/not/
+ヘン/strange/
+こと/thing/
+てい/
+じゃない/
+なの/
+には/
+とき/
+たの/
+して/
+んだ/
+って/
+しろ/
+たん/
