@@ -254,22 +254,22 @@ namespace ChiiTrans
         {
             if (source.Length == 0)
                 return source;
-            source = Regex.Replace(source, "[っー]+(?!\\w)", "");
+            source = Regex.Replace(source, "[っー～]+\b", "");
             source = source.Replace('『', '「')
                            .Replace('』', '」')
                            .Replace("…", "・・・")
                            .Replace("‥", "・・");
-            source = Regex.Replace(source, "・+", "$0 ").Replace('・', '.');
-            bool allKatakana = true;
-            foreach (char ch in source)
-            {
-                if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter && isHiragana(ch))
+            source = Regex.Replace(source, "・{2,}", "... ");
+            /*    bool allKatakana = true;
+                foreach (char ch in source)
                 {
-                    allKatakana = false;
+                    if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter && isHiragana(ch))
+                    {
+                        allKatakana = false;
+                    }
                 }
-            }
-            if (allKatakana)
-                source = KatakanaToHiragana(source);
+                if (allKatakana)
+                    source = KatakanaToHiragana(source);*/
             return source;
         }
 
@@ -858,6 +858,8 @@ namespace ChiiTrans
                     return -1;
                 else
                 {
+                    if (e.key == s)
+                        return s.Length * 10;
                     int res = 0;
                     for (int i = 0; i < s.Length; ++i)
                     {
@@ -932,8 +934,24 @@ namespace ChiiTrans
             return hasLetters && s.Length >= 3;
         }
         
-        private string MecabLookupTranslateWords(List<MecabLookupRecord> list)
+        private string MecabLookupTranslateWords(List<MecabLookupRecord> _list)
         {
+            List<MecabLookupRecord> list = new List<MecabLookupRecord>(_list.Count);
+            for (int ii = 0; ii < _list.Count; ++ii)
+            {
+                if (ii + 1 < _list.Count && _list[ii].key.Length > 0 && _list[ii + 1].key.Length > 0)
+                {
+                    char ch = _list[ii + 1].key[0];
+                    char ch0 = _list[ii].key[_list[ii].key.Length - 1];                    
+                    if (ch0 == 'っ' && isHiragana(ch))
+                    {
+                        list.Add(new MecabLookupRecord(_list[ii].key + _list[ii + 1].key, _list[ii].reading + _list[ii + 1].reading));
+                        ++ii;
+                        continue;
+                    }
+                }
+                list.Add(_list[ii]);
+            }
             List<string> res = new List<string>();
             int i = 0;
             while (i < list.Count)
@@ -950,6 +968,17 @@ namespace ChiiTrans
                 }
                 s = makeReplacements(s);
                 s2 = makeReplacements(s2);
+                bool hasLetters = false;
+                foreach (char ch in s2)
+                {
+                    if (char.IsLetterOrDigit(ch))
+                    {
+                        hasLetters = true;
+                        break;
+                    }
+                }
+                if (!hasLetters)
+                    s2 = "";
                 EdictEntry e, e2;
                 int score = countScore(s, out e);
                 int score2 = countScore(s2, out e2);
@@ -1066,15 +1095,19 @@ namespace ChiiTrans
                         }
                     }
                     string key = dd[0];
-                    string reading = "";
+                    string reading;
                     dd = dd[1].Split(',');
-                    if (dd.Length >= 9)
+                    if (dd.Length >= 9 && options.furiganaRomaji)
                     {
                         reading = KatakanaToHiragana(dd[8]);
                     }
                     else if (dd.Length >= 8)
                     {
                         reading = KatakanaToHiragana(dd[7]);
+                    }
+                    else
+                    {
+                        reading = KatakanaToHiragana(key);
                     }
                     res.Add(new MecabLookupRecord(key, reading));
                 }
