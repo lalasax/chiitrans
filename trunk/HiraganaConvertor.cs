@@ -129,7 +129,6 @@ namespace ChiiTrans
             a.push("re", "れ");
             a.push("ro", "ろ");
             a.push("wa", "わ");
-            a.push("wa", "わ");
             a.push("wi", "ゐ");
             a.push("we", "ゑ");
             a.push("wo", "を");
@@ -166,6 +165,8 @@ namespace ChiiTrans
             a.push("ya", "ゃ");
             a.push("yu", "ゅ");
             a.push("yo", "ょ");
+            a.push("ji", "ぢ");
+            a.push("zu", "づ");
 
             a.push("{", "｛");
             a.push("}", "｝");
@@ -307,6 +308,9 @@ namespace ChiiTrans
             b.push("mwu", "むぅ");
             b.push("mwe", "むぇ");
             b.push("mwo", "むぉ");
+            b.push("kwa", "くゎ");
+            b.push("gwa", "ぐゎ");
+
 
             b.push("n'a", "んあ");
             b.push("n'i", "んい");
