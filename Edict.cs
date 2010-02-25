@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace ChiiTrans
 {
@@ -30,12 +31,22 @@ namespace ChiiTrans
     class Edict
     {
         private static Edict _instance;
+        private static bool initializing = false;
         public static Edict instance
         {
             get
             {
+                if (initializing)
+                {
+                    while (initializing)
+                        Thread.Sleep(1);
+                }
                 if (_instance == null)
+                {
+                    initializing = true;
                     _instance = new Edict();
+                    initializing = false;
+                }
                 return _instance;
             }
         }
@@ -45,71 +56,121 @@ namespace ChiiTrans
         }
         public readonly bool Ready;
 
-        EdictEntry[] dict;
+        private EdictEntry[] dict, user;
 
-        private Regex r;
-        private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
+        //private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
 
         public static string CleanMeaning(string meaning)
         {
-            Match m = r2.Match(meaning);
+            /*Match m = r2.Match(meaning);
             if (m.Success)
             {
                 return m.Groups[1].Value;
             }
             else
-                return "";
+                return "";*/
+            int i = 0;
+            string num = "";
+            while (i < meaning.Length)
+            {
+                if (char.IsWhiteSpace(meaning[i]))
+                {
+                    ++i;
+                    continue;
+                }
+                if (meaning[i] == '(')
+                {
+                    if (i + 1 < meaning.Length)
+                    {
+                        int pos = meaning.IndexOf(')', i + 1);
+                        if (pos >= 0)
+                        {
+                            if (meaning[i + 1] >= '0' && meaning[i + 1] <= '9')
+                            {
+                                num = meaning.Substring(i, pos + 1 - i) + " ";
+                            }
+                            i = pos + 1;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+            return num + meaning.Substring(i);
         }
-        
-        public Edict()
-        {
-            Ready = true;
-            r = new Regex(@"(.+?)\s+\[(.+?)\]");
 
+        private EdictEntry[] LoadDict(string filename, Encoding encoding)
+        {
             try
             {
-                string[] ss = File.ReadAllLines(Path.Combine(Application.StartupPath, "edict\\edict"), Encoding.GetEncoding("EUC-JP"));
-                dict = new EdictEntry[ss.Length - 1];
+                string[] ss = File.ReadAllLines(filename, encoding);
+                EdictEntry[] res = new EdictEntry[ss.Length - 1];
                 for (int i = 1; i < ss.Length; ++i)
                 {
                     string s = ss[i];
                     string[] part = s.Split('/');
-                    Match m = r.Match(part[0]);
+                    string head = part[0];
+                    int p0 = head.IndexOf('[');
+                    int p1 = -1;
+                    if (p0 >= 0)
+                        p1 = head.IndexOf(']', p0);
                     string key, reading;
-                    if (m.Success)
+                    if (p0 >= 0 && p1 >= 0)
                     {
-                        key = m.Groups[1].Value;
-                        reading = m.Groups[2].Value;
+                        key = head.Substring(0, p0).TrimEnd();
+                        reading = head.Substring(p0 + 1, p1 - (p0 + 1));
                     }
                     else
                     {
-                        key = part[0].Trim();
+                        key = head.Trim();
                         reading = key;
                     }
-                    List<string> meaning = new List<string>();
+                    List<string> meaning = new List<string>(part.Length - 1);
                     for (int j = 1; j < part.Length; ++j)
                     {
                         string val = CleanMeaning(part[j]);
                         if (val != "")
                             meaning.Add(val);
                     }
-                    dict[i - 1] = new EdictEntry(key, reading, meaning.ToArray());
+                    res[i - 1] = new EdictEntry(key, reading, meaning.ToArray());
                 }
-                Array.Sort(dict, EdictEntry.Comparer);
+                Array.Sort(res, EdictEntry.Comparer);
+                return res;
             }
             catch (Exception)
             {
-                Ready = false;
+                return null;
             }
         }
+        
+        public Edict()
+        {
+            Ready = true;
+            dict = LoadDict(Path.Combine(Application.StartupPath, "edict\\edict"), Encoding.GetEncoding("EUC-JP"));
+            if (dict == null)
+            {
+                Ready = false;
+                return;
+            }
+            user = LoadDict(Path.Combine(Application.StartupPath, "edict\\user.txt"), Encoding.UTF8);
+        }
 
-        public EdictEntry Search(string key)
+        private EdictEntry SearchInt(string key)
         {
             if (!Ready)
                 return null;
-            for (int i = key.Length; i > 0; --i)
+            for (int i = key.Length; i > 0 && i > key.Length - 3; --i)
             {
-                int id = BinarySearch(key.Substring(0, i));
+                int id;
+                if (user != null)
+                {
+                    id = BinarySearch(user, key.Substring(0, i));
+                    if (id < user.Length && Like(key, user[id].key))
+                        return user[id];
+                    if (id - 1 >= 0 && Like(key, user[id - 1].key))
+                        return user[id - 1];
+                }
+                id = BinarySearch(dict, key.Substring(0, i));
                 if (id < dict.Length && Like(key, dict[id].key))
                     return dict[id];
                 if (id - 1 >= 0 && Like(key, dict[id - 1].key))
@@ -118,7 +179,20 @@ namespace ChiiTrans
             return null;
         }
 
-        private int BinarySearch(string key)
+        public EdictEntry Search(string key)
+        {
+            EdictEntry res = SearchInt(key);
+            if (res != null && res.meaning.Length == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return res;
+            }
+        }
+
+        private int BinarySearch(EdictEntry[] dict, string key)
         {
             int l = 0;
             int r = dict.Length;
@@ -142,10 +216,10 @@ namespace ChiiTrans
 
         private bool Like(string key, string entry)
         {
-            if (key.Length >= 3 && key == entry)
+            if (key.Length >= 2 && key == entry)
                 return true;
-            if (Math.Abs(key.Length - entry.Length) > 1)
-                return false;
+            /*if (Math.Abs(key.Length - entry.Length) > 2)
+                return false;*/
             for (int j = key.Length; j < entry.Length; ++j)
             {
                 if (Translation.isKanji(entry[j]))
@@ -175,7 +249,7 @@ namespace ChiiTrans
                     break;
                 }
             }
-            return hasKanji || (matches >= 3);
+            return (hasKanji || matches >= 3) && (Math.Max(key.Length, entry.Length) - matches <= 2);
         }
     }
 }

@@ -578,8 +578,11 @@ function checkRestoreContent()
             for (var i = 0; i < restoreContentItems.length; ++i)
             {
                 var el = restoreContentItems[i];
-                el.innerHTML = el.storeContent;
-                el.storeContent = null;
+                if (el.storeContent)
+                {
+                    el.innerHTML = el.storeContent;
+                    el.storeContent = null;
+                }
             }
             restoreContentItems = [];
         }

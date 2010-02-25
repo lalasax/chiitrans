@@ -224,6 +224,14 @@ namespace ChiiTrans
             }
             Global.windowPosition.Save();
             Hide();
+            if (FormMonitor.isCreated())
+            {
+                FormMonitor.instance.Hide();
+            }
+            if (Global.script.transparentMode)
+            {
+                FormBottomLayer.instance.Hide();
+            }
             if (Global.options.useCache)
                 Global.cache.Save();
             Global.options.SaveOptions();
