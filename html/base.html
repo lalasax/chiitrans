@@ -164,27 +164,17 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
         }
     }
 
-    if (!display_readings || s.length == 0)
+    blocks[id].orig = make("div", tmode ? "translation_orig tmode" : "translation_orig", textnode(s));
+    if (display_readings && s.length > 0)
     {
-        blocks[id].orig = make("div", tmode ? "translation_orig tmode" : "translation_orig", textnode(s));
+        $(blocks[id].orig).prepend("<ruby>&nbsp;<rt>&nbsp;</rt></ruby>");
     }
-    else
+    /*else
     {
-        var ll = 2;
-        if (s.length < ll)
-            ll = s.length;
         blocks[id].orig = make("div", tmode ? "translation_orig tmode" : "translation_orig");
-        var dummytext;
-        if (blocks[id].romaji)
-        {
-            dummytext = "a";            
-        }
-        else
-        {
-            dummytext = "は";
-        }
-        $(blocks[id].orig).html("<ruby>" + s.substr(0, ll) + "<rt style='visibility:hidden'>" + dummytext + "</rt></ruby>").append(textnode(s.substr(ll))); 
-    } 
+        var dummytext = blocks[id].romaji ? "a" : "は";
+        $(blocks[id].orig).html("<ruby>" + s.substr(0, 1) + "<rt style='visibility:hidden'>" + dummytext + "</rt></ruby>").append(textnode(s.substr(1))); 
+    }*/ 
 
     blocks[id].main = make("div", "translation_block", blocks[id].orig, tbl);
     if (appendBottom)
@@ -244,7 +234,14 @@ function UpdateWords(id, s, status)
     {
         data.push({text: ss[i], reading: ss[i + 1], text2: ss[i + 2], reading2: ss[i + 3], meaning: ss[i + 4]});
     }
-    $(orig).empty();
+    if (blocks[id].display_readings)
+    {
+        $(orig).html("<ruby>&nbsp;<rt>&nbsp;</rt></ruby>");
+    }
+    else
+    {
+        $(orig).empty();
+    }
     var src = blocks[id].source.replaceAll('\r', '');
     var nya = 1;
     var div = orig;
@@ -285,7 +282,8 @@ function UpdateWords(id, s, status)
         $(sp).attr('title', title).tooltip({delay: 0, showBody: '$'});
         if (display_readings)
         {
-            var ruby = make("ruby", romaji ? "romaji" : 0, sp, make("rt", 0, textnode(cur.reading)));
+            var rt = make("rt", 0, textnode(cur.reading));
+            var ruby = make("ruby", {cls: (romaji ? "romaji" : 0)}, sp, rt);
             div.appendChild(ruby);
         }
         else
@@ -295,7 +293,23 @@ function UpdateWords(id, s, status)
     }
     if (pos < src.length)
         div.appendChild(make("span", span_other_class, textnode(src.substring(pos))));
+    div.onselectstart = hideRubyText;
     scrollWnd();        
+}
+
+function hideRubyText()
+{
+    var rt = $(this).find("rt");
+    for (var i = 1; i < rt.length; ++i)
+    {
+        if (!rt[i].storeContent)
+        {
+            rt[i].storeContent = rt[i].innerHTML; 
+            rt[i].innerHTML = "";
+            restoreContentItems.push(rt[i]);
+        }        
+    }
+    return true;
 }
 
 function ApplySettings(font_name, font_size, _appendBottom, _dropShadow)
@@ -552,6 +566,27 @@ function updateShadow()
         $("#content").removeClass("shadow");
     }
 }
+
+var restoreContentItems = [];
+function checkRestoreContent()
+{
+    if (restoreContentItems.length > 0)
+    {
+        var s = GetSelectedText(); 
+        if (s == null || s == "")
+        {
+            for (var i = 0; i < restoreContentItems.length; ++i)
+            {
+                var el = restoreContentItems[i];
+                el.innerHTML = el.storeContent;
+                el.storeContent = null;
+            }
+            restoreContentItems = [];
+        }
+    }
+}
+
+document.onclick = checkRestoreContent;
 
 </script>
 </head>

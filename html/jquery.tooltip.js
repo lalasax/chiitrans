@@ -222,7 +222,7 @@
 		}
 		
 		// remove position helper classes
-		helper.parent.removeClass("viewport-right").removeClass("viewport-bottom");
+		//helper.parent.removeClass("viewport-right").removeClass("viewport-bottom");
 		
 		var left = helper.parent[0].offsetLeft;
 		var top = helper.parent[0].offsetTop;
@@ -246,13 +246,26 @@
 			h = helper.parent[0];
 		// check horizontal position
 		if (v.x + v.cx < h.offsetLeft + h.offsetWidth) {
-			left -= h.offsetWidth + 20 + settings(current).left;
-			helper.parent.css({left: left + 'px'}).addClass("viewport-right");
+			/*left -= h.offsetWidth + 20 + settings(current).left;
+			helper.parent.css({left: left + 'px'}).addClass("viewport-right");*/
+            right = $(window).width() - event.pageX + settings(current).left;
+            helper.parent.css({left: "auto", right: right + "px"});
+            if (h.offsetLeft < v.x)
+            {
+                left = v.x + v.cx - h.offsetWidth;
+                if (left < v.x)
+                    left = v.x;
+                helper.parent.css({left: left + "px", right: "auto"});
+            }
 		}
 		// check vertical position
 		if (v.y + v.cy < h.offsetTop + h.offsetHeight) {
-			top -= h.offsetHeight + 20 + settings(current).top;
-			helper.parent.css({top: top + 'px'}).addClass("viewport-bottom");
+			/*top -= h.offsetHeight + 20 + settings(current).top;
+			helper.parent.css({top: top + 'px'}).addClass("viewport-bottom");*/
+            top = v.y + v.cy - h.offsetHeight;
+            if (top < v.y)
+                top = v.y;
+            helper.parent.css({top: top + "px"});
 		}
 	}
 	

@@ -956,6 +956,7 @@ namespace ChiiTrans
                 if (score2 > score)
                 {
                     string key = list[i].key + list[i + 1].key;
+                    string reading = list[i].reading + list[i + 1].reading;
                     res.Add(key);
                     if (e2 != null && e2.key == "")
                     {
@@ -968,17 +969,24 @@ namespace ChiiTrans
                     {
                         if (e2 != null)
                         {
-                            if (e2.key == key)
-                                res.Add(formatReading(e2.key, e2.reading));
+                            if (reading.Replace('わ', 'は') == e2.reading)
+                            {
+                                res.Add(formatReading(key, reading));
+                            }
                             else
-                                res.Add(formatReading(key, list[i].reading + list[i + 1].reading));
+                            {
+                                if (e2.key == key)
+                                    res.Add(formatReading(e2.key, e2.reading));
+                                else
+                                    res.Add(formatReading(key, reading));
+                            }
                             res.Add(e2.key);
                             res.Add(formatReading(e2.key, e2.reading));
                             res.Add(formatMeaning(e2.meaning));
                         }
                         else
                         {
-                            res.Add(formatReading(key, list[i].reading + list[i + 1].reading));
+                            res.Add(formatReading(key, reading));
                             res.Add("");
                             res.Add("");
                             res.Add(isWord(key) ? "-" : "");
@@ -1060,7 +1068,11 @@ namespace ChiiTrans
                     string key = dd[0];
                     string reading = "";
                     dd = dd[1].Split(',');
-                    if (dd.Length >= 8)
+                    if (dd.Length >= 9)
+                    {
+                        reading = KatakanaToHiragana(dd[8]);
+                    }
+                    else if (dd.Length >= 8)
                     {
                         reading = KatakanaToHiragana(dd[7]);
                     }
@@ -1230,3 +1242,4 @@ namespace ChiiTrans
 }
 
 // こんにちは、世界！
+// それは
