@@ -191,7 +191,7 @@ namespace ChiiTrans
                 if (!LoadLibraries())
                     return false;
                 LoadInterface();
-                if (AtlInitEngineData(0, 2, Marshal.AllocHGlobal(10000), 0, Marshal.AllocHGlobal(10000)) != 0)
+                if (AtlInitEngineData(0, 2, Marshal.AllocHGlobal(20000), 0, Marshal.AllocHGlobal(20000)) != 0)
                     return false;
                 string env = "General";
                 if (CreateEngine(1, 1, 0, Encoding932.GetBytes(env)) != 1)

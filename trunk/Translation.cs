@@ -222,7 +222,9 @@ namespace ChiiTrans
             string x = source;
             x = suffixReplace(x, "さん", "-san");
             x = suffixReplace(x, "くん", "-kun");
+            x = suffixReplace(x, "クン", "-kun");
             x = suffixReplace(x, "ちゃん", "-chan");
+            x = suffixReplace(x, "チャン", "-chan");
             x = suffixReplace(x, "ちん", "-chin");
             x = suffixReplace(x, "せんぱい", "-sempai");
             x = suffixReplace(x, "センパイ", "-sempai");
@@ -696,7 +698,8 @@ namespace ChiiTrans
                 List<string> mm = new List<string>();
                 foreach (string m in cur.meaning.Split(new string[] { "; " }, StringSplitOptions.None))
                 {
-                    string newm = Edict.CleanMeaning(m);
+                    bool unused;
+                    string newm = Edict.CleanMeaning(m, out unused);
                     newm = htmlKiller.Replace(newm, "").Trim();
                     if (newm != "" && Array.IndexOf(JDicCodes, newm) < 0)
                         mm.Add(newm);
@@ -831,7 +834,7 @@ namespace ChiiTrans
             if (s == "")
             {
                 e = null;
-                return -1000;
+                return -100000;
             }
             bool onlyABC = true;
             foreach (char ch in s)
@@ -848,25 +851,30 @@ namespace ChiiTrans
             if (onlyABC)
             {
                 s = s.Trim();
-                e = new EdictEntry("", s, new string[] { s });
-                return s.Length * 1000;
+                e = new EdictEntry("", s, new string[] { s }, false);
+                return s.Length * 100000;
             }
             else
             {
                 e = Edict.instance.Search(s);
                 if (e == null)
-                    return -1;
+                    return -1000;
                 else
                 {
                     if (e.key == s)
-                        return s.Length * 10;
-                    int res = 0;
+                        return s.Length * 1000;
+                    int res = e.priority ? 100 : 0;
                     for (int i = 0; i < s.Length; ++i)
                     {
                         if (i >= e.key.Length)
                             break;
                         if (s[i] == e.key[i])
-                            ++res;
+                        {
+                            if (isKanji(s[i]))
+                                res += 10;
+                            else
+                                res += 1;
+                        }
                         else
                             break;
                     }
@@ -888,21 +896,23 @@ namespace ChiiTrans
 
         private string formatReading(string key, string reading)
         {
-            bool hasKana = false;
-            bool hasKanji = false;
+            if (hasKanji(reading))
+                return "";
+            bool kana = false;
+            bool kanji = false;
             foreach (char ch in key)
             {
                 if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter)
                 {
-                    hasKana = true;
+                    kana = true;
                     if (isKanji(ch))
                     {
-                        hasKanji = true;
+                        kanji = true;
                         break;
                     }
                 }
             }
-            if (!hasKana)
+            if (!kana)
                 return "";
             if (options.furiganaRomaji)
             {
@@ -912,7 +922,7 @@ namespace ChiiTrans
             }
             else
             {
-                if (!hasKanji)
+                if (!kanji)
                     return "";
                 reading = KatakanaToHiragana(reading);
             }
@@ -967,7 +977,7 @@ namespace ChiiTrans
             while (i < list.Count)
             {
                 string s = list[i].key;
-                string s2;
+                string s2, s3;
                 if (i + 1 < list.Count)
                 {
                     s2 = s + list[i + 1].key;
@@ -976,8 +986,17 @@ namespace ChiiTrans
                 {
                     s2 = "";
                 }
+                if (i + 2 < list.Count)
+                {
+                    s3 = s2 + list[i + 2].key;
+                }
+                else
+                {
+                    s3 = "";
+                }
                 s = makeReplacements(s);
                 s2 = makeReplacements(s2);
+                s3 = makeReplacements(s3);
                 bool hasLetters = false;
                 foreach (char ch in s2)
                 {
@@ -989,10 +1008,53 @@ namespace ChiiTrans
                 }
                 if (!hasLetters)
                     s2 = "";
-                EdictEntry e, e2;
+                EdictEntry e, e2, e3;
                 int score = countScore(s, out e);
                 int score2 = countScore(s2, out e2);
-                if (score2 > score)
+                int score3 = countScore(s3, out e3);
+                if (score3 > score && score3 > score2)
+                {
+                    string key = list[i].key + list[i + 1].key + list[i + 2].key;
+                    string reading = list[i].reading + list[i + 1].reading + list[i + 2].reading;
+                    res.Add(key);
+                    if (e3 != null && e3.key == "")
+                    {
+                        res.Add(e3.reading);
+                        res.Add("");
+                        res.Add("");
+                        res.Add(formatMeaning(e3.meaning));
+                    }
+                    else
+                    {
+                        if (e3 != null)
+                        {
+                            if (reading.Replace('わ', 'は') == e3.reading)
+                            {
+                                res.Add(formatReading(key, reading));
+                            }
+                            else
+                            {
+                                if (e3.key == key)
+                                    res.Add(formatReading(e3.key, e3.reading));
+                                else
+                                    res.Add(formatReading(key, reading));
+                            }
+                            res.Add(e3.key);
+                            res.Add(formatReading(e3.key, e3.reading));
+                            res.Add(formatMeaning(e3.meaning));
+                        }
+                        else
+                        {
+                            bool kanji = hasKanji(key);
+                            res.Add(kanji ? formatReading(key, reading) : "");
+                            res.Add("");
+                            res.Add("");
+                            res.Add(kanji ? "-" : "");
+                        }
+                    }
+                    i += 3;
+                }
+                else if (score2 > score)
                 {
                     string key = list[i].key + list[i + 1].key;
                     string reading = list[i].reading + list[i + 1].reading;
