@@ -14,17 +14,28 @@ namespace ChiiTrans
         public string key;
         public string reading;
         public string[] meaning;
+        public bool priority;
 
-        public EdictEntry(string key, string reading, string[] meaning)
+        public EdictEntry(string key, string reading, string[] meaning, bool priority)
         {
             this.key = key;
             this.reading = reading;
             this.meaning = meaning;
+            this.priority = priority;
         }
 
         public static int Comparer(EdictEntry a, EdictEntry b)
         {
             return a.key.CompareTo(b.key);
+        }
+
+        public static int ByReading(EdictEntry a, EdictEntry b)
+        {
+            int res = a.reading.CompareTo(b.reading);
+            if (res == 0)
+                return b.priority.CompareTo(a.priority);
+            else
+                return res;
         }
     }
     
@@ -56,11 +67,11 @@ namespace ChiiTrans
         }
         public readonly bool Ready;
 
-        private EdictEntry[] dict, user;
+        private readonly EdictEntry[] dict, user, rdict;
 
         //private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
 
-        public static string CleanMeaning(string meaning)
+        public static string CleanMeaning(string meaning, out bool priority)
         {
             /*Match m = r2.Match(meaning);
             if (m.Success)
@@ -71,6 +82,7 @@ namespace ChiiTrans
                 return "";*/
             int i = 0;
             string num = "";
+            priority = false;
             while (i < meaning.Length)
             {
                 if (char.IsWhiteSpace(meaning[i]))
@@ -88,6 +100,10 @@ namespace ChiiTrans
                             if (meaning[i + 1] >= '0' && meaning[i + 1] <= '9')
                             {
                                 num = meaning.Substring(i, pos + 1 - i) + " ";
+                            }
+                            if (meaning[i + 1] == 'P' && meaning[i + 2] == ')')
+                            {
+                                priority = true;
                             }
                             i = pos + 1;
                             continue;
@@ -126,13 +142,16 @@ namespace ChiiTrans
                         reading = key;
                     }
                     List<string> meaning = new List<string>(part.Length - 1);
+                    bool priority = false;
                     for (int j = 1; j < part.Length; ++j)
                     {
-                        string val = CleanMeaning(part[j]);
+                        bool pp;
+                        string val = CleanMeaning(part[j], out pp);
+                        priority = priority || pp;
                         if (val != "")
                             meaning.Add(val);
                     }
-                    res[i - 1] = new EdictEntry(key, reading, meaning.ToArray());
+                    res[i - 1] = new EdictEntry(key, reading, meaning.ToArray(), priority);
                 }
                 Array.Sort(res, EdictEntry.Comparer);
                 return res;
@@ -152,10 +171,21 @@ namespace ChiiTrans
                 Ready = false;
                 return;
             }
+            rdict = (EdictEntry[])dict.Clone();
+            Array.Sort(rdict, EdictEntry.ByReading);
             user = LoadDict(Path.Combine(Application.StartupPath, "edict\\user.txt"), Encoding.UTF8);
         }
 
-        private EdictEntry SearchInt(string key)
+        private EdictEntry SearchByReading(string key)
+        {
+            int id = BinarySearchByReading(rdict, key);
+            if (id < rdict.Length && key == rdict[id].reading)
+                return rdict[id];
+            else
+                return null;
+        }
+        
+        private EdictEntry SearchInt(string key, bool second)
         {
             if (!Ready)
                 return null;
@@ -176,12 +206,16 @@ namespace ChiiTrans
                 if (id - 1 >= 0 && Like(key, dict[id - 1].key))
                     return dict[id - 1];
             }
+            if (!second && key.ToCharArray().All(Translation.isKatakana))
+                return SearchInt(Translation.KatakanaToHiragana(key), true);
+            if (key.Length >= 3 && key.ToCharArray().All(Translation.isHiragana))
+                return SearchByReading(key);
             return null;
         }
 
         public EdictEntry Search(string key)
         {
-            EdictEntry res = SearchInt(key);
+            EdictEntry res = SearchInt(key, false);
             if (res != null && res.meaning.Length == 0)
             {
                 return null;
@@ -214,6 +248,28 @@ namespace ChiiTrans
             return l;
         }
 
+        private int BinarySearchByReading(EdictEntry[] dict, string key)
+        {
+            int l = 0;
+            int r = dict.Length;
+            while (l < r)
+            {
+                int mid = (l + r) / 2;
+                int res = dict[mid].reading.CompareTo(key);
+                if (res == 0 && dict[mid].priority)
+                    return mid;
+                else if (res < 0)
+                {
+                    l = mid + 1;
+                }
+                else
+                {
+                    r = mid;
+                }
+            }
+            return l;
+        }
+        
         private bool Like(string key, string entry)
         {
             if (key.Length >= 2 && key == entry)
