@@ -38,11 +38,16 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBoxDisplayFixed = new System.Windows.Forms.CheckBox();
+            this.checkBoxDisplayOriginal = new System.Windows.Forms.CheckBox();
+            this.radioFuriganaRomaji = new System.Windows.Forms.RadioButton();
+            this.radioFuriganaHiragana = new System.Windows.Forms.RadioButton();
+            this.checkBoxDisplayReadings = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.numericClipboardPollInterval = new System.Windows.Forms.NumericUpDown();
             this.numericMaxSourceLength = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.checkBoxAppendBottom = new System.Windows.Forms.CheckBox();
             this.checkBoxCheckPhrases = new System.Windows.Forms.CheckBox();
             this.checkBoxCache = new System.Windows.Forms.CheckBox();
@@ -52,8 +57,12 @@
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.checkBoxCheckDouble = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBoxPromt = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioNone = new System.Windows.Forms.RadioButton();
+            this.radioJdic = new System.Windows.Forms.RadioButton();
             this.comboBoxJDic = new System.Windows.Forms.ComboBox();
+            this.radioMecab = new System.Windows.Forms.RadioButton();
+            this.checkBoxPromt = new System.Windows.Forms.CheckBox();
             this.textBoxLanguage = new System.Windows.Forms.TextBox();
             this.checkBoxTranslateOther = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -90,21 +99,17 @@
             this.textBoxFont = new System.Windows.Forms.TextBox();
             this.labelFont = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioMecab = new System.Windows.Forms.RadioButton();
-            this.radioJdic = new System.Windows.Forms.RadioButton();
-            this.radioNone = new System.Windows.Forms.RadioButton();
-            this.radioFuriganaRomaji = new System.Windows.Forms.RadioButton();
-            this.radioFuriganaHiragana = new System.Windows.Forms.RadioButton();
-            this.checkBoxDisplayReadings = new System.Windows.Forms.CheckBox();
-            this.checkBoxDisplayFixed = new System.Windows.Forms.CheckBox();
-            this.checkBoxDisplayOriginal = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numMaxBlocks = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.checkBoxLargeMargin = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericClipboardPollInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMaxSourceLength)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -112,7 +117,7 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -212,6 +217,61 @@
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // checkBoxDisplayFixed
+            // 
+            this.checkBoxDisplayFixed.AutoSize = true;
+            this.checkBoxDisplayFixed.Location = new System.Drawing.Point(5, 322);
+            this.checkBoxDisplayFixed.Name = "checkBoxDisplayFixed";
+            this.checkBoxDisplayFixed.Size = new System.Drawing.Size(340, 27);
+            this.checkBoxDisplayFixed.TabIndex = 43;
+            this.checkBoxDisplayFixed.Text = "Display fixed text (after all replacements)";
+            this.checkBoxDisplayFixed.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDisplayOriginal
+            // 
+            this.checkBoxDisplayOriginal.AutoSize = true;
+            this.checkBoxDisplayOriginal.Checked = true;
+            this.checkBoxDisplayOriginal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDisplayOriginal.Location = new System.Drawing.Point(5, 290);
+            this.checkBoxDisplayOriginal.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxDisplayOriginal.Name = "checkBoxDisplayOriginal";
+            this.checkBoxDisplayOriginal.Size = new System.Drawing.Size(182, 27);
+            this.checkBoxDisplayOriginal.TabIndex = 42;
+            this.checkBoxDisplayOriginal.Text = "Display original text";
+            this.checkBoxDisplayOriginal.UseVisualStyleBackColor = true;
+            // 
+            // radioFuriganaRomaji
+            // 
+            this.radioFuriganaRomaji.AutoSize = true;
+            this.radioFuriganaRomaji.Location = new System.Drawing.Point(40, 421);
+            this.radioFuriganaRomaji.Name = "radioFuriganaRomaji";
+            this.radioFuriganaRomaji.Size = new System.Drawing.Size(216, 27);
+            this.radioFuriganaRomaji.TabIndex = 41;
+            this.radioFuriganaRomaji.TabStop = true;
+            this.radioFuriganaRomaji.Text = "Use romaji (Latin letters)";
+            this.radioFuriganaRomaji.UseVisualStyleBackColor = true;
+            // 
+            // radioFuriganaHiragana
+            // 
+            this.radioFuriganaHiragana.AutoSize = true;
+            this.radioFuriganaHiragana.Location = new System.Drawing.Point(40, 388);
+            this.radioFuriganaHiragana.Name = "radioFuriganaHiragana";
+            this.radioFuriganaHiragana.Size = new System.Drawing.Size(131, 27);
+            this.radioFuriganaHiragana.TabIndex = 40;
+            this.radioFuriganaHiragana.TabStop = true;
+            this.radioFuriganaHiragana.Text = "Use hiragana";
+            this.radioFuriganaHiragana.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDisplayReadings
+            // 
+            this.checkBoxDisplayReadings.AutoSize = true;
+            this.checkBoxDisplayReadings.Location = new System.Drawing.Point(5, 355);
+            this.checkBoxDisplayReadings.Name = "checkBoxDisplayReadings";
+            this.checkBoxDisplayReadings.Size = new System.Drawing.Size(264, 27);
+            this.checkBoxDisplayReadings.TabIndex = 39;
+            this.checkBoxDisplayReadings.Text = "Show furigana (word readings)";
+            this.checkBoxDisplayReadings.UseVisualStyleBackColor = true;
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -291,17 +351,6 @@
             0,
             0});
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(2, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(287, 23);
-            this.label2.TabIndex = 29;
-            this.label2.Text = "Delay before translation (ms)";
-            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -312,6 +361,17 @@
             this.label3.Size = new System.Drawing.Size(288, 23);
             this.label3.TabIndex = 30;
             this.label3.Text = "Maximum source text length";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Location = new System.Drawing.Point(2, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(287, 23);
+            this.label2.TabIndex = 29;
+            this.label2.Text = "Delay before translation (ms)";
             // 
             // checkBoxAppendBottom
             // 
@@ -422,15 +482,40 @@
             this.tabPage2.Text = "Translators";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // checkBoxPromt
+            // groupBox1
             // 
-            this.checkBoxPromt.AutoSize = true;
-            this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
-            this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
-            this.checkBoxPromt.TabIndex = 23;
-            this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
-            this.checkBoxPromt.UseVisualStyleBackColor = true;
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.radioNone);
+            this.groupBox1.Controls.Add(this.radioJdic);
+            this.groupBox1.Controls.Add(this.comboBoxJDic);
+            this.groupBox1.Controls.Add(this.radioMecab);
+            this.groupBox1.Location = new System.Drawing.Point(8, 181);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(576, 128);
+            this.groupBox1.TabIndex = 24;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Word parsing method";
+            // 
+            // radioNone
+            // 
+            this.radioNone.AutoSize = true;
+            this.radioNone.Location = new System.Drawing.Point(6, 94);
+            this.radioNone.Name = "radioNone";
+            this.radioNone.Size = new System.Drawing.Size(73, 27);
+            this.radioNone.TabIndex = 21;
+            this.radioNone.Text = "None";
+            this.radioNone.UseVisualStyleBackColor = true;
+            // 
+            // radioJdic
+            // 
+            this.radioJdic.AutoSize = true;
+            this.radioJdic.Location = new System.Drawing.Point(6, 61);
+            this.radioJdic.Name = "radioJdic";
+            this.radioJdic.Size = new System.Drawing.Size(169, 27);
+            this.radioJdic.TabIndex = 1;
+            this.radioJdic.Text = "WWWJDIC mirror:";
+            this.radioJdic.UseVisualStyleBackColor = true;
             // 
             // comboBoxJDic
             // 
@@ -449,6 +534,28 @@
             this.comboBoxJDic.Name = "comboBoxJDic";
             this.comboBoxJDic.Size = new System.Drawing.Size(391, 29);
             this.comboBoxJDic.TabIndex = 20;
+            // 
+            // radioMecab
+            // 
+            this.radioMecab.AutoSize = true;
+            this.radioMecab.Checked = true;
+            this.radioMecab.Location = new System.Drawing.Point(6, 28);
+            this.radioMecab.Name = "radioMecab";
+            this.radioMecab.Size = new System.Drawing.Size(153, 27);
+            this.radioMecab.TabIndex = 0;
+            this.radioMecab.TabStop = true;
+            this.radioMecab.Text = "MeCab + EDICT";
+            this.radioMecab.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxPromt
+            // 
+            this.checkBoxPromt.AutoSize = true;
+            this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
+            this.checkBoxPromt.Name = "checkBoxPromt";
+            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
+            this.checkBoxPromt.TabIndex = 23;
+            this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
+            this.checkBoxPromt.UseVisualStyleBackColor = true;
             // 
             // textBoxLanguage
             // 
@@ -697,6 +804,10 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBoxLargeMargin);
+            this.tabPage4.Controls.Add(this.label5);
+            this.tabPage4.Controls.Add(this.numMaxBlocks);
+            this.tabPage4.Controls.Add(this.label1);
             this.tabPage4.Controls.Add(this.buttonResetColors);
             this.tabPage4.Controls.Add(this.labelColors);
             this.tabPage4.Controls.Add(this.gridColors);
@@ -728,7 +839,7 @@
             // labelColors
             // 
             this.labelColors.AutoSize = true;
-            this.labelColors.Location = new System.Drawing.Point(2, 151);
+            this.labelColors.Location = new System.Drawing.Point(1, 214);
             this.labelColors.Name = "labelColors";
             this.labelColors.Size = new System.Drawing.Size(58, 23);
             this.labelColors.TabIndex = 44;
@@ -748,7 +859,7 @@
             this.gridColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.name,
             this.color});
-            this.gridColors.Location = new System.Drawing.Point(6, 177);
+            this.gridColors.Location = new System.Drawing.Point(6, 240);
             this.gridColors.MultiSelect = false;
             this.gridColors.Name = "gridColors";
             this.gridColors.ReadOnly = true;
@@ -756,7 +867,7 @@
             this.gridColors.RowTemplate.Height = 28;
             this.gridColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridColors.Size = new System.Drawing.Size(579, 249);
+            this.gridColors.Size = new System.Drawing.Size(579, 186);
             this.gridColors.TabIndex = 43;
             this.gridColors.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColors_CellDoubleClick);
             // 
@@ -846,112 +957,62 @@
             this.colorDialog1.AnyColor = true;
             this.colorDialog1.FullOpen = true;
             // 
-            // groupBox1
+            // label1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.radioNone);
-            this.groupBox1.Controls.Add(this.radioJdic);
-            this.groupBox1.Controls.Add(this.comboBoxJDic);
-            this.groupBox1.Controls.Add(this.radioMecab);
-            this.groupBox1.Location = new System.Drawing.Point(8, 181);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(576, 128);
-            this.groupBox1.TabIndex = 24;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Word parsing method";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 151);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 23);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "Show last";
             // 
-            // radioMecab
+            // numMaxBlocks
             // 
-            this.radioMecab.AutoSize = true;
-            this.radioMecab.Checked = true;
-            this.radioMecab.Location = new System.Drawing.Point(6, 28);
-            this.radioMecab.Name = "radioMecab";
-            this.radioMecab.Size = new System.Drawing.Size(146, 27);
-            this.radioMecab.TabIndex = 0;
-            this.radioMecab.TabStop = true;
-            this.radioMecab.Text = "MeCab + eDict";
-            this.radioMecab.UseVisualStyleBackColor = true;
+            this.numMaxBlocks.Location = new System.Drawing.Point(89, 149);
+            this.numMaxBlocks.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Name = "numMaxBlocks";
+            this.numMaxBlocks.Size = new System.Drawing.Size(120, 29);
+            this.numMaxBlocks.TabIndex = 47;
+            this.numMaxBlocks.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
-            // radioJdic
+            // label5
             // 
-            this.radioJdic.AutoSize = true;
-            this.radioJdic.Location = new System.Drawing.Point(6, 61);
-            this.radioJdic.Name = "radioJdic";
-            this.radioJdic.Size = new System.Drawing.Size(169, 27);
-            this.radioJdic.TabIndex = 1;
-            this.radioJdic.Text = "WWWJDIC mirror:";
-            this.radioJdic.UseVisualStyleBackColor = true;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(215, 151);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 23);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "translations";
             // 
-            // radioNone
+            // checkBoxLargeMargin
             // 
-            this.radioNone.AutoSize = true;
-            this.radioNone.Location = new System.Drawing.Point(6, 94);
-            this.radioNone.Name = "radioNone";
-            this.radioNone.Size = new System.Drawing.Size(73, 27);
-            this.radioNone.TabIndex = 21;
-            this.radioNone.Text = "None";
-            this.radioNone.UseVisualStyleBackColor = true;
-            // 
-            // radioFuriganaRomaji
-            // 
-            this.radioFuriganaRomaji.AutoSize = true;
-            this.radioFuriganaRomaji.Location = new System.Drawing.Point(40, 421);
-            this.radioFuriganaRomaji.Name = "radioFuriganaRomaji";
-            this.radioFuriganaRomaji.Size = new System.Drawing.Size(216, 27);
-            this.radioFuriganaRomaji.TabIndex = 41;
-            this.radioFuriganaRomaji.TabStop = true;
-            this.radioFuriganaRomaji.Text = "Use romaji (Latin letters)";
-            this.radioFuriganaRomaji.UseVisualStyleBackColor = true;
-            // 
-            // radioFuriganaHiragana
-            // 
-            this.radioFuriganaHiragana.AutoSize = true;
-            this.radioFuriganaHiragana.Location = new System.Drawing.Point(40, 388);
-            this.radioFuriganaHiragana.Name = "radioFuriganaHiragana";
-            this.radioFuriganaHiragana.Size = new System.Drawing.Size(131, 27);
-            this.radioFuriganaHiragana.TabIndex = 40;
-            this.radioFuriganaHiragana.TabStop = true;
-            this.radioFuriganaHiragana.Text = "Use hiragana";
-            this.radioFuriganaHiragana.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDisplayReadings
-            // 
-            this.checkBoxDisplayReadings.AutoSize = true;
-            this.checkBoxDisplayReadings.Location = new System.Drawing.Point(5, 355);
-            this.checkBoxDisplayReadings.Name = "checkBoxDisplayReadings";
-            this.checkBoxDisplayReadings.Size = new System.Drawing.Size(264, 27);
-            this.checkBoxDisplayReadings.TabIndex = 39;
-            this.checkBoxDisplayReadings.Text = "Show furigana (word readings)";
-            this.checkBoxDisplayReadings.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDisplayFixed
-            // 
-            this.checkBoxDisplayFixed.AutoSize = true;
-            this.checkBoxDisplayFixed.Location = new System.Drawing.Point(5, 322);
-            this.checkBoxDisplayFixed.Name = "checkBoxDisplayFixed";
-            this.checkBoxDisplayFixed.Size = new System.Drawing.Size(340, 27);
-            this.checkBoxDisplayFixed.TabIndex = 43;
-            this.checkBoxDisplayFixed.Text = "Display fixed text (after all replacements)";
-            this.checkBoxDisplayFixed.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDisplayOriginal
-            // 
-            this.checkBoxDisplayOriginal.AutoSize = true;
-            this.checkBoxDisplayOriginal.Checked = true;
-            this.checkBoxDisplayOriginal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDisplayOriginal.Location = new System.Drawing.Point(5, 290);
-            this.checkBoxDisplayOriginal.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxDisplayOriginal.Name = "checkBoxDisplayOriginal";
-            this.checkBoxDisplayOriginal.Size = new System.Drawing.Size(182, 27);
-            this.checkBoxDisplayOriginal.TabIndex = 42;
-            this.checkBoxDisplayOriginal.Text = "Display original text";
-            this.checkBoxDisplayOriginal.UseVisualStyleBackColor = true;
+            this.checkBoxLargeMargin.AutoSize = true;
+            this.checkBoxLargeMargin.Location = new System.Drawing.Point(6, 184);
+            this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
+            this.checkBoxLargeMargin.TabIndex = 49;
+            this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
+            this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
             // 
             // FormOptions
             // 
+            this.AcceptButton = this.button3;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button4;
             this.ClientSize = new System.Drawing.Size(608, 545);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button6);
@@ -973,6 +1034,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericMaxSourceLength)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -983,8 +1046,7 @@
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1060,5 +1122,9 @@
         private System.Windows.Forms.RadioButton radioFuriganaRomaji;
         private System.Windows.Forms.RadioButton radioFuriganaHiragana;
         private System.Windows.Forms.CheckBox checkBoxDisplayReadings;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBoxLargeMargin;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown numMaxBlocks;
     }
 }

@@ -67,7 +67,8 @@ namespace ChiiTrans
         }
         public readonly bool Ready;
 
-        private readonly EdictEntry[] dict, user, rdict;
+        private readonly EdictEntry[] dict, rdict;
+        private EdictEntry[] user;
 
         //private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
 
@@ -173,6 +174,11 @@ namespace ChiiTrans
             }
             rdict = (EdictEntry[])dict.Clone();
             Array.Sort(rdict, EdictEntry.ByReading);
+            ReloadUserDictionary();
+        }
+
+        public void ReloadUserDictionary()
+        {
             user = LoadDict(Path.Combine(Application.StartupPath, "edict\\user.txt"), Encoding.UTF8);
         }
 

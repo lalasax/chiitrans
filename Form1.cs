@@ -17,7 +17,7 @@ namespace ChiiTrans
     public partial class Form1 : Form
     {
         public static Form1 thisForm;
-        private FormOptions formOptions;
+        public FormOptions formOptions;
         private FormAddReplacement formAddReplacement;
 
         public Form1()
@@ -199,11 +199,6 @@ namespace ChiiTrans
             Global.RunScript("ClearContent");
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Translation.Translate(Translation.lastGoodBuffer, null);
-        }
-
         private void textBoxDebug_Click(object sender, EventArgs e)
         {
             textBoxDebug.SelectAll();
@@ -265,6 +260,15 @@ namespace ChiiTrans
             { }
             return selText;
         }
+
+        private string GetTextForAction()
+        {
+            string res = GetSelectedText();
+            if (res == "")
+                return Translation.lastGoodBuffer;
+            else
+                return res;
+        }
         
         private void buttonAddReplacement_Click(object sender, EventArgs e)
         {
@@ -309,8 +313,6 @@ namespace ChiiTrans
                         buttonAddReplacement_Click(sender, null);
                     else if (e.KeyCode == Keys.T)
                         button2_Click(sender, null);
-                    else if (e.KeyCode == Keys.R)
-                        button3_Click(sender, null);
                     else if (e.KeyCode == Keys.Delete)
                         button2_Click_1(sender, null);
                     else if (e.KeyCode == Keys.Escape)
@@ -327,10 +329,24 @@ namespace ChiiTrans
                         buttonRun_Click(sender, null);
                     else if (e.KeyCode == Keys.O)
                         button1_Click(sender, null);
+                    else if (e.KeyCode == Keys.K)
+                        buttonKataHira_Click(sender, null);
+                    else if (e.KeyCode == Keys.A)
+                        buttonTranslateFull_Click(sender, null);
                 }
                 else if (e.Control && e.KeyCode == Keys.V || e.Shift && e.KeyCode == Keys.Insert)
                 {
                     TranslateFromClipboard();
+                }
+                else if (e.Control && e.KeyCode == Keys.C || e.Control && e.KeyCode == Keys.Insert)
+                {
+                    string sel = GetSelectedText();
+                    if (sel == "")
+                    {
+                        sel = GetTextForAction();
+                        if (sel != null)
+                            Clipboard.SetText(GetTextForAction());
+                    }
                 }
                 duplicateWorkaround = true;
             }
@@ -396,9 +412,7 @@ namespace ChiiTrans
 
         private void buttonTranslateSelected_Click(object sender, EventArgs e)
         {
-            string sel = GetSelectedText();
-            if (sel != "")
-                Translation.Translate(sel, null);
+            Translation.Translate(GetTextForAction(), null);
         }
 
         private void buttonRun_Click(object sender, EventArgs e)
@@ -553,11 +567,6 @@ namespace ChiiTrans
                     buttonTransparent_Click(this, null);
                     return true;
                 }
-                else if (keyData == (Keys.Alt | Keys.R))
-                {
-                    buttonTranslateFull_Click(this, null);
-                    return true;
-                }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -599,7 +608,32 @@ namespace ChiiTrans
             {
                 rec.inUse = true;
             }
-            Translation.Translate(Translation.lastGoodBuffer, options);
+            Translation.Translate(GetTextForAction(), options);
+        }
+
+        private void buttonKataHira_Click(object sender, EventArgs e)
+        {
+            Translation.Translate(Translation.KatakanaToHiragana(GetTextForAction()), null);
+        }
+
+        private void contextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            menuitemPaste.Enabled = Clipboard.ContainsText();
+            menuitemOnOff.Checked = Global.agth.is_on;
+            menuItemFullscreen.Checked = Global.fullscreen;
+            menuItemTransparent.Checked = Global.script.transparentMode;
+        }
+
+        private void menuitemCopy_Click(object sender, EventArgs e)
+        {
+            string sel = GetTextForAction();
+            if (sel != null)
+                Clipboard.SetText(sel);
+        }
+
+        private void reloadUserDictionaryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Edict.instance.ReloadUserDictionary();
         }
 
     }

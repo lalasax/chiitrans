@@ -95,6 +95,8 @@ namespace ChiiTrans
                 radioFuriganaRomaji.Checked = true;
             else
                 radioFuriganaHiragana.Checked = true;
+            numMaxBlocks.Value = options.maxBlocks;
+            checkBoxLargeMargin.Checked = options.largeMargins;
 
             bindingSource1.DataSource = options.replacements;
             bindingSource1.AllowNew = true;
@@ -190,6 +192,8 @@ namespace ChiiTrans
             Global.options.dropShadow = checkBoxShadow.Checked;
             Global.options.usePromt = checkBoxPromt.Checked;
             Global.options.furiganaRomaji = radioFuriganaRomaji.Checked;
+            Global.options.maxBlocks = (int)numMaxBlocks.Value;
+            Global.options.largeMargins = checkBoxLargeMargin.Checked;
 
             try
             {
@@ -370,6 +374,7 @@ namespace ChiiTrans
             options = Global.options.Clone();
             UpdateControls();
             comboBoxJDic.Select(0, 0);
+            WindowPosition.Normalize(this);
         }
 
         private void buttonInsert_Click(object sender, EventArgs e)
