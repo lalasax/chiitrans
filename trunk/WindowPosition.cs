@@ -78,6 +78,11 @@ namespace ChiiTrans
 
         public static void Deserialize(Form formIn, string thisWindowGeometry)
         {
+            Deserialize(formIn, thisWindowGeometry, false);
+        }
+
+        public static void Deserialize(Form formIn, string thisWindowGeometry, bool force)
+        {
             try
             {
                 if (string.IsNullOrEmpty(thisWindowGeometry) == true)
@@ -95,7 +100,7 @@ namespace ChiiTrans
                 bool locOkay = GeometryIsBizarreLocation(windowPoint, windowSize);
                 bool sizeOkay = GeometryIsBizarreSize(windowSize);
 
-                if (locOkay == true && sizeOkay == true)
+                if (force || (locOkay == true && sizeOkay == true))
                 {
                     formIn.Location = windowPoint;
                     formIn.Size = windowSize;
@@ -105,13 +110,15 @@ namespace ChiiTrans
                 {
                     formIn.Size = windowSize;
                 }
+
                 if (windowString == "Maximized")
                     formIn.WindowState = FormWindowState.Maximized;
                 else
                     formIn.WindowState = FormWindowState.Normal;
             }
             catch (Exception)
-            { }
+            {
+            }
         }
 
         private static bool GeometryIsBizarreLocation(Point loc, Size size)
@@ -140,6 +147,24 @@ namespace ChiiTrans
         {
             return (size.Height <= Screen.PrimaryScreen.WorkingArea.Height &&
                 size.Width <= Screen.PrimaryScreen.WorkingArea.Width);
+        }
+
+        public static void Normalize(Form form)
+        {
+            int w = Screen.PrimaryScreen.WorkingArea.Width;
+            int h = Screen.PrimaryScreen.WorkingArea.Height;
+            if (form.Width > w)
+                form.Width = w;
+            if (form.Height > h)
+                form.Height = h;
+            if (form.Left < 0)
+                form.Left = 0;
+            if (form.Top < 0)
+                form.Top = 0;
+            if (form.Left + form.Width > w)
+                form.Left = w - form.Width;
+            if (form.Top + form.Height > h)
+                form.Top = h - form.Height;
         }
     }
 }

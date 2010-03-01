@@ -82,9 +82,19 @@ table
     padding-top: 1em;
 }
 
+.large_padding_up
+{
+    padding-top: 800px;
+}
+
 .padding_down
 {
     padding-bottom: 1em;
+}
+
+.large_padding_down
+{
+    padding-bottom: 800px;
 }
 
 .shadow
@@ -117,6 +127,7 @@ ruby.romaji
 // こんにちは、世界！
 
 var blocks = {};
+var blocks_list = [];
 
 var cancel = function() {event.cancelBubble = true; return true;}
 var deny = function() {return false;}
@@ -125,12 +136,15 @@ var first_block = true;
 var appendBottom = false;
 var dropShadow = false;
 var tmode = false;
+var maxBlocks = 50;
+var largeMargins = false;
 
 function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
 {
     var pnum = 5;
     
     blocks[id] = {};
+    blocks_list.push(id);
     blocks[id].source = s.replaceAll('\n', '').replaceAll('\r', '');
     blocks[id].trans = {};
     blocks[id].display_readings = !!display_readings;
@@ -186,15 +200,16 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
         }
         else
         {
-            $(blocks[id].main).addClass("padding_up");
+            $(blocks[id].main).addClass(largeMargins ? "large_padding_up" : "padding_up");
         }
         $("#content").append(blocks[id].main);
     }
     else
     {
-        $(blocks[id].main).addClass("padding_down");
+        $(blocks[id].main).addClass(largeMargins ? "large_padding_down" : "padding_down");
         $("#content").prepend(blocks[id].main);
     }
+    checkMaxBlocks();
    
     scrollWnd();
 }
@@ -219,6 +234,7 @@ function ClearContent()
 {
     $("#content").empty();
     blocks = {};
+    blocks_list = [];
 }
 
 function UpdateWords(id, s, status)
@@ -306,26 +322,14 @@ function UpdateWords(id, s, status)
     scrollWnd();        
 }
 
-function hideRubyText()
-{
-    var rt = $(this).find("rt");
-    for (var i = 1; i < rt.length; ++i)
-    {
-        if (!rt[i].storeContent)
-        {
-            rt[i].storeContent = rt[i].innerHTML; 
-            rt[i].innerHTML = "";
-            restoreContentItems.push(rt[i]);
-        }        
-    }
-    return true;
-}
-
-function ApplySettings(font_name, font_size, _appendBottom, _dropShadow)
+function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins)
 {
     $(document.body).css({fontFamily: font_name, fontSize: font_size + "pt"});
     appendBottom = _appendBottom;
     dropShadow = _dropShadow;
+    maxBlocks = _maxBlocks;
+    largeMargins = _largeMargins;
+    checkMaxBlocks();
     updateShadow();
     scrollWnd();
 }
@@ -576,6 +580,21 @@ function updateShadow()
     }
 }
 
+function hideRubyText()
+{
+    var rt = $(this).find("rt");
+    for (var i = 1; i < rt.length; ++i)
+    {
+        if (!rt[i].storeContent)
+        {
+            rt[i].storeContent = rt[i].innerHTML; 
+            rt[i].innerHTML = "";
+            restoreContentItems.push(rt[i]);
+        }        
+    }
+    return true;
+}
+
 var restoreContentItems = [];
 function checkRestoreContent()
 {
@@ -599,6 +618,19 @@ function checkRestoreContent()
 }
 
 document.onclick = checkRestoreContent;
+
+function checkMaxBlocks()
+{
+    while (blocks_list.length > maxBlocks)
+    {
+        var id = blocks_list.shift();
+        if (blocks[id])
+        {
+            $(blocks[id].main).remove();
+            delete blocks[id];
+        }
+    }
+}
 
 </script>
 </head>

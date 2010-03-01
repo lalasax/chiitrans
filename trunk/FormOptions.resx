@@ -126,6 +126,18 @@
   <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>613, 17</value>
   </metadata>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>771, 17</value>
+  </metadata>
+  <metadata name="colSource.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colReplacement.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="bindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 17</value>
+  </metadata>
   <metadata name="colSource.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -137,12 +149,6 @@
   </metadata>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>771, 17</value>
-  </metadata>
-  <metadata name="name.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="color.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="newToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -234,13 +240,13 @@
         2RnwgU+fPn399///f3QMFPpfXzf1TmhoKBtBA358/v8fHYNMbKqcdjM0tB6/Adg0w8Qii5Kf2Mfbc+B1
         QeTSyK8p6yL/o+OMzXH/1RrUvkqmSXLhN+CG/deY6w7/wy7Z/g84Z/Hf84TJf+cjBv9tj+r8V2tSIGyA
         /X61r87HNf7bHFL+b7JX7r/udsn/qptE/8ttFPivWMTzlYGQC0AG2B9X+29+UOG//h7p/xrbxP8rbBL+
-        L7WJ9z8P0ICQQhlOkBd+T5fu+dctzo3hHbczWv9xGeCZKv37Y6e06t+J0g1/7hj//zZFZubXXhnpbz2y
+        L7WJ9z8P0ICQQhlOkBd+T5fu+dctzo3hHbczWv9xGeCZIv37Y6e06t+J0g1/7hj//zZFZubXXhnpbz2y
         Nv96IQYzqC0Q+q8wh++/9Eyu/6JT2f8LTGL5z9PP8H/K9Nj/j3fx/v+9VubG97nCR/6+T/7/fanU2W8r
-        JC7+PiHz/9s8mYlgA0AJCZRoMMCfH/9v77X+8/uZ6/9/nzqB0sf+//sy4f/fdyH/v22QvfBjopQvfgNA
-        KbFs+qP7fWy//76vBZv/58uk/98Wcf//2ikrBQ8LnC4Aari4OPfrwwM2//79mgHkPf3/7/fi/38eef//
+        JC7+PiHz/9s8mYlgA0AJCZRoMMCfH/9v7bX68/uZ6/9/nzqB0sf+//sy4f/fdyH/v22QvfBjopQvfgNA
+        KbFs+qP7fWy//76vBZv/58uk/98Wcf//2ikrBQ8LnC4Aari4OPfrg/02//79mgHkPf3/7/fi/38eef//
         MVt+0qeJEqJgQzKS6jakJ9TuzEis3Q7D0dEtW5eXxx14c0Lox9fjGp9+bFF78fd7+f8fW/XefN+t+u73
         VZn/3+dLr8CbwECS/6aL5H+bIBP1vU+y+e8DO3As/Jgg5fNtkkztx8lSwgQNgCn4PklO8ftSmbNfpkgZ
-        oGsCAKVMzwcguoMTAAAAAElFTkSuQmCC
+        oGsCAJ7NzwLVP5WPAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="removeItemsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -268,6 +274,18 @@
         wTCqfnSbsbkEaitu29FjAkeEEg5E/CkBVRYAfxJvbVL9v2IAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="name.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="color.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="name.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="color.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>310, 17</value>
   </metadata>

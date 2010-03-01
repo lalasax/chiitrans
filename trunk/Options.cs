@@ -97,6 +97,8 @@ namespace ChiiTrans
         public bool dropShadow;
         public bool usePromt;
         public bool furiganaRomaji;
+        public int maxBlocks;
+        public bool largeMargins;
 
         private Type OptionsType;
         
@@ -173,6 +175,8 @@ namespace ChiiTrans
             dropShadow = false;
             usePromt = false;
             furiganaRomaji = false;
+            maxBlocks = 50;
+            largeMargins = false;
 
             replacements = new ReplacementList();
         }
@@ -280,6 +284,8 @@ namespace ChiiTrans
             loadOpt(data, "dropShadow");
             loadOpt(data, "usePromt");
             loadOpt(data, "furiganaRomaji");
+            loadOpt(data, "maxBlocks");
+            loadOpt(data, "largeMargins");
         }
 
         public void SaveOptions(string filename)
@@ -319,6 +325,8 @@ namespace ChiiTrans
             saveOpt(data, "dropShadow");
             saveOpt(data, "usePromt");
             saveOpt(data, "furiganaRomaji");
+            saveOpt(data, "maxBlocks");
+            saveOpt(data, "largeMargins");
 
             File.WriteAllText(filename, data.Serialize());
         }

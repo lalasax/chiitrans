@@ -13,7 +13,14 @@ namespace ChiiTrans
 
         public void UpdateBrowserSettings()
         {
-            Global.RunScript("ApplySettings", Global.options.font.FontFamily.Name, Global.options.font.SizeInPoints, Global.options.appendBottom, Global.options.dropShadow);
+            Global.RunScript("ApplySettings",
+                Global.options.font.FontFamily.Name,
+                Global.options.font.SizeInPoints,
+                Global.options.appendBottom,
+                Global.options.dropShadow,
+                Global.options.maxBlocks,
+                Global.options.largeMargins
+            );
             List<object> obj = new List<object>();
             foreach (KeyValuePair<string, ColorRecord> kvp in Global.options.colors)
             {

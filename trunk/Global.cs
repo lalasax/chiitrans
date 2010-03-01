@@ -199,6 +199,10 @@ namespace ChiiTrans
             }
 
             Global.windowPosition.MainFormPosition = WindowPosition.Serialize(Form1.thisForm);
+            if (Form1.thisForm.formOptions != null)
+                Global.windowPosition.OptionsFormPosition = WindowPosition.Serialize(Form1.thisForm.formOptions);
+            if (FormMonitor.isCreated())
+                Global.windowPosition.MonitorFormPosition = WindowPosition.Serialize(FormMonitor.instance);
             oldGameLocation = new Point(rect.Left, rect.Top);
             fullscreen = true;
             try
@@ -246,7 +250,11 @@ namespace ChiiTrans
                     fullscreen = false;
                     if (dxDevice != null)
                         dxDevice.RestoreDisplayMode();
-                    WindowPosition.Deserialize(Form1.thisForm, Global.windowPosition.MainFormPosition);
+                    WindowPosition.Deserialize(Form1.thisForm, Global.windowPosition.MainFormPosition, true);
+                    if (Form1.thisForm.formOptions != null)
+                        WindowPosition.Deserialize(Form1.thisForm.formOptions, Global.windowPosition.OptionsFormPosition, true);
+                    if (FormMonitor.isCreated())
+                        WindowPosition.Deserialize(FormMonitor.instance, Global.windowPosition.MonitorFormPosition, true);
                     Form1.thisForm.TopMost = Global.isTopMost();
                     PInvokeFunc.SetWindowPos(gameWindow, IntPtr.Zero, oldGameLocation.X, oldGameLocation.Y, 0, 0, 21);
                 }

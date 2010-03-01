@@ -32,6 +32,25 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.browser = new System.Windows.Forms.WebBrowser();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuitemTranslate = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemTranslateAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemNewReplacement = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuitemCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuitemOnOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFullscreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemTransparent = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuitemOptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMore = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemKataHira = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemClearCache = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.buttonOnOff = new System.Windows.Forms.ToolStripButton();
@@ -40,18 +59,21 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonClear = new System.Windows.Forms.ToolStripButton();
             this.buttonTranslateSelected = new System.Windows.Forms.ToolStripButton();
-            this.buttonRepeat = new System.Windows.Forms.ToolStripButton();
             this.buttonTranslateFull = new System.Windows.Forms.ToolStripButton();
             this.buttonPaste = new System.Windows.Forms.ToolStripButton();
+            this.buttonKataHira = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonAddReplacement = new System.Windows.Forms.ToolStripButton();
             this.buttonClearCache = new System.Windows.Forms.ToolStripButton();
             this.buttonMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.buttonTransparent = new System.Windows.Forms.ToolStripButton();
             this.buttonFullscreen = new System.Windows.Forms.ToolStripButton();
+            this.buttonTransparent = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
+            this.reloadUserDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +91,8 @@
             this.browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.browser.ContextMenuStrip = this.contextMenu;
+            this.browser.IsWebBrowserContextMenuEnabled = false;
             this.browser.Location = new System.Drawing.Point(0, 28);
             this.browser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.browser.MinimumSize = new System.Drawing.Size(20, 20);
@@ -77,6 +101,165 @@
             this.browser.TabIndex = 4;
             this.browser.Url = new System.Uri("", System.UriKind.Relative);
             this.browser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.browser_PreviewKeyDown);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuitemTranslate,
+            this.menuitemTranslateAll,
+            this.menuitemNewReplacement,
+            this.toolStripSeparator5,
+            this.menuitemCopy,
+            this.menuitemPaste,
+            this.toolStripSeparator6,
+            this.menuitemOnOff,
+            this.menuItemFullscreen,
+            this.menuItemTransparent,
+            this.toolStripSeparator8,
+            this.menuitemOptions,
+            this.menuitemMore});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(279, 284);
+            this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
+            // 
+            // menuitemTranslate
+            // 
+            this.menuitemTranslate.Name = "menuitemTranslate";
+            this.menuitemTranslate.ShortcutKeyDisplayString = "Space";
+            this.menuitemTranslate.Size = new System.Drawing.Size(278, 24);
+            this.menuitemTranslate.Text = "Translate";
+            this.menuitemTranslate.Click += new System.EventHandler(this.buttonTranslateSelected_Click);
+            // 
+            // menuitemTranslateAll
+            // 
+            this.menuitemTranslateAll.Name = "menuitemTranslateAll";
+            this.menuitemTranslateAll.ShortcutKeyDisplayString = "A";
+            this.menuitemTranslateAll.Size = new System.Drawing.Size(278, 24);
+            this.menuitemTranslateAll.Text = "Translate with all";
+            this.menuitemTranslateAll.Click += new System.EventHandler(this.buttonTranslateFull_Click);
+            // 
+            // menuitemNewReplacement
+            // 
+            this.menuitemNewReplacement.Name = "menuitemNewReplacement";
+            this.menuitemNewReplacement.ShortcutKeyDisplayString = "Insert";
+            this.menuitemNewReplacement.Size = new System.Drawing.Size(278, 24);
+            this.menuitemNewReplacement.Text = "Add new replacement...";
+            this.menuitemNewReplacement.Click += new System.EventHandler(this.buttonAddReplacement_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(275, 6);
+            // 
+            // menuitemCopy
+            // 
+            this.menuitemCopy.Name = "menuitemCopy";
+            this.menuitemCopy.ShortcutKeyDisplayString = "Ctrl-C";
+            this.menuitemCopy.Size = new System.Drawing.Size(278, 24);
+            this.menuitemCopy.Text = "Copy";
+            this.menuitemCopy.Click += new System.EventHandler(this.menuitemCopy_Click);
+            // 
+            // menuitemPaste
+            // 
+            this.menuitemPaste.Name = "menuitemPaste";
+            this.menuitemPaste.ShortcutKeyDisplayString = "Ctrl-V";
+            this.menuitemPaste.Size = new System.Drawing.Size(278, 24);
+            this.menuitemPaste.Text = "Paste";
+            this.menuitemPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(275, 6);
+            // 
+            // menuitemOnOff
+            // 
+            this.menuitemOnOff.Name = "menuitemOnOff";
+            this.menuitemOnOff.ShortcutKeyDisplayString = "T";
+            this.menuitemOnOff.Size = new System.Drawing.Size(278, 24);
+            this.menuitemOnOff.Text = "Active";
+            this.menuitemOnOff.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // menuItemFullscreen
+            // 
+            this.menuItemFullscreen.Name = "menuItemFullscreen";
+            this.menuItemFullscreen.ShortcutKeyDisplayString = "Alt-F";
+            this.menuItemFullscreen.Size = new System.Drawing.Size(278, 24);
+            this.menuItemFullscreen.Text = "Fullscreen";
+            this.menuItemFullscreen.Click += new System.EventHandler(this.buttonFullscreen_Click);
+            // 
+            // menuItemTransparent
+            // 
+            this.menuItemTransparent.Name = "menuItemTransparent";
+            this.menuItemTransparent.ShortcutKeyDisplayString = "Alt-Z";
+            this.menuItemTransparent.Size = new System.Drawing.Size(278, 24);
+            this.menuItemTransparent.Text = "Transparent mode";
+            this.menuItemTransparent.Click += new System.EventHandler(this.buttonTransparent_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(275, 6);
+            // 
+            // menuitemOptions
+            // 
+            this.menuitemOptions.Name = "menuitemOptions";
+            this.menuitemOptions.ShortcutKeyDisplayString = "O";
+            this.menuitemOptions.Size = new System.Drawing.Size(278, 24);
+            this.menuitemOptions.Text = "Options...";
+            this.menuitemOptions.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // menuitemMore
+            // 
+            this.menuitemMore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuitemRun,
+            this.menuitemClear,
+            this.menuitemKataHira,
+            this.menuitemClearCache,
+            this.menuitemMonitor,
+            this.reloadUserDictionaryToolStripMenuItem});
+            this.menuitemMore.Name = "menuitemMore";
+            this.menuitemMore.Size = new System.Drawing.Size(278, 24);
+            this.menuitemMore.Text = "More";
+            // 
+            // menuitemRun
+            // 
+            this.menuitemRun.Name = "menuitemRun";
+            this.menuitemRun.ShortcutKeyDisplayString = "G";
+            this.menuitemRun.Size = new System.Drawing.Size(277, 24);
+            this.menuitemRun.Text = "Run game to translate";
+            this.menuitemRun.Click += new System.EventHandler(this.buttonRun_Click);
+            // 
+            // menuitemClear
+            // 
+            this.menuitemClear.Name = "menuitemClear";
+            this.menuitemClear.ShortcutKeyDisplayString = "Delete";
+            this.menuitemClear.Size = new System.Drawing.Size(277, 24);
+            this.menuitemClear.Text = "Clear window";
+            this.menuitemClear.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // menuitemKataHira
+            // 
+            this.menuitemKataHira.Name = "menuitemKataHira";
+            this.menuitemKataHira.ShortcutKeyDisplayString = "K";
+            this.menuitemKataHira.Size = new System.Drawing.Size(277, 24);
+            this.menuitemKataHira.Text = "Katakana to hiragana";
+            this.menuitemKataHira.Click += new System.EventHandler(this.buttonKataHira_Click);
+            // 
+            // menuitemClearCache
+            // 
+            this.menuitemClearCache.Name = "menuitemClearCache";
+            this.menuitemClearCache.Size = new System.Drawing.Size(277, 24);
+            this.menuitemClearCache.Text = "Clear cache";
+            this.menuitemClearCache.Click += new System.EventHandler(this.buttonClearCache_Click);
+            // 
+            // menuitemMonitor
+            // 
+            this.menuitemMonitor.Name = "menuitemMonitor";
+            this.menuitemMonitor.ShortcutKeyDisplayString = "M";
+            this.menuitemMonitor.Size = new System.Drawing.Size(277, 24);
+            this.menuitemMonitor.Text = "Select threads to monitor...";
+            this.menuitemMonitor.Click += new System.EventHandler(this.buttonMonitor_Click);
             // 
             // textBoxDebug
             // 
@@ -102,15 +285,16 @@
             this.toolStripSeparator2,
             this.buttonClear,
             this.buttonTranslateSelected,
-            this.buttonRepeat,
             this.buttonTranslateFull,
             this.buttonPaste,
+            this.buttonKataHira,
+            this.toolStripSeparator4,
             this.buttonAddReplacement,
             this.buttonClearCache,
             this.buttonMonitor,
             this.toolStripSeparator1,
-            this.buttonTransparent,
             this.buttonFullscreen,
+            this.buttonTransparent,
             this.toolStripSeparator3,
             this.toolStripHomePage});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -176,16 +360,6 @@
             this.buttonTranslateSelected.Text = "Translate selected text (Space)";
             this.buttonTranslateSelected.Click += new System.EventHandler(this.buttonTranslateSelected_Click);
             // 
-            // buttonRepeat
-            // 
-            this.buttonRepeat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonRepeat.Image = ((System.Drawing.Image)(resources.GetObject("buttonRepeat.Image")));
-            this.buttonRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonRepeat.Name = "buttonRepeat";
-            this.buttonRepeat.Size = new System.Drawing.Size(26, 26);
-            this.buttonRepeat.Text = "Repeat last translation (R)";
-            this.buttonRepeat.Click += new System.EventHandler(this.button3_Click);
-            // 
             // buttonTranslateFull
             // 
             this.buttonTranslateFull.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -193,7 +367,7 @@
             this.buttonTranslateFull.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonTranslateFull.Name = "buttonTranslateFull";
             this.buttonTranslateFull.Size = new System.Drawing.Size(26, 26);
-            this.buttonTranslateFull.Text = "Repeat last translation, using all translators (Alt-R)";
+            this.buttonTranslateFull.Text = "Translate using all translators (A)";
             this.buttonTranslateFull.Click += new System.EventHandler(this.buttonTranslateFull_Click);
             // 
             // buttonPaste
@@ -205,6 +379,21 @@
             this.buttonPaste.Size = new System.Drawing.Size(26, 26);
             this.buttonPaste.Text = "Translate text from clipboard (Ctrl-V)";
             this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            // 
+            // buttonKataHira
+            // 
+            this.buttonKataHira.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonKataHira.Image = ((System.Drawing.Image)(resources.GetObject("buttonKataHira.Image")));
+            this.buttonKataHira.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonKataHira.Name = "buttonKataHira";
+            this.buttonKataHira.Size = new System.Drawing.Size(26, 26);
+            this.buttonKataHira.Text = "Convert all katakana to hiragana and translate (K)";
+            this.buttonKataHira.Click += new System.EventHandler(this.buttonKataHira_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 29);
             // 
             // buttonAddReplacement
             // 
@@ -241,16 +430,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
             // 
-            // buttonTransparent
-            // 
-            this.buttonTransparent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonTransparent.Image = ((System.Drawing.Image)(resources.GetObject("buttonTransparent.Image")));
-            this.buttonTransparent.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonTransparent.Name = "buttonTransparent";
-            this.buttonTransparent.Size = new System.Drawing.Size(26, 26);
-            this.buttonTransparent.Text = "Transparent mode (Alt-&Z)";
-            this.buttonTransparent.Click += new System.EventHandler(this.buttonTransparent_Click);
-            // 
             // buttonFullscreen
             // 
             this.buttonFullscreen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -260,6 +439,16 @@
             this.buttonFullscreen.Size = new System.Drawing.Size(26, 26);
             this.buttonFullscreen.Text = "Toggle fullscreen (Alt-&F)";
             this.buttonFullscreen.Click += new System.EventHandler(this.buttonFullscreen_Click);
+            // 
+            // buttonTransparent
+            // 
+            this.buttonTransparent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonTransparent.Image = ((System.Drawing.Image)(resources.GetObject("buttonTransparent.Image")));
+            this.buttonTransparent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonTransparent.Name = "buttonTransparent";
+            this.buttonTransparent.Size = new System.Drawing.Size(26, 26);
+            this.buttonTransparent.Text = "Transparent mode (Alt-&Z)";
+            this.buttonTransparent.Click += new System.EventHandler(this.buttonTransparent_Click);
             // 
             // toolStripSeparator3
             // 
@@ -282,6 +471,13 @@
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
             // 
+            // reloadUserDictionaryToolStripMenuItem
+            // 
+            this.reloadUserDictionaryToolStripMenuItem.Name = "reloadUserDictionaryToolStripMenuItem";
+            this.reloadUserDictionaryToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
+            this.reloadUserDictionaryToolStripMenuItem.Text = "Reload user dictionary";
+            this.reloadUserDictionaryToolStripMenuItem.Click += new System.EventHandler(this.reloadUserDictionaryToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -301,6 +497,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
+            this.contextMenu.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -315,7 +512,6 @@
         private System.Windows.Forms.TextBox textBoxDebug;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton buttonOnOff;
-        private System.Windows.Forms.ToolStripButton buttonRepeat;
         private System.Windows.Forms.ToolStripButton buttonClear;
         private System.Windows.Forms.ToolStripButton buttonOptions;
         private System.Windows.Forms.ToolStripButton buttonAddReplacement;
@@ -332,6 +528,28 @@
         private System.Windows.Forms.ToolStripButton toolStripHomePage;
         private System.Windows.Forms.ToolStripButton buttonTranslateFull;
         private System.Windows.Forms.ToolStripButton buttonClearCache;
+        private System.Windows.Forms.ToolStripButton buttonKataHira;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem menuitemTranslate;
+        private System.Windows.Forms.ToolStripMenuItem menuitemTranslateAll;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem menuitemCopy;
+        private System.Windows.Forms.ToolStripMenuItem menuitemPaste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem menuitemNewReplacement;
+        private System.Windows.Forms.ToolStripMenuItem menuItemFullscreen;
+        private System.Windows.Forms.ToolStripMenuItem menuItemTransparent;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMore;
+        private System.Windows.Forms.ToolStripMenuItem menuitemRun;
+        private System.Windows.Forms.ToolStripMenuItem menuitemClear;
+        private System.Windows.Forms.ToolStripMenuItem menuitemKataHira;
+        private System.Windows.Forms.ToolStripMenuItem menuitemClearCache;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMonitor;
+        private System.Windows.Forms.ToolStripMenuItem menuitemOnOff;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem menuitemOptions;
+        private System.Windows.Forms.ToolStripMenuItem reloadUserDictionaryToolStripMenuItem;
     }
 }
 
