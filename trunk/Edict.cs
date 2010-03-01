@@ -116,11 +116,10 @@ namespace ChiiTrans
             return num + meaning.Substring(i);
         }
 
-        private EdictEntry[] LoadDict(string filename, Encoding encoding)
+        private EdictEntry[] LoadDict(string[] ss)
         {
             try
             {
-                string[] ss = File.ReadAllLines(filename, encoding);
                 EdictEntry[] res = new EdictEntry[ss.Length - 1];
                 for (int i = 1; i < ss.Length; ++i)
                 {
@@ -165,21 +164,59 @@ namespace ChiiTrans
         
         public Edict()
         {
-            Ready = true;
-            dict = LoadDict(Path.Combine(Application.StartupPath, "edict\\edict"), Encoding.GetEncoding("EUC-JP"));
-            if (dict == null)
+            try
             {
-                Ready = false;
-                return;
+                Cursor.Current = Cursors.WaitCursor;
+                Ready = true;
+                dict = LoadDict(LoadDictText("edict", Encoding.GetEncoding("EUC-JP")));
+                if (dict == null)
+                {
+                    Ready = false;
+                    return;
+                }
+                rdict = (EdictEntry[])dict.Clone();
+                Array.Sort(rdict, EdictEntry.ByReading);
+                ReloadUserDictionary();
             }
-            rdict = (EdictEntry[])dict.Clone();
-            Array.Sort(rdict, EdictEntry.ByReading);
-            ReloadUserDictionary();
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        public void ReloadUserDictionary(string text)
+        {
+            user = LoadDict(text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         public void ReloadUserDictionary()
         {
-            user = LoadDict(Path.Combine(Application.StartupPath, "edict\\user.txt"), Encoding.UTF8);
+            user = LoadDict(LoadDictText("user.txt", Encoding.UTF8));
+        }
+
+        private string GetRealFilename(string filename)
+        {
+            return Path.Combine(Path.Combine(Application.StartupPath, "edict"), filename);
+        }
+        
+        public string[] LoadDictText(string filename, Encoding encoding)
+        {
+            return File.ReadAllLines(GetRealFilename(filename), encoding);
+        }
+
+        public string[] LoadDictText(string filename)
+        {
+            return LoadDictText(filename, Encoding.UTF8);
+        }
+
+        public void SaveDictText(string filename, string text, Encoding encoding)
+        {
+            File.WriteAllText(GetRealFilename(filename), text, encoding);
+        }
+
+        public void SaveDictText(string filename, string text)
+        {
+            SaveDictText(filename, text, Encoding.UTF8);
         }
 
         private EdictEntry SearchByReading(string key)

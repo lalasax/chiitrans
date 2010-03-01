@@ -606,7 +606,8 @@ namespace ChiiTrans
             options.displayOriginal = true;
             foreach (TranslatorRecord rec in options.translators)
             {
-                rec.inUse = true;
+                if (rec.id != 8) //Hivemind off
+                    rec.inUse = true;
             }
             Translation.Translate(GetTextForAction(), options);
         }

@@ -24,7 +24,7 @@ namespace ChiiTrans
         private string sourceNew;
         private string sourceFixed;
         public int id { get; private set; }
-        public static string[] Translators = { "Translit (MeCab)", "Atlas", "Translit (Google)", "OCN", "Babylon", "Google", "SysTran", "Excite" };
+        public static string[] Translators = { "Translit (MeCab)", "Atlas", "Translit (Google)", "OCN", "Babylon", "Google", "SysTran", "Excite", "Hivemind (alpha)" };
         List<TranslationTask> tasks;
         private int tasksToComplete;
         private Options options;
@@ -93,6 +93,8 @@ namespace ChiiTrans
                     tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateMecabTranslit"), false));
                 else if (s == "Translit (Google)")
                     tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateTranslit"), false));
+                else if (s.StartsWith("Hivemind"))
+                    tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateHivemind"), false));
                 else
                     tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("Translate" + s), false));
             }
@@ -322,7 +324,7 @@ namespace ChiiTrans
             ss.Close();
         }
         
-        private string UrlEncode(string data)
+        public static string UrlEncode(string data)
         {
             return HttpUtility.UrlEncode(data, Encoding.UTF8);
         }
@@ -488,6 +490,20 @@ namespace ChiiTrans
                 return m.Groups[1].Value;
             else
                 throw new Exception();
+        }
+
+        public string TranslateHivemind()
+        {
+            string url = new Uri(new Uri(options.hivemindServer), "query.php").ToString();
+            string query = "q=" + UrlEncode(source);
+            HttpWebRequest req = CreateHTTPRequest(url + "?" + query);
+            JsObject js = Json.Parse(ReadAnswer(req));
+            if (js.str["success"] == "1")
+            {
+                return js.str["id"] + "," + js.str["result"];
+            }
+            else
+                throw new Exception(js.str["error"]);
         }
 
         public string TranslateAtlas()

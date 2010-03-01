@@ -84,7 +84,7 @@ table
 
 .large_padding_up
 {
-    padding-top: 800px;
+    padding-top: 500px;
 }
 
 .padding_down
@@ -94,7 +94,7 @@ table
 
 .large_padding_down
 {
-    padding-bottom: 800px;
+    padding-bottom: 500px;
 }
 
 .shadow
@@ -112,6 +112,17 @@ table
 ruby.romaji
 {
     ruby-align: center;
+}
+
+.hivemind_link
+{
+    cursor: pointer;
+}
+
+.hivemind_link:hover
+{
+    color: blue;
+    text-decoration:underline;
 }
 
 </style>
@@ -162,7 +173,7 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
         {
             for (var i = pnum; i < arguments.length; ++i)
             {
-                var dd = make("div", 0, textnode("..."));
+                var dd = make("div", 0, make("span", tmode ? "fixed_text_tmode" : "fixed_text", textnode("...")));
                 var name = arguments[i];
                 var dn = make("div");
                 $(dn).html(getTranslatorTitle(name));
@@ -172,7 +183,7 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
         }
         else
         {
-            var dd = make("div", 0, textnode("..."));
+            var dd = make("div", 0, make("span", tmode ? "fixed_text_tmode" : "fixed_text", textnode("...")));
             tbl.add(row(tmode ? "trans_row_tmode" : "trans_row", cell({cls: "trans_value", colspan: 2}, dd)));
             var name = arguments[pnum];
             blocks[id].trans[name] = dd;
@@ -218,8 +229,11 @@ function UpdateTranslation(id, name, translated_text, status)
 {
     try
     {
-        var block = $(blocks[id].trans[name]); 
-        block.html(translated_text);
+        var block = $(blocks[id].trans[name]);
+        if (name.substring(0, 8) == "Hivemind")
+            UpdateHivemind(block, blocks[id].source, translated_text, status);
+        else 
+            block.html(translated_text);
         scrollWnd();        
     }
     catch(e) {}
@@ -320,6 +334,26 @@ function UpdateWords(id, s, status)
         div.appendChild(make("span", span_other_class, textnode(src.substring(pos))));
     div.onselectstart = hideRubyText;
     scrollWnd();        
+}
+
+function UpdateHivemind(div, src, text, status)
+{
+    if (status <= 0)
+    {
+        $(div).html(text);
+        return;
+    }
+    var tt = text.split(',', 2);
+    var id = tt[0];
+    var text = tt[1];
+    if (text == '')
+        text = '(not found)';
+    var link = make('span', 'hivemind_link', textnode(text));
+    $(link).click(function(ev)
+    {
+        window.external.HivemindClick(id, src);
+    });
+    $(div).html(link); 
 }
 
 function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins)
@@ -557,6 +591,8 @@ function getTranslatorTitle(s)
         s = "Google TL";
     else if (s == "Translit (MeCab)")
         s = "MeCab TL";
+    else if (s.substring(0, 8) == "Hivemind")
+        s = "Hivemind";
     return s + ":";
 }
 

@@ -32,7 +32,7 @@ namespace ChiiTrans
             }
             else
             {
-                if (Global.options.useCache)
+                if (Global.options.useCache && !name.StartsWith("Hivemind"))
                 {
                     string res = translation.findCache(name);
                     if (res != null)
@@ -66,9 +66,17 @@ namespace ChiiTrans
                 }
                 status = COMPLETED;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                result = "(error)";
+                Exception e2 = ex.InnerException;
+                if (e2 != null && !string.IsNullOrEmpty(e2.Message))
+                {
+                    result = "(" + e2.Message + ")";
+                }
+                else
+                {
+                    result = "(Error)";
+                }
                 status = ERROR;
             }
 

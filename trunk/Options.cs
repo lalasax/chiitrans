@@ -99,6 +99,7 @@ namespace ChiiTrans
         public bool furiganaRomaji;
         public int maxBlocks;
         public bool largeMargins;
+        public string hivemindServer;
 
         private Type OptionsType;
         
@@ -149,7 +150,7 @@ namespace ChiiTrans
         {
             translators = new List<TranslatorRecord>();
             for (int i = 0; i < Translation.Translators.Length; ++i)
-                translators.Add(new TranslatorRecord(i, true));
+                translators.Add(new TranslatorRecord(i, i != 8)); //hivemind off by default
 
             SetDefaultColors();
 
@@ -177,6 +178,7 @@ namespace ChiiTrans
             furiganaRomaji = false;
             maxBlocks = 50;
             largeMargins = false;
+            hivemindServer = "http://chii.sorakake.ru/";
 
             replacements = new ReplacementList();
         }
@@ -286,6 +288,7 @@ namespace ChiiTrans
             loadOpt(data, "furiganaRomaji");
             loadOpt(data, "maxBlocks");
             loadOpt(data, "largeMargins");
+            loadOpt(data, "hivemindServer");
         }
 
         public void SaveOptions(string filename)
@@ -327,6 +330,7 @@ namespace ChiiTrans
             saveOpt(data, "furiganaRomaji");
             saveOpt(data, "maxBlocks");
             saveOpt(data, "largeMargins");
+            saveOpt(data, "hivemindServer");
 
             File.WriteAllText(filename, data.Serialize());
         }
