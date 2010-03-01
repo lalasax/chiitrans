@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ChiiTrans
 {
@@ -41,6 +42,20 @@ namespace ChiiTrans
             {
                 Global.RunScript("TransparentModeOff");
             }
+        }
+
+        public void HivemindClick(string id, string src)
+        {
+            string url;
+            if (string.IsNullOrEmpty(id) || id == "0")
+            {
+                url = new Uri(new Uri(Global.options.hivemindServer), "index.php?q=" + Translation.UrlEncode(src)).ToString();
+            }
+            else
+            {
+                url = new Uri(new Uri(Global.options.hivemindServer), "index.php?p=view&id=" + id).ToString();
+            }
+            Process.Start(url);
         }
     }
 }

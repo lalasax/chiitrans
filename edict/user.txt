@@ -1,4 +1,4 @@
-# User dictionary (eDict format)
+﻿# User dictionary (eDict format)
 そこ/there/
 ここ/here/
 どこ/where/

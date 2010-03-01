@@ -103,6 +103,10 @@
             this.numMaxBlocks = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBoxLargeMargin = new System.Windows.Forms.CheckBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.textBoxUserDict = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxHivemind = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -118,6 +122,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button3
@@ -183,6 +188,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.ItemSize = new System.Drawing.Size(120, 23);
             this.tabControl1.Location = new System.Drawing.Point(4, 2);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
@@ -466,6 +472,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage2.Controls.Add(this.comboBoxHivemind);
+            this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.checkBoxPromt);
             this.tabPage2.Controls.Add(this.textBoxLanguage);
@@ -1007,9 +1015,52 @@
             this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
             this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.textBoxUserDict);
+            this.tabPage5.Location = new System.Drawing.Point(4, 27);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(594, 464);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "User dictionary";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Enter += new System.EventHandler(this.tabPage5_Enter);
+            // 
+            // textBoxUserDict
+            // 
+            this.textBoxUserDict.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxUserDict.Location = new System.Drawing.Point(3, 3);
+            this.textBoxUserDict.Multiline = true;
+            this.textBoxUserDict.Name = "textBoxUserDict";
+            this.textBoxUserDict.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxUserDict.Size = new System.Drawing.Size(588, 458);
+            this.textBoxUserDict.TabIndex = 0;
+            this.textBoxUserDict.TextChanged += new System.EventHandler(this.textBoxUserDict_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 377);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(246, 23);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Hivemind server (experimental)";
+            // 
+            // comboBoxHivemind
+            // 
+            this.comboBoxHivemind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxHivemind.FormattingEnabled = true;
+            this.comboBoxHivemind.Items.AddRange(new object[] {
+            "http://chii.sorakake.ru/"});
+            this.comboBoxHivemind.Location = new System.Drawing.Point(8, 403);
+            this.comboBoxHivemind.Name = "comboBoxHivemind";
+            this.comboBoxHivemind.Size = new System.Drawing.Size(571, 29);
+            this.comboBoxHivemind.TabIndex = 26;
+            // 
             // FormOptions
             // 
-            this.AcceptButton = this.button3;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button4;
@@ -1047,6 +1098,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1126,5 +1179,9 @@
         private System.Windows.Forms.CheckBox checkBoxLargeMargin;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numMaxBlocks;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TextBox textBoxUserDict;
+        private System.Windows.Forms.ComboBox comboBoxHivemind;
+        private System.Windows.Forms.Label label6;
     }
 }

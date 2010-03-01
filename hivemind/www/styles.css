@@ -1,0 +1,225 @@
+html, body
+{
+    font-family: Arial;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+h1
+{
+    font-size: 25px;
+}
+
+h2
+{
+    font-size: 20px;
+}
+
+input, button, textarea
+{
+    font-size: 15px;
+}
+
+textarea
+{
+    font-family: Arial;
+}
+
+.fieldset input, .fields input, .fields textarea, .fields .text, .fields #error
+{
+    margin-top: 2px;
+    margin-bottom: 0.5em;
+}
+
+.fieldset input, .fields input, .fields textarea
+{
+    width: 400px;
+}
+
+.fields textarea
+{
+    height: 100px;
+}
+
+.fields .nowidth
+{
+    width: auto;
+}
+
+.fieldset
+{
+    margin: 20px;
+}
+
+div#content
+{
+    padding: 10px 10px 10px 50px;
+}
+
+#error
+{
+    color: red;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+table#topbar
+{
+    width: 100%;
+    background: #eee;
+}
+
+.topleft
+{
+    text-align: left;
+}
+
+.topright
+{
+    text-align: right;
+}
+
+form#toplogin
+{
+    display: inline;
+}
+
+ul.menu
+{
+    display: block;
+    background: #6C6; 
+    margin: 0;
+    padding: 0;
+}
+
+ul.menu li
+{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+ul.menu li a
+{
+    display: block;
+    width: 200px;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+ul.menu li a.active
+{
+    background: #66C;
+}
+
+ul.menu li a:hover
+{
+    text-decoration: underline;
+}
+
+table#submissions
+{
+    width: 100%;
+}
+
+table#submissions td
+{
+    padding: 3px 10px 3px 10px;
+    overflow: hidden;
+}
+
+tr.c1
+{
+    background: #FFD;
+}
+
+tr.c2
+{
+    background: #DFF;
+}
+
+form#search input#q
+{
+    width: 100%;
+}
+
+form#search input#submit
+{
+    width: 100px;
+}
+
+form#search td#submit
+{
+    width: 110px;
+    text-align: center;
+}
+
+.text
+{
+    background: #eee;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #aaf;
+    font-size: 120%;
+}
+
+#revisions .text, #revisions .comment 
+{
+    margin-top: 10px;
+}
+
+#revisions li
+{
+    margin-bottom: 1em;
+}
+
+.comment
+{
+    font-style: italic;
+}
+
+#view
+{
+}
+
+.revertform
+{
+    display: none;
+    margin: 10px 0 10px 0;
+}
+
+.hidden
+{
+    display: none;
+    margin: 10px 0 10px 0;
+}
+
+.addmargin
+{
+    margin: 10px 0 10px 0;
+}
+
+#promote_msg
+{
+    color: green;
+}
+
+.user_comment
+{
+    background: #EEE;
+    font-size: 125%;
+    padding: 10px;
+    margin-bottom: 1em;
+}
+
+ul.users
+{
+    list-style: none;
+}

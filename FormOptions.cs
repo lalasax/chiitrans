@@ -14,6 +14,8 @@ namespace ChiiTrans
         private Font font;
         private Options options;
         private List<ColorRecord> colors;
+        private bool userDictInit;
+        private bool userDictChanged;
 
         public FormOptions()
         {
@@ -97,6 +99,7 @@ namespace ChiiTrans
                 radioFuriganaHiragana.Checked = true;
             numMaxBlocks.Value = options.maxBlocks;
             checkBoxLargeMargin.Checked = options.largeMargins;
+            comboBoxHivemind.Text = options.hivemindServer;
 
             bindingSource1.DataSource = options.replacements;
             bindingSource1.AllowNew = true;
@@ -194,6 +197,7 @@ namespace ChiiTrans
             Global.options.furiganaRomaji = radioFuriganaRomaji.Checked;
             Global.options.maxBlocks = (int)numMaxBlocks.Value;
             Global.options.largeMargins = checkBoxLargeMargin.Checked;
+            Global.options.hivemindServer = comboBoxHivemind.Text;
 
             try
             {
@@ -201,6 +205,19 @@ namespace ChiiTrans
             }
             catch (Exception) 
             {
+            }
+
+            if (userDictChanged)
+            {
+                try
+                {
+                    Edict.instance.ReloadUserDictionary(textBoxUserDict.Text);
+                    Edict.instance.SaveDictText("user.txt", textBoxUserDict.Text);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Cannot save user dictionary!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -374,7 +391,10 @@ namespace ChiiTrans
             options = Global.options.Clone();
             UpdateControls();
             comboBoxJDic.Select(0, 0);
+            comboBoxHivemind.Select(0, 0);
             WindowPosition.Normalize(this);
+            userDictInit = false;
+            userDictChanged = false;
         }
 
         private void buttonInsert_Click(object sender, EventArgs e)
@@ -403,6 +423,24 @@ namespace ChiiTrans
         {
             options.SetDefaultColors();
             UpdateColors();
+        }
+
+        private void tabPage5_Enter(object sender, EventArgs e)
+        {
+            if (!userDictInit)
+            {
+                try
+                {
+                    textBoxUserDict.Text = string.Join(Environment.NewLine, Edict.instance.LoadDictText("user.txt"));
+                }
+                catch (Exception) { }
+                userDictChanged = false;
+            }
+        }
+
+        private void textBoxUserDict_TextChanged(object sender, EventArgs e)
+        {
+            userDictChanged = true;
         }
     }
 }

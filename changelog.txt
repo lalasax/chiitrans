@@ -1,7 +1,19 @@
+Version 1.8
+ - Many improvements to MeCab + EDICT parsing.
+ - Fixed text selection in the main window to not include ruby text.
+ - Improved tooltips positioning.
+ - Added user dictionary to use with MeCab + EDICT.
+ - Added right click context menu to main window.
+ - Option to limit number of last translations shown (to avoid performance drop).
+ - Option to display large margins between translation blocks.
+ - Ability to convert katakana to hiragana.
+ - Bugfix: windows did not restore position when exiting fullscreen mode.
+ - Experimental: Hivemind server support added. It is a wiki-like server to gather community translations. If you are interested in hosting Hivemind server, contact me at chiitranslator@gmail.com.
+
 Version 1.7
- - New feature: Implemented eDict support. You can now choose from MeCab + eDict or WWWJDIC to parse words.
+ - New feature: Implemented eDict support. You can now choose from MeCab + EDICT or WWWJDIC to parse words.
  - New feature: option to display ruby text in romaji instead of hiragana.
- - Improved formatting of WWWJDIC and eDict translation results.
+ - Improved formatting of WWWJDIC and EDICT translation results.
  - Atlas is no longer used to translate particular words, using eDict instead.
 
 Version 1.6
