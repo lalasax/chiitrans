@@ -1,4 +1,4 @@
-# User dictionary (eDict format)
+# User dictionary (eDict format) todo: mouse right click, phrases limit, big intervals, 
 そこ/there/
 ここ/here/
 どこ/where/
