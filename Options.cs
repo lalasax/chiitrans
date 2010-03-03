@@ -100,6 +100,7 @@ namespace ChiiTrans
         public int maxBlocks;
         public bool largeMargins;
         public string hivemindServer;
+        public bool toolbarVisible;
 
         private Type OptionsType;
         
@@ -179,6 +180,7 @@ namespace ChiiTrans
             maxBlocks = 50;
             largeMargins = false;
             hivemindServer = "http://chii.sorakake.ru/";
+            toolbarVisible = true;
 
             replacements = new ReplacementList();
         }
@@ -289,6 +291,7 @@ namespace ChiiTrans
             loadOpt(data, "maxBlocks");
             loadOpt(data, "largeMargins");
             loadOpt(data, "hivemindServer");
+            loadOpt(data, "toolbarVisible");
         }
 
         public void SaveOptions(string filename)
@@ -331,6 +334,7 @@ namespace ChiiTrans
             saveOpt(data, "maxBlocks");
             saveOpt(data, "largeMargins");
             saveOpt(data, "hivemindServer");
+            saveOpt(data, "toolbarVisible");
 
             File.WriteAllText(filename, data.Serialize());
         }

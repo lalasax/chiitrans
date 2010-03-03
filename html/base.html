@@ -1,12 +1,10 @@
 <!doctype html>
 <html>
 <head>
-<link rel='stylesheet' type='text/css' href='jquery.tooltip.css'>
 <style type="text/css">
 
 html, body
 {
-    font-family: Arial;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -129,8 +127,6 @@ ruby.romaji
 <title>ChiiTrans main window</title>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 <script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="jquery.dimensions.js"></script>
-<script type="text/javascript" src="jquery.tooltip.js"></script>
 <script type="text/jscript">
 
 //// PUBLIC /////
@@ -306,6 +302,7 @@ function UpdateWords(id, s, status)
         }
         var title = (cur.text2 == "" ? cur.text : cur.text2);
         var hasReadingOrMeaning = false;
+        var meaning;
         if (cur.reading && cur.reading != "")
         {
             title += " (" + (cur.reading2 == "" ? cur.reading : cur.reading2) + ")";
@@ -313,12 +310,20 @@ function UpdateWords(id, s, status)
         }
         if (cur.meaning && cur.meaning != "" && cur.meaning != "-")
         {
-            title += "$" + cur.meaning;
             hasReadingOrMeaning = true;
         }
         var sp = make("span", _cls, textnode(cur.text));
         if (hasReadingOrMeaning)
-            $(sp).attr('title', title).tooltip({delay: 0, showBody: '$'});
+        {
+            (function(title, meaning)
+            {
+                $(sp).mouseover(function()
+                {
+                    window.external.ShowTooltip(title, meaning);
+                }).mouseout(hideTooltip)
+                .click(hideTooltip);
+            })(title, cur.meaning);
+        }
         if (display_readings && cur.reading)
         {
             var rt = make("rt", 0, textnode(cur.reading));
@@ -666,6 +671,11 @@ function checkMaxBlocks()
             delete blocks[id];
         }
     }
+}
+
+function hideTooltip()
+{
+    window.external.HideTooltip();
 }
 
 </script>

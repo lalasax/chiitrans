@@ -57,5 +57,15 @@ namespace ChiiTrans
             }
             Process.Start(url);
         }
+
+        public void ShowTooltip(string title, string text)
+        {
+            FormTooltip.instance.ShowTooltip(title, text);
+        }
+
+        public void HideTooltip()
+        {
+            FormTooltip.instance.Hide();
+        }
     }
 }

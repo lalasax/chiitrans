@@ -521,7 +521,7 @@ namespace ChiiTrans
             for (i = 0; i < src.Length; ++i)
             {
                 char ch = src[i];
-                if (char.IsPunctuation(ch) && ch != '-' && ch != ',' && ch != '、' && ch != ';' && ch != '〜' && ch != ':' && ch != '：' && ch != '・')
+                if (char.IsPunctuation(ch) && ch != '-' && ch != ',' && ch != '、' && ch != ';' && ch != '〜' && ch != ':' && ch != '：' && ch != '・' && ch != '＆')
                 {
                     if (buf.Length > 0)
                     {
@@ -902,11 +902,7 @@ namespace ChiiTrans
         private string formatMeaning(string[] meaning)
         {
             string tmp = string.Join("; ", meaning);
-            string tr = Regex.Replace(tmp, @"(?:^|; )\(\d+\)", "<li>");
-            if (tr != tmp)
-            {
-                tr = "<ol>" + tr + "</ol>";
-            }
+            string tr = Regex.Replace(tmp, @"(?:^|; )\(\d+\)", "$");
             return tr;
         }
 
@@ -1257,15 +1253,23 @@ namespace ChiiTrans
             else
                 return "";
         }
+
+        private string getSourceForCache(string taskName)
+        {
+            if (taskName.StartsWith("Translit"))
+                return sourceFixed;
+            else
+                return sourceNew;
+        }
         
         public string findCache(string taskName)
         {
-            return Global.cache.Find(sourceNew, taskName, getLanguageForCache());
+            return Global.cache.Find(getSourceForCache(taskName), taskName, getLanguageForCache());
         }
 
         public void storeCache(string taskName, string result)
         {
-            Global.cache.Store(sourceNew, taskName, getLanguageForCache(), result);
+            Global.cache.Store(getSourceForCache(taskName), taskName, getLanguageForCache(), result);
         }
 
         public static void Translate(string raw_source, Options options)
@@ -1298,7 +1302,7 @@ namespace ChiiTrans
                 rep = Djon.GetRepeatingPhrases(result, 10, out n);
                 if (n > 1)
                 {
-                    result = string.Join("。", rep.ToArray());
+                    result = string.Join("", rep.ToArray());
                 }
             }
             if (result.Length > options.maxSourceLength)

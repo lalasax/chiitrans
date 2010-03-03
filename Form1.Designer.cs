@@ -43,6 +43,7 @@
             this.menuitemOnOff = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemTransparent = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.menuitemOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMore = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +52,7 @@
             this.menuitemKataHira = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMonitor = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadUserDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.buttonOnOff = new System.Windows.Forms.ToolStripButton();
@@ -72,7 +74,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
-            this.reloadUserDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -115,11 +116,12 @@
             this.menuitemOnOff,
             this.menuItemFullscreen,
             this.menuItemTransparent,
+            this.showToolbarToolStripMenuItem,
             this.toolStripSeparator8,
             this.menuitemOptions,
             this.menuitemMore});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(279, 284);
+            this.contextMenu.Size = new System.Drawing.Size(279, 286);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // menuitemTranslate
@@ -196,6 +198,14 @@
             this.menuItemTransparent.Text = "Transparent mode";
             this.menuItemTransparent.Click += new System.EventHandler(this.buttonTransparent_Click);
             // 
+            // showToolbarToolStripMenuItem
+            // 
+            this.showToolbarToolStripMenuItem.Name = "showToolbarToolStripMenuItem";
+            this.showToolbarToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.showToolbarToolStripMenuItem.Size = new System.Drawing.Size(278, 24);
+            this.showToolbarToolStripMenuItem.Text = "Show toolbar";
+            this.showToolbarToolStripMenuItem.Click += new System.EventHandler(this.showToolbarToolStripMenuItem_Click);
+            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
@@ -260,6 +270,13 @@
             this.menuitemMonitor.Size = new System.Drawing.Size(277, 24);
             this.menuitemMonitor.Text = "Select threads to monitor...";
             this.menuitemMonitor.Click += new System.EventHandler(this.buttonMonitor_Click);
+            // 
+            // reloadUserDictionaryToolStripMenuItem
+            // 
+            this.reloadUserDictionaryToolStripMenuItem.Name = "reloadUserDictionaryToolStripMenuItem";
+            this.reloadUserDictionaryToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
+            this.reloadUserDictionaryToolStripMenuItem.Text = "Reload user dictionary";
+            this.reloadUserDictionaryToolStripMenuItem.Click += new System.EventHandler(this.reloadUserDictionaryToolStripMenuItem_Click);
             // 
             // textBoxDebug
             // 
@@ -471,13 +488,6 @@
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
             // 
-            // reloadUserDictionaryToolStripMenuItem
-            // 
-            this.reloadUserDictionaryToolStripMenuItem.Name = "reloadUserDictionaryToolStripMenuItem";
-            this.reloadUserDictionaryToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
-            this.reloadUserDictionaryToolStripMenuItem.Text = "Reload user dictionary";
-            this.reloadUserDictionaryToolStripMenuItem.Click += new System.EventHandler(this.reloadUserDictionaryToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -550,6 +560,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem menuitemOptions;
         private System.Windows.Forms.ToolStripMenuItem reloadUserDictionaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
     }
 }
 
