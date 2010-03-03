@@ -1,3 +1,8 @@
+Version 1.9
+ - Tooltips now appear outside the main window.
+ - Will not insert dots between repeating phrases.
+ - Fixed translation delay: it now counts after last received message, not after first.
+
 Version 1.8
  - Many improvements to MeCab + EDICT parsing.
  - Fixed text selection in the main window to not include ruby text.
@@ -14,7 +19,7 @@ Version 1.7
  - New feature: Implemented eDict support. You can now choose from MeCab + EDICT or WWWJDIC to parse words.
  - New feature: option to display ruby text in romaji instead of hiragana.
  - Improved formatting of WWWJDIC and EDICT translation results.
- - Atlas is no longer used to translate particular words, using eDict instead.
+ - Atlas is no longer used to translate particular words, using EDICT instead.
 
 Version 1.6
  - Fixed initial delay when making an online request.

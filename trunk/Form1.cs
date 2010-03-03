@@ -11,6 +11,7 @@ using System.IO;
 using System.Globalization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace ChiiTrans
 {
@@ -30,8 +31,7 @@ namespace ChiiTrans
             Global.runScript = RunScript;
             WindowPosition.Deserialize(this, Global.windowPosition.MainFormPosition);
             buttonOnOff.Image = imageList1.Images["loading"];
-            browser.Top = 28;
-            browser.Height = ClientSize.Height - browser.Top;
+            UpdateToolbarVisible();
             browser.ObjectForScripting = Global.script;
             browser.Url = new Uri("file://" + Path.Combine(Application.StartupPath, "html\\base.html"));
             ApplyOptions();
@@ -42,6 +42,8 @@ namespace ChiiTrans
             else
                 turnOff();
             buttonOnOff.Enabled = true;
+            FormTooltip.instance.Show();
+            this.Activate();
         }
 
         private void UseCommandLineArgs()
@@ -362,13 +364,10 @@ namespace ChiiTrans
         }
 
         string oldFormText;
-        int oldY;
         private void TransparentModeOn()
         {
-            toolStrip1.Hide();
-            oldY = browser.Top;
-            browser.Top = 0;
-            browser.Height += oldY;
+            Global.script.transparentMode = true;
+            UpdateToolbarVisible();
             TransparencyKey = Color.FromArgb(0, 0, 1);
             oldFormText = Text;
             Text = "Press Escape to restore the window";
@@ -378,7 +377,6 @@ namespace ChiiTrans
             FormBottomLayer.instance.BackColor = Global.options.colors["back_tmode"].color;
             FormBottomLayer.instance.Show();
             TopMost = true;
-            Global.script.transparentMode = true;
         }
 
         private void TransparentModeOff()
@@ -390,9 +388,7 @@ namespace ChiiTrans
                 Text = oldFormText;
                 FormBorderStyle = FormBorderStyle.Sizable;
                 TransparencyKey = Color.Empty;
-                browser.Height -= oldY;
-                browser.Top = oldY;
-                toolStrip1.Show();
+                UpdateToolbarVisible();
                 FormBottomLayer.instance.Hide();
                 TopMost = Global.isTopMost();
             }
@@ -496,10 +492,10 @@ namespace ChiiTrans
             FormBottomLayer.instance.Opacity = (double)value / 100;
         }
 
-        bool suspendBottomLayerUpdates = false;
+        public bool suspendBottomLayerUpdates = false;
         private void Form1_Activated(object sender, EventArgs e)
         {
-            if (!suspendBottomLayerUpdates && Global.script.transparentMode)
+            if (!suspendBottomLayerUpdates && Global.script.transparentMode && FormBorderStyle == FormBorderStyle.None)
             {
                 suspendBottomLayerUpdates = true;
                 //SuspendLayout();
@@ -520,7 +516,7 @@ namespace ChiiTrans
 
         private void Form1_Deactivate(object sender, EventArgs e)
         {
-            if (!suspendBottomLayerUpdates && Global.script.transparentMode)
+            if (!suspendBottomLayerUpdates && Global.script.transparentMode && ActiveForm != FormTooltip.instance)
             {
                 suspendBottomLayerUpdates = true;
                 //SuspendLayout();
@@ -623,6 +619,8 @@ namespace ChiiTrans
             menuitemOnOff.Checked = Global.agth.is_on;
             menuItemFullscreen.Checked = Global.fullscreen;
             menuItemTransparent.Checked = Global.script.transparentMode;
+            showToolbarToolStripMenuItem.Enabled = !Global.script.transparentMode;
+            showToolbarToolStripMenuItem.Checked = Global.options.toolbarVisible && !Global.script.transparentMode;
         }
 
         private void menuitemCopy_Click(object sender, EventArgs e)
@@ -637,5 +635,26 @@ namespace ChiiTrans
             Edict.instance.ReloadUserDictionary();
         }
 
+        private void showToolbarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Global.script.transparentMode)
+                Global.options.toolbarVisible = !Global.options.toolbarVisible;
+            UpdateToolbarVisible();
+        }
+
+        private void UpdateToolbarVisible()
+        {
+            bool isVisible = Global.options.toolbarVisible && !Global.script.transparentMode;
+            toolStrip1.Visible = isVisible;
+            if (!isVisible)
+            {
+                browser.Top = 0;
+            }
+            else
+            {
+                browser.Top = 28;
+            }
+            browser.Height = ClientSize.Height - browser.Top;
+        }
     }
 }

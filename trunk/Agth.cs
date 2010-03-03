@@ -237,7 +237,15 @@ namespace ChiiTrans
             {
                 newMessages.WaitOne();
                 parsed.Clear();
-                Thread.Sleep(Global.options.messageDelay);
+                Thread.Sleep(0);
+                int old = messages.Count;
+                for (int i = 0; i < 100; ++i) //to prevent infinite flood cycle
+                {
+                    Thread.Sleep(Global.options.messageDelay);
+                    if (messages.Count <= old)
+                        break;
+                    old = messages.Count;
+                }
                 messages.Lock();
                 string lastThreadName = "";
                 try

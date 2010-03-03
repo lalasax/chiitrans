@@ -348,7 +348,7 @@ namespace ChiiTrans
                     break;
                 }
             }
-            return (hasKanji || matches >= 3) && (Math.Max(key.Length, entry.Length) - matches <= 2);
+            return (hasKanji || matches >= 3) && (Math.Min(key.Length, entry.Length) - matches <= 2);
         }
     }
 }
