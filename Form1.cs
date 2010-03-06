@@ -335,6 +335,8 @@ namespace ChiiTrans
                         buttonKataHira_Click(sender, null);
                     else if (e.KeyCode == Keys.A)
                         buttonTranslateFull_Click(sender, null);
+                    else if (e.KeyCode == Keys.D)
+                        buttonDictionary_Click(sender, null);
                 }
                 else if (e.Control && e.KeyCode == Keys.V || e.Shift && e.KeyCode == Keys.Insert)
                 {
@@ -655,6 +657,20 @@ namespace ChiiTrans
                 browser.Top = 28;
             }
             browser.Height = ClientSize.Height - browser.Top;
+        }
+
+        private void buttonDictionary_Click(object sender, EventArgs e)
+        {
+            string s = GetSelectedText();
+            if (s != null)
+                s = s.Trim();
+            if (string.IsNullOrEmpty(s))
+                return;
+            if (!Edict.instance.Ready)
+                return;
+            string[] res = Edict.instance.DictionarySearch(s);
+            if (res != null)
+                Global.RunScript("DictionarySearchResults", Translation.NextTransId(), s, string.Join("\r", res));
         }
     }
 }

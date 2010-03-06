@@ -254,11 +254,25 @@ namespace ChiiTrans
             return source;
         }
 
+        string removeSmallLetters(string source, Match m)
+        {
+            if (m.Success && m.Index > 0)
+            {
+                string toRomaji = HiraganaConvertor.instance.ConvertLetter(m.Value[0]);
+                string toRomajiPrev = HiraganaConvertor.instance.ConvertLetter(source[m.Index - 1]);
+                if (!string.IsNullOrEmpty(toRomajiPrev) && !string.IsNullOrEmpty(toRomaji) && toRomajiPrev[toRomajiPrev.Length - 1] == toRomaji[0])
+                    return "";
+            }
+            return m.Value;
+        }
+        
         private string makeFinalAdjustments(string source)
         {
             if (source.Length == 0)
                 return source;
-            source = Regex.Replace(source, "[っー～]+\b", "");
+            source = Regex.Replace(source, @"[っッ～]+\b", "");
+            source = Regex.Replace(source, @"(?<=[\u3040-\u309F])ー", "");
+            source = Regex.Replace(source, "[ぁぃぅぇぉ]", m => removeSmallLetters(source, m));
             source = source.Replace('『', '「')
                            .Replace('』', '」')
                            .Replace("…", "・・・")
@@ -714,7 +728,7 @@ namespace ChiiTrans
                 List<string> mm = new List<string>();
                 foreach (string m in cur.meaning.Split(new string[] { "; " }, StringSplitOptions.None))
                 {
-                    bool unused;
+                    int unused;
                     string newm = Edict.CleanMeaning(m, out unused);
                     newm = htmlKiller.Replace(newm, "").Trim();
                     if (newm != "" && Array.IndexOf(JDicCodes, newm) < 0)
@@ -845,7 +859,7 @@ namespace ChiiTrans
             }
         }
 
-        private int countScore(string s, out EdictEntry e)
+        private int countScore(string s, out EdictEntry e, int minHira)
         {
             if (s == "")
             {
@@ -867,19 +881,19 @@ namespace ChiiTrans
             if (onlyABC)
             {
                 s = s.Trim();
-                e = new EdictEntry("", s, new string[] { s }, false);
+                e = new EdictEntry("", s, new string[] { s }, 0);
                 return s.Length * 100000;
             }
             else
             {
-                e = Edict.instance.Search(s);
+                e = Edict.instance.Search(s, minHira);
                 if (e == null)
                     return -1000;
                 else
                 {
                     if (e.key == s)
                         return s.Length * 1000;
-                    int res = e.priority ? 100 : 0;
+                    int res = e.priority * 100;
                     for (int i = 0; i < s.Length; ++i)
                     {
                         if (i >= e.key.Length)
@@ -899,7 +913,7 @@ namespace ChiiTrans
             }
         }
 
-        private string formatMeaning(string[] meaning)
+        public static string formatMeaning(string[] meaning)
         {
             string tmp = string.Join("; ", meaning);
             string tr = Regex.Replace(tmp, @"(?:^|; )\(\d+\)", "$");
@@ -907,6 +921,11 @@ namespace ChiiTrans
         }
 
         private string formatReading(string key, string reading)
+        {
+            return formatReading(key, reading, options.furiganaRomaji);
+        }
+
+        public static string formatReading(string key, string reading, bool romaji)
         {
             if (hasKanji(reading))
                 return "";
@@ -926,7 +945,7 @@ namespace ChiiTrans
             }
             if (!kana)
                 return "";
-            if (options.furiganaRomaji)
+            if (romaji)
             {
                 reading = HiraganaConvertor.instance.Convert(KatakanaToHiragana(reading));
                 if (reading.Length > 0 && char.IsUpper(reading[0]))
@@ -956,7 +975,7 @@ namespace ChiiTrans
             return hasLetters && s.Length >= 3;
         }
 
-        private bool hasKanji(string s)
+        private static bool hasKanji(string s)
         {
             foreach (char ch in s)
             {
@@ -1021,9 +1040,9 @@ namespace ChiiTrans
                 if (!hasLetters)
                     s2 = "";
                 EdictEntry e, e2, e3;
-                int score = countScore(s, out e);
-                int score2 = countScore(s2, out e2);
-                int score3 = countScore(s3, out e3);
+                int score = countScore(s, out e, 2);
+                int score2 = countScore(s2, out e2, 2);
+                int score3 = countScore(s3, out e3, 4);
                 if (score3 > score && score3 > score2)
                 {
                     string key = list[i].key + list[i + 1].key + list[i + 2].key;
@@ -1311,10 +1330,15 @@ namespace ChiiTrans
             return result;
         }
 
+        public static int NextTransId()
+        {
+            return transId++;
+        }
+        
         private static void AddTranslationBlock(string source, Options options)
         {
             if (current.Count < 10)
-                new Translation(transId++, source, options);
+                new Translation(NextTransId(), source, options);
         }
 
         private static string CheckDouble(string text)
