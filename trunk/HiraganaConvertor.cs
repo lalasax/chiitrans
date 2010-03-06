@@ -83,6 +83,15 @@ namespace ChiiTrans
             return result;
         }
 
+        public string ConvertLetter(char ch)
+        {
+            string res;
+            if (a.dict.TryGetValue(ch.ToString(), out res))
+                return res;
+            else
+                return null;
+        }
+
         private void FillDicts()
         {
             a.push("a", "あ");

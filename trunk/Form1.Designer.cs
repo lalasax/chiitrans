@@ -74,6 +74,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
+            this.buttonDictionary = new System.Windows.Forms.ToolStripButton();
+            this.searchInDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -108,6 +110,7 @@
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuitemTranslate,
             this.menuitemTranslateAll,
+            this.searchInDictionaryToolStripMenuItem,
             this.menuitemNewReplacement,
             this.toolStripSeparator5,
             this.menuitemCopy,
@@ -121,7 +124,7 @@
             this.menuitemOptions,
             this.menuitemMore});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(279, 286);
+            this.contextMenu.Size = new System.Drawing.Size(279, 332);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // menuitemTranslate
@@ -305,6 +308,7 @@
             this.buttonTranslateFull,
             this.buttonPaste,
             this.buttonKataHira,
+            this.buttonDictionary,
             this.toolStripSeparator4,
             this.buttonAddReplacement,
             this.buttonClearCache,
@@ -488,6 +492,24 @@
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
             // 
+            // buttonDictionary
+            // 
+            this.buttonDictionary.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonDictionary.Image = ((System.Drawing.Image)(resources.GetObject("buttonDictionary.Image")));
+            this.buttonDictionary.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonDictionary.Name = "buttonDictionary";
+            this.buttonDictionary.Size = new System.Drawing.Size(26, 26);
+            this.buttonDictionary.Text = "Search selected text in dictionary (D)";
+            this.buttonDictionary.Click += new System.EventHandler(this.buttonDictionary_Click);
+            // 
+            // searchInDictionaryToolStripMenuItem
+            // 
+            this.searchInDictionaryToolStripMenuItem.Name = "searchInDictionaryToolStripMenuItem";
+            this.searchInDictionaryToolStripMenuItem.ShortcutKeyDisplayString = "D";
+            this.searchInDictionaryToolStripMenuItem.Size = new System.Drawing.Size(278, 24);
+            this.searchInDictionaryToolStripMenuItem.Text = "Search in dictionary";
+            this.searchInDictionaryToolStripMenuItem.Click += new System.EventHandler(this.buttonDictionary_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -561,6 +583,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuitemOptions;
         private System.Windows.Forms.ToolStripMenuItem reloadUserDictionaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton buttonDictionary;
+        private System.Windows.Forms.ToolStripMenuItem searchInDictionaryToolStripMenuItem;
     }
 }
 

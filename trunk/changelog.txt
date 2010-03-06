@@ -16,7 +16,7 @@ Version 1.8
  - Experimental: Hivemind server support added. It is a wiki-like server to gather community translations. If you are interested in hosting Hivemind server, contact me at chiitranslator@gmail.com.
 
 Version 1.7
- - New feature: Implemented eDict support. You can now choose from MeCab + EDICT or WWWJDIC to parse words.
+ - New feature: Implemented EDICT support. You can now choose from MeCab + EDICT or WWWJDIC to parse words.
  - New feature: option to display ruby text in romaji instead of hiragana.
  - Improved formatting of WWWJDIC and EDICT translation results.
  - Atlas is no longer used to translate particular words, using EDICT instead.

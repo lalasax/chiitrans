@@ -1,42 +1,44 @@
-﻿# User dictionary (eDict format)
+﻿# User dictionary (eDict format). You can specify a matching kanji for hiragana. '=' is to search by reading.
+あの/=/
+これ/=/
+それ/=/
 そこ/there/
-ここ/here/
-どこ/where/
-この/this/
-その/that/
-あの/that/
-どうして/why/
-いつも/always/
-ひとつ/single/
-これ/this/
-それ/that/
-ただ/however/
-おまえ/you/
-こいつ/this guy/
-いま/now/
+いま/今/
 わからない/do not understand/
-あたし/I/
-わたし/I/
-ごめんなさい/I'm sorry/
-やっぱり/after all/
-いい/good/
 なに/what/
 ほら/hey/
-じゃない/not/
-ヘン/strange/
-こと/thing/
-あんた/you/
-クソ/shit/
-クソッ/shit/
-なんで/why/
-なんでも/nothing/
-ください/please/
-とき/time/
+ない/not/
+ヘン/変/
+こと/事/
+なんでも/anything/
+とき/時/
 悪い [わるい]/bad/
-ウソ/lie/
+ウソ/嘘/
 しない/don't do/
-ヤツ/guy/
 言え/say/
+食べ/eat/
+いつまでも/forever/
+なんだ/what/
+いく/行/
+わかん/understand/
+わかった/understood/
+ばいばい/bye-bye/
+だろ/seems/I think/I guess/I wonder/I hope/
+だろう/seems/I think/I guess/I wonder/I hope/
+なん/何/
+ほう/方/
+いや/否/
+くれ/呉れる/
+かもしれない/it is likely/
+こちら/=/
+がんばった/work hard/
+いる/居る/
+かんじ/感じ/
+聞こえ/to be heard/
+ラーメン/ramen/
+橋/bridge/
+いない/none/
+ても/
 てい/
 なの/
 には/
@@ -47,8 +49,15 @@
 って/
 しろ/
 たん/
-ない/
-なんだ/
 のか/
-いく/
-わかん/understand/
+する/
+たい/
+くる/
+今日は/
+にする/
+なのだ/
+それは/
+でそう/
+いるか/
+はどう/
+ものを/
