@@ -51,11 +51,8 @@ namespace ChiiTrans
         {
             get
             {
-                if (initializing)
-                {
-                    while (initializing)
-                        Thread.Sleep(1);
-                }
+                while (initializing)
+                    Thread.Sleep(1);
                 if (_instance == null)
                 {
                     initializing = true;
@@ -99,8 +96,32 @@ namespace ChiiTrans
                 {
                     if (i + 1 < meaning.Length)
                     {
-                        int pos = meaning.IndexOf(')', i + 1);
-                        if (pos >= 0)
+                        int pos = i + 1;
+                        bool good = false;
+                        int counter = 0;
+                        while (pos < meaning.Length && meaning[pos] != ')')
+                        {
+                            if (meaning[pos] == ' ')
+                            {
+                                good = true;
+                                break;
+                            }
+                            if (meaning[pos] == ',')
+                            {
+                                counter = 0;
+                            }
+                            else
+                            {
+                                ++counter;
+                                if (counter > 7)
+                                {
+                                    good = true;
+                                    break;
+                                }
+                            }
+                            ++pos;
+                        }
+                        if (!good && pos < meaning.Length)
                         {
                             if (meaning[i + 1] >= '0' && meaning[i + 1] <= '9')
                             {
@@ -241,11 +262,13 @@ namespace ChiiTrans
 
         private EdictEntry SearchByReading(string key, bool checkPriority)
         {
-            int id = BinarySearchByReading(rdict, key);
-            if (id < rdict.Length && key == rdict[id].reading && (!checkPriority || (key.Length >= 3 && rdict[id].priority >= 1) || rdict[id].priority >= 3))
-                return rdict[id];
-            else
-                return null;
+            int idd = BinarySearchByReading(rdict, key);
+            for (int id = idd; id < idd + 6; ++id)
+            {
+                if (id < rdict.Length && rdict[id].reading.Length - key.Length <= 2 && rdict[id].reading.StartsWith(key) && (!checkPriority || key.Length >= 4 || (key.Length >= 3 && rdict[id].priority >= 1) || rdict[id].priority >= 3))
+                    return rdict[id];
+            }
+            return null;
         }
         
         private EdictEntry SearchInt(string key, bool second, int minHira)
@@ -255,10 +278,11 @@ namespace ChiiTrans
             for (int i = key.Length; i > 0 && i > key.Length - 3; --i)
             {
                 int id;
+                string kk = key.Substring(0, i);
+                EdictEntry res = null;
                 if (user != null)
                 {
-                    EdictEntry res = null;
-                    id = BinarySearch(user, key.Substring(0, i));
+                    id = BinarySearch(user, kk);
                     if (id < user.Length && Like(key, user[id].key))
                         res = user[id];
                     if (res != null)
@@ -279,14 +303,29 @@ namespace ChiiTrans
                         }
                     }
                 }
-                id = BinarySearch(dict, key.Substring(0, i));
-                if (id < dict.Length && Like(key, dict[id].key))
-                    return dict[id];
+                id = BinarySearch(dict, kk);
+                for (int j = id; j < id + 6; ++j)
+                    if (j < dict.Length && Like(key, dict[j].key))
+                        return dict[j];
+                
+                res = null;
+                if (i == key.Length)
+                {
+                    if (!second && key.ToCharArray().All(Translation.isKatakana))
+                    {
+                        res = SearchInt(Translation.KatakanaToHiragana(key), true, minHira);
+                        if (res != null)
+                            return res;
+                    }
+                    bool allHiragana = key.ToCharArray().All(Translation.isHiragana);
+                    if (key.Length >= minHira && allHiragana)
+                    {
+                        res = SearchByReading(key, true);
+                        if (res != null)
+                            return res;
+                    }
+                }
             }
-            if (!second && key.ToCharArray().All(Translation.isKatakana))
-                return SearchInt(Translation.KatakanaToHiragana(key), true, minHira);
-            if (key.Length >= minHira && key.ToCharArray().All(Translation.isHiragana))
-                return SearchByReading(key, true);
             return null;
         }
 
@@ -384,6 +423,8 @@ namespace ChiiTrans
         private void DictSearchAddItem(HashSet<EdictEntry> added, List<string> res, EdictEntry entry)
         {
             if (!added.Add(entry))
+                return;
+            if (entry.meaning.Length == 0)
                 return;
             res.Add(entry.key);
             res.Add(Translation.formatReading(entry.key, entry.reading, Global.options.furiganaRomaji));

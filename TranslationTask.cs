@@ -42,7 +42,15 @@ namespace ChiiTrans
                         return;
                     }
                 }
-                worker = new Thread(translateProc);
+                if (name == "Atlas" || name == "Translit (MeCab)")
+                {
+                    translateProc();
+                    return;
+                }
+                else
+                {
+                    worker = new Thread(translateProc);
+                }
             }
             worker.IsBackground = true;
             worker.Start();

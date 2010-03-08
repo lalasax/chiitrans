@@ -25,7 +25,6 @@ namespace ChiiTrans
         private string sourceFixed;
         public int id { get; private set; }
         public static string[] Translators = { "Translit (MeCab)", "Atlas", "Translit (Google)", "OCN", "Babylon", "Google", "SysTran", "Excite", "Hivemind (alpha)" };
-        List<TranslationTask> tasks;
         private int tasksToComplete;
         private Options options;
         
@@ -76,12 +75,12 @@ namespace ChiiTrans
                 args.Add("");
                 args.Add("");
             }
+            args.Add(parseWords && options.wordParseMethod == Options.PARSE_MECAB && Edict.Created());
             foreach (string name in usedTranslators)
             {
                 args.Add(name);
             }
             Global.RunScript2("AddTranslationBlock", args.ToArray());
-            tasks = new List<TranslationTask>();
             if (parseWords)
                 tasksToComplete = usedTranslators.Count + 1;
             else
@@ -90,20 +89,32 @@ namespace ChiiTrans
             foreach (string s in usedTranslators)
             {
                 if (s == "Translit (MeCab)")
-                    tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateMecabTranslit"), false));
+                    new TranslationTask(this, s, this.GetType().GetMethod("TranslateMecabTranslit"), false);
                 else if (s == "Translit (Google)")
-                    tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateTranslit"), false));
+                    new TranslationTask(this, s, this.GetType().GetMethod("TranslateTranslit"), false);
                 else if (s.StartsWith("Hivemind"))
-                    tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("TranslateHivemind"), false));
+                    new TranslationTask(this, s, this.GetType().GetMethod("TranslateHivemind"), false);
                 else
-                    tasks.Add(new TranslationTask(this, s, this.GetType().GetMethod("Translate" + s), false));
+                    new TranslationTask(this, s, this.GetType().GetMethod("Translate" + s), false);
             }
             if (parseWords)
             {
                 if (options.wordParseMethod == Options.PARSE_MECAB)
-                    tasks.Add(new TranslationTask(this, "Mecab", this.GetType().GetMethod("MecabLookup"), true));
+                {
+                    if (Edict.Created())
+                    {
+                        MecabLookup();
+                        CompleteTask();
+                    }
+                    else
+                    {
+                        new TranslationTask(this, "Mecab", this.GetType().GetMethod("MecabLookup"), true);
+                    }
+                }
                 else
-                    tasks.Add(new TranslationTask(this, "JDic", this.GetType().GetMethod("JDicLookup"), true));
+                {
+                    new TranslationTask(this, "JDic", this.GetType().GetMethod("JDicLookup"), true);
+                }
             }
         }
         
@@ -289,14 +300,6 @@ namespace ChiiTrans
                 if (allKatakana)
                     source = KatakanaToHiragana(source);*/
             return source;
-        }
-
-        public void Abort()
-        {
-            foreach (TranslationTask task in tasks)
-            {
-                task.Abort();
-            }
         }
 
         public void CompleteTask()
@@ -893,7 +896,9 @@ namespace ChiiTrans
                 {
                     if (e.key == s)
                         return s.Length * 1000;
-                    int res = e.priority * 100;
+                    if (e.reading == s)
+                        return 100 + s.Length * 100;
+                    int res = e.priority > 0 ? 100 : 0;
                     for (int i = 0; i < s.Length; ++i)
                     {
                         if (i >= e.key.Length)
@@ -1226,6 +1231,7 @@ namespace ChiiTrans
             }
             catch (Exception) 
             {
+                Global.RunScript("AbortDelayed", id);
             }
         }
 

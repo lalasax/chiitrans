@@ -136,6 +136,8 @@ namespace ChiiTrans
 
         public static bool Initialize(string installPath)
         {
+            while (initializing)
+                Thread.Sleep(1);
             if (status == AtlasInitStatus.NOT_INITIALIZED)
             {
                 if (InitializeInt(installPath))
@@ -172,11 +174,13 @@ namespace ChiiTrans
         {
             return Initialize(null);
         }
-        
+
+        private static bool initializing = false;
         private static bool InitializeInt(string installPath)
         {
             try
             {
+                initializing = true;
                 if (installPath != null)
                 {
                     InstallPath = installPath;
@@ -202,6 +206,10 @@ namespace ChiiTrans
             {
                 MessageBox.Show(ex.Message);
                 return false;
+            }
+            finally
+            {
+                initializing = false;
             }
         }
 

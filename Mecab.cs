@@ -116,6 +116,8 @@ namespace ChiiTrans
 
         public static bool Initialize(string installPath)
         {
+            while (initializing)
+                Thread.Sleep(1);
             if (status == MecabInitStatus.NOT_INITIALIZED)
             {
                 if (InitializeInt(installPath))
@@ -148,6 +150,7 @@ namespace ChiiTrans
             { }
         }
 
+        private static bool initializing = false;
         public static bool Ready()
         {
             return Initialize(null);
@@ -157,6 +160,7 @@ namespace ChiiTrans
         {
             try
             {
+                initializing = true;
                 if (installPath != null)
                 {
                     InstallPath = installPath;
@@ -182,6 +186,10 @@ namespace ChiiTrans
             {
                 MessageBox.Show(ex.Message);
                 return false;
+            }
+            finally
+            {
+                initializing = false;
             }
         }
 
