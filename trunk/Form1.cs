@@ -309,6 +309,7 @@ namespace ChiiTrans
             else
             {
                 oldKey = e.KeyCode;
+                duplicateWorkaround = true;
                 if (!e.Control && !e.Alt)
                 {
                     if (e.KeyCode == Keys.Insert)
@@ -320,7 +321,10 @@ namespace ChiiTrans
                     else if (e.KeyCode == Keys.Escape)
                         TransparentModeOff();
                     else if (e.KeyCode == Keys.Space)
+                    {
                         buttonTranslateSelected_Click(sender, null);
+                        duplicateWorkaround = false;
+                    }
                     else if (e.KeyCode == Keys.Add && Global.script.transparentMode)
                         ChangeBottomLayerOpacity(1);
                     else if (e.KeyCode == Keys.Subtract && Global.script.transparentMode)
@@ -352,7 +356,6 @@ namespace ChiiTrans
                             Clipboard.SetText(GetTextForAction());
                     }
                 }
-                duplicateWorkaround = true;
             }
 
         }
@@ -602,6 +605,10 @@ namespace ChiiTrans
         {
             Options options = Global.options.Clone();
             options.displayOriginal = true;
+            if (options.wordParseMethod != Options.PARSE_WWWJDIC)
+                options.wordParseMethod = Options.PARSE_WWWJDIC;
+            else
+                options.wordParseMethod = Options.PARSE_MECAB;
             foreach (TranslatorRecord rec in options.translators)
             {
                 if (rec.id != 8) //Hivemind off

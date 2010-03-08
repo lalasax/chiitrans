@@ -431,9 +431,11 @@ namespace ChiiTrans
             {
                 try
                 {
-                    textBoxUserDict.Text = string.Join(Environment.NewLine, Edict.instance.LoadDictText("user.txt"));
+                    string s = string.Join(Environment.NewLine, Edict.instance.LoadDictText("user.txt"));
+                    textBoxUserDict.Text = s;
                 }
                 catch (Exception) { }
+                userDictInit = true;
                 userDictChanged = false;
             }
         }

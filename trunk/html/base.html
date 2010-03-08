@@ -142,6 +142,31 @@ table.dictsearch td ol
     margin: 0 0 0 2em;
 }
 
+.closebtn
+{
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+}
+
+.closebtn div
+{
+    position:relative;
+    color: #c00;
+    cursor: pointer;
+    font-size: 150%;
+}
+
+.closebtn div:hover
+{
+    font-weight: bold;
+}
+
+.translation_orig:hover .closebtn
+{
+    visibility: visible;
+}
+
 </style>
 <title>ChiiTrans main window</title>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
@@ -165,9 +190,31 @@ var tmode = false;
 var maxBlocks = 50;
 var largeMargins = false;
 
-function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
+function appendBlock(id)
 {
-    var pnum = 5;
+    blocks[id].delayed = false;
+    if (appendBottom)
+    {
+        if (first_block)
+        {
+            first_block = false;
+        }
+        else
+        {
+            $(blocks[id].main).addClass(largeMargins ? "large_padding_up" : "padding_up");
+        }
+        $("#content").append(blocks[id].main);
+    }
+    else
+    {
+        $(blocks[id].main).addClass(largeMargins ? "large_padding_down" : "padding_down");
+        $("#content").prepend(blocks[id].main);
+    }
+}
+
+function AddTranslationBlock(id, display_readings, romaji, s, s_fixed, delayed)
+{
+    var pnum = 6;
     
     blocks[id] = {};
     blocks_list.push(id);
@@ -175,6 +222,7 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
     blocks[id].trans = {};
     blocks[id].display_readings = !!display_readings;
     blocks[id].romaji = !!romaji;
+    blocks[id].delayed = !!delayed;
 
     var tbl = table("trans_table");
     if (s_fixed != "")
@@ -218,26 +266,21 @@ function AddTranslationBlock(id, display_readings, romaji, s, s_fixed)
     }*/ 
 
     blocks[id].main = make("div", "translation_block", blocks[id].orig, tbl);
-    if (appendBottom)
+    if (!delayed)
     {
-        if (first_block)
-        {
-            first_block = false;
-        }
-        else
-        {
-            $(blocks[id].main).addClass(largeMargins ? "large_padding_up" : "padding_up");
-        }
-        $("#content").append(blocks[id].main);
-    }
-    else
-    {
-        $(blocks[id].main).addClass(largeMargins ? "large_padding_down" : "padding_down");
-        $("#content").prepend(blocks[id].main);
+        appendBlock(id);
+        scrollWnd();
     }
     checkMaxBlocks();
-   
-    scrollWnd();
+}
+
+function AbortDelayed(id)
+{
+    if (blocks[id].delayed)
+    {
+        appendBlock(id);
+        scrollWnd();
+    }
 }
 
 function UpdateTranslation(id, name, translated_text, status)
@@ -256,7 +299,14 @@ function UpdateTranslation(id, name, translated_text, status)
 
 function DictionarySearchResults(id, source, result)
 {
-    AddTranslationBlock(id, false, false, source, '', 'Result');
+    AddTranslationBlock(id, false, false, source, '', false, 'Result');
+    var closebtn = make("div");
+    $(closebtn).html("&#x2A2F;").click(function()
+    {
+        $(blocks[id].main).remove();
+        delete blocks[id];    
+    });
+    $(blocks[id].orig).prepend(make("div", "closebtn", closebtn));
     if (result == '')
     {
         UpdateTranslation(id, 'Result', "Nothing found", 0);
@@ -385,6 +435,8 @@ function UpdateWords(id, s, status)
     if (pos < src.length)
         div.appendChild(make("span", span_other_class, textnode(src.substring(pos))));
     div.onselectstart = hideRubyText;
+    if (blocks[id].delayed)
+        appendBlock(id);
     scrollWnd();        
 }
 
@@ -724,6 +776,12 @@ function hideTooltip()
 {
     window.external.HideTooltip();
 }
+
+$(document).keydown(function(ev)
+{
+    if (ev.keyCode == 32)
+        ev.preventDefault();
+});
 
 </script>
 </head>

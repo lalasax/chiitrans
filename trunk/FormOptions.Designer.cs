@@ -57,6 +57,8 @@
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.checkBoxCheckDouble = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBoxHivemind = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioNone = new System.Windows.Forms.RadioButton();
             this.radioJdic = new System.Windows.Forms.RadioButton();
@@ -87,6 +89,10 @@
             this.sortByOld = new System.Windows.Forms.ToolStripMenuItem();
             this.sortByNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBoxLargeMargin = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numMaxBlocks = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.buttonResetColors = new System.Windows.Forms.Button();
             this.labelColors = new System.Windows.Forms.Label();
             this.gridColors = new System.Windows.Forms.DataGridView();
@@ -98,15 +104,9 @@
             this.button5 = new System.Windows.Forms.Button();
             this.textBoxFont = new System.Windows.Forms.TextBox();
             this.labelFont = new System.Windows.Forms.Label();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numMaxBlocks = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.checkBoxLargeMargin = new System.Windows.Forms.CheckBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.textBoxUserDict = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.comboBoxHivemind = new System.Windows.Forms.ComboBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -119,9 +119,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -490,6 +490,27 @@
             this.tabPage2.Text = "Translators";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // comboBoxHivemind
+            // 
+            this.comboBoxHivemind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxHivemind.FormattingEnabled = true;
+            this.comboBoxHivemind.Items.AddRange(new object[] {
+            "http://chii.sorakake.ru/"});
+            this.comboBoxHivemind.Location = new System.Drawing.Point(8, 403);
+            this.comboBoxHivemind.Name = "comboBoxHivemind";
+            this.comboBoxHivemind.Size = new System.Drawing.Size(571, 29);
+            this.comboBoxHivemind.TabIndex = 26;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 377);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(246, 23);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Hivemind server (experimental)";
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -833,6 +854,56 @@
             this.tabPage4.Text = "Appearance";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // checkBoxLargeMargin
+            // 
+            this.checkBoxLargeMargin.AutoSize = true;
+            this.checkBoxLargeMargin.Location = new System.Drawing.Point(6, 184);
+            this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
+            this.checkBoxLargeMargin.TabIndex = 49;
+            this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
+            this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(215, 151);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 23);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "translations";
+            // 
+            // numMaxBlocks
+            // 
+            this.numMaxBlocks.Location = new System.Drawing.Point(89, 149);
+            this.numMaxBlocks.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Name = "numMaxBlocks";
+            this.numMaxBlocks.Size = new System.Drawing.Size(120, 29);
+            this.numMaxBlocks.TabIndex = 47;
+            this.numMaxBlocks.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 151);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 23);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "Show last";
+            // 
             // buttonResetColors
             // 
             this.buttonResetColors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -960,61 +1031,6 @@
             this.labelFont.TabIndex = 37;
             this.labelFont.Text = "Font";
             // 
-            // colorDialog1
-            // 
-            this.colorDialog1.AnyColor = true;
-            this.colorDialog1.FullOpen = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 23);
-            this.label1.TabIndex = 46;
-            this.label1.Text = "Show last";
-            // 
-            // numMaxBlocks
-            // 
-            this.numMaxBlocks.Location = new System.Drawing.Point(89, 149);
-            this.numMaxBlocks.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numMaxBlocks.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMaxBlocks.Name = "numMaxBlocks";
-            this.numMaxBlocks.Size = new System.Drawing.Size(120, 29);
-            this.numMaxBlocks.TabIndex = 47;
-            this.numMaxBlocks.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(215, 151);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 23);
-            this.label5.TabIndex = 48;
-            this.label5.Text = "translations";
-            // 
-            // checkBoxLargeMargin
-            // 
-            this.checkBoxLargeMargin.AutoSize = true;
-            this.checkBoxLargeMargin.Location = new System.Drawing.Point(6, 184);
-            this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
-            this.checkBoxLargeMargin.TabIndex = 49;
-            this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
-            this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.textBoxUserDict);
@@ -1038,26 +1054,10 @@
             this.textBoxUserDict.TabIndex = 0;
             this.textBoxUserDict.TextChanged += new System.EventHandler(this.textBoxUserDict_TextChanged);
             // 
-            // label6
+            // colorDialog1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 377);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(246, 23);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Hivemind server (experimental)";
-            // 
-            // comboBoxHivemind
-            // 
-            this.comboBoxHivemind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxHivemind.FormattingEnabled = true;
-            this.comboBoxHivemind.Items.AddRange(new object[] {
-            "http://chii.sorakake.ru/"});
-            this.comboBoxHivemind.Location = new System.Drawing.Point(8, 403);
-            this.comboBoxHivemind.Name = "comboBoxHivemind";
-            this.comboBoxHivemind.Size = new System.Drawing.Size(571, 29);
-            this.comboBoxHivemind.TabIndex = 26;
+            this.colorDialog1.AnyColor = true;
+            this.colorDialog1.FullOpen = true;
             // 
             // FormOptions
             // 
@@ -1095,9 +1095,9 @@
             this.toolStrip1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
