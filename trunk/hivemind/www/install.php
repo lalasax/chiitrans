@@ -94,7 +94,8 @@ else
     {
         try
         {
-            $db_config['host'] = get($_POST, 'db_host');
+            $db_status = DB_NOT_INITIALIZED;
+	    $db_config['host'] = get($_POST, 'db_host');
             $db_config['user'] = get($_POST, 'db_user');
             $pwd = get($_POST, 'db_password'); 
             if ($pwd != '(hidden)')

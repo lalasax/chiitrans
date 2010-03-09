@@ -39,7 +39,9 @@ function f($s)
 {
     $s = e($s);
     $s = str_replace("\n", '<br>', $s);
+    $s = preg_replace('/(?<! ) /', "\n", $s);
     $s = str_replace(' ', '&nbsp;', $s);
+    $s = str_replace("\n", ' ', $s);
     return $s;
 }
 
