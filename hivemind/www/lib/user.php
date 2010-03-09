@@ -156,7 +156,7 @@ class User
     
     public static function load($id = 0)
     {
-        if (!session_start())
+        if (!@session_start())
             throw new Exception("Cannot start session");
         if ($id)
             $_SESSION['user_id'] = $id;

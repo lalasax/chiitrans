@@ -107,7 +107,7 @@ function dbConnect()
         $db_status = (dbCreateConnection() && dbSelectDB() && dbConfigure()) ? DB_OK : DB_FAIL;
     }
     if ($db_status == DB_FAIL)
-        throw new DBException('Database connection failure.');
+        throw new DBException(mysql_error());
 }
 
 function dbCheck()
