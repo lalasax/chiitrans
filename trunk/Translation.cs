@@ -517,6 +517,7 @@ namespace ChiiTrans
             JsObject js = Json.Parse(ReadAnswer(req));
             if (js.str["success"] == "1")
             {
+                Form1.Debug(js.str["id"] + "," + js.str["result"]);
                 return js.str["id"] + "," + js.str["result"];
             }
             else
