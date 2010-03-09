@@ -1,3 +1,10 @@
+Version 1.10
+ - Dictionary search added.
+ - Visually faster response for local translation engines (MeCab, Atlas).
+ - More improvements to local word parsing.
+ - Bugfix: fixed Hivemind submit.
+ - Many other minor improvements and bugfixes.
+
 Version 1.9
  - Tooltips now appear outside the main window.
  - Will not insert dots between repeating phrases.

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Web;
 
 namespace ChiiTrans
 {
@@ -47,13 +48,15 @@ namespace ChiiTrans
         public void HivemindClick(string id, string src)
         {
             string url;
+            url = Global.options.hivemindServer;
+            url += (url.EndsWith("/") ? "" : "/");
             if (string.IsNullOrEmpty(id) || id == "0")
             {
-                url = new Uri(new Uri(Global.options.hivemindServer), "index.php?q=" + Translation.UrlEncode(src)).ToString();
+                url += "index.php?q=" + Translation.UrlEncode(src);
             }
             else
             {
-                url = new Uri(new Uri(Global.options.hivemindServer), "index.php?p=view&id=" + id).ToString();
+                url += "index.php?p=view&id=" + id;
             }
             Process.Start(url);
         }
