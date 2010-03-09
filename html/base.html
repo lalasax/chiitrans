@@ -447,9 +447,9 @@ function UpdateHivemind(div, src, text, status)
         $(div).html(text);
         return;
     }
-    var tt = text.split(',', 2);
-    var id = tt[0];
-    var text = tt[1];
+    var tt = text.split(',');
+    var id = tt.shift();
+    var text = tt.join(',');
     if (text == '')
         text = '(not found)';
     var link = make('span', 'hivemind_link', textnode(text));
