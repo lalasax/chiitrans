@@ -353,7 +353,7 @@ namespace ChiiTrans
                     {
                         sel = GetTextForAction();
                         if (sel != null)
-                            Clipboard.SetText(GetTextForAction());
+                            Clipboard.SetText(sel);
                     }
                 }
             }
@@ -589,9 +589,16 @@ namespace ChiiTrans
 
         private void toolStripHomePage_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Go to ChiiTrans' home page?\r\nhttp://sites.google.com/site/chiitranslator/", "ChiiTrans v." + Application.ProductVersion, MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (hasDebugProc)
             {
-                Process.Start("http://sites.google.com/site/chiitranslator/");
+                DebugProc();
+            }
+            else
+            {
+                if (MessageBox.Show("Go to ChiiTrans' home page?\r\nhttp://sites.google.com/site/chiitranslator/", "ChiiTrans v." + Application.ProductVersion, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    Process.Start("http://sites.google.com/site/chiitranslator/");
+                }
             }
         }
 
@@ -678,6 +685,42 @@ namespace ChiiTrans
             string[] res = Edict.instance.DictionarySearch(s);
             if (res != null)
                 Global.RunScript("DictionarySearchResults", Translation.NextTransId(), s, string.Join("\r", res));
+        }
+
+        private bool hasDebugProc = false;
+        //private TextBox lol = null;
+        public void DebugProc()
+        {
+            /*if (lol == null)
+            {
+                lol = new TextBox();
+                lol.Location = new Point(browser.Left + 5, browser.Top + 5);
+                Controls.Add(lol);
+                lol.BringToFront();
+                return;
+            }
+            Dictionary<string, int> lulz = new Dictionary<string, int>();
+            foreach (EdictEntry kai in Edict.instance.dict)
+            {
+                if (kai.isPOS(lol.Text))
+                {
+                    string key = kai.key;
+                    string boo = new string(key.ToCharArray().Reverse().TakeWhile(ch => !Translation.isKanji(ch)).Reverse().ToArray());
+                    if (key == boo)
+                        continue;
+                    if (!lulz.ContainsKey(boo))
+                        lulz.Add(boo, 1);
+                    else
+                        lulz[boo] += 1;
+                }
+            }
+            StringBuilder kek = new StringBuilder();
+            foreach (var lul in lulz)
+            {
+                kek.Append(string.Format("{0}: {1}\r\n", lul.Key, lul.Value));
+            }
+            Form1.Debug(kek.ToString());*/
+            Form1.Debug(Inflect.instance.conj.Count().ToString());
         }
     }
 }

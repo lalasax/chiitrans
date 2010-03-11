@@ -143,6 +143,7 @@
     <Compile Include="Global.cs" />
     <Compile Include="HalfWidth.cs" />
     <Compile Include="HiraganaConvertor.cs" />
+    <Compile Include="Inflect.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Mecab.cs" />
     <Compile Include="Options.cs" />

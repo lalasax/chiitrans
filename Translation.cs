@@ -731,8 +731,7 @@ namespace ChiiTrans
                 List<string> mm = new List<string>();
                 foreach (string m in cur.meaning.Split(new string[] { "; " }, StringSplitOptions.None))
                 {
-                    int unused;
-                    string newm = Edict.CleanMeaning(m, out unused);
+                    string newm = Edict.CleanMeaning(m);
                     newm = htmlKiller.Replace(newm, "").Trim();
                     if (newm != "" && Array.IndexOf(JDicCodes, newm) < 0)
                         mm.Add(newm);
@@ -884,7 +883,7 @@ namespace ChiiTrans
             if (onlyABC)
             {
                 s = s.Trim();
-                e = new EdictEntry("", s, new string[] { s }, 0);
+                e = new EdictEntry("", s, new string[] { s }, null, 0);
                 return s.Length * 100000;
             }
             else
@@ -952,7 +951,11 @@ namespace ChiiTrans
                 return "";
             if (romaji)
             {
-                reading = HiraganaConvertor.instance.Convert(KatakanaToHiragana(reading));
+                if (!kanji)
+                    reading = KatakanaToHiragana(key).Replace('は', 'わ');
+                else
+                    reading = KatakanaToHiragana(reading);
+                reading = HiraganaConvertor.instance.Convert(reading);
                 if (reading.Length > 0 && char.IsUpper(reading[0]))
                     reading = char.ToLower(reading[0]) + reading.Substring(1);
             }
@@ -1166,7 +1169,175 @@ namespace ChiiTrans
             //Form1.Debug(string.Join("\r", res.ToArray()));
             return string.Join("\r", res.ToArray());
         }
+
+        /*
+        private string FindReading(int s, int f, List<MecabLookupRecord> list)
+        {
+            int qq = 0;
+            int i = 0;
+            while (i < list.Count)
+            {
+                if (qq + list[i].key.Length <= s)
+                {
+                    qq += list[i].key.Length;
+                    ++i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (qq != s)
+                return "";
+            StringBuilder res = new StringBuilder();
+            while (i < list.Count && qq + list[i].key.Length <= f)
+            {
+                res.Append(list[i].reading);
+                qq += list[i].key.Length;
+                ++i;
+            }
+            if (qq < f)
+            {
+                string left = source.Substring(qq, f - qq);
+                foreach (char ch in left)
+                {
+                    if (!isHiragana(ch))
+                        return "";
+                }
+                res.Append(left);
+            }
+            return formatReading(source.Substring(s, f - s), res.ToString());
+        }
+        */
         
+        private string MyTranslateWords()
+        {
+            int st = 0;
+            List<string> res = new List<string>();
+            while (st < source.Length)
+            {
+                bool found = false;
+                int fin = Math.Min(st + 10, source.Length);
+                for (int f2 = fin - 1; f2 >= st; --f2)
+                {
+                    string stem = null;
+                    string ending;
+                    int id;
+
+                    if (!(isHiragana(source[f2]) && f2 + 1 < source.Length && "ぁぃぅぇぉゃゅょ゜".IndexOf(source[f2 + 1]) >= 0))
+                    {
+                        string all = source.Substring(st, f2 - st + 1);
+                        if (all.Length <= 8)
+                        {
+                            string rep = all;
+                            foreach (Replacement rr in options.replacements)
+                            {
+                                if (rr.oldText == all)
+                                {
+                                    rep = rr.newText;
+                                    break;
+                                }
+                            }
+                            if (rep != all)
+                            {
+                                bool allABC = true;
+                                foreach (char ch in rep)
+                                {
+                                    var cat = char.GetUnicodeCategory(ch);
+                                    if (ch != '-' && cat != UnicodeCategory.SpaceSeparator && cat != UnicodeCategory.UppercaseLetter && cat != UnicodeCategory.LowercaseLetter)
+                                    {
+                                        allABC = false;
+                                        break;
+                                    }
+                                }
+                                if (allABC)
+                                {
+                                    res.Add(all);
+                                    res.Add(rep);
+                                    res.Add(all);
+                                    res.Add("-");
+                                    res.Add(rep);
+                                    found = true;
+                                    st = f2 + 1;
+                                    break;
+                                }
+                            }
+                        }
+                        if (all.Length <= 12)
+                        {
+                            if (all.Length <= 2 && all[0] == 'は')
+                            {
+                                if (st > 0 && char.IsLetter(source[st - 1]))
+                                    continue;
+                            }
+                            EdictEntry ex = Edict.instance.SearchExact(all, null);
+                            if (ex != null && ex.meaning.Length > 0)
+                            {
+                                res.Add(all);
+                                res.Add(formatReading(all, ex.reading));
+                                res.Add(ex.key);
+                                res.Add(formatReading(ex.key, ex.reading));
+                                res.Add(formatMeaning(ex.meaning));
+                                found = true;
+                                st = f2 + 1;
+                                break;
+                            }
+                        }
+                    }
+                    int f = f2 + 1;
+                    while (f > st)
+                    {
+                        if (f <= f2 && !isHiragana(source[f]) && source[f] != '来')
+                            break;
+                        ending = source.Substring(f, f2 - f + 1);
+                        id = Inflect.instance.Search(ending);
+                        stem = source.Substring(st, f - st);
+                        if (stem.Length == 1 && ending == "")
+                        {
+                            --f;
+                            continue;
+                        }
+                        while (id < Inflect.instance.conj.Count && Inflect.instance.conj[id].form == ending)
+                        {
+                            EdictEntry entry = Edict.instance.SearchExact(stem + Inflect.instance.conj[id].orig, Inflect.instance.conj[id].pos);
+                            if (entry != null && entry.meaning.Length > 0)
+                            {
+                                string key = stem + ending;
+                                res.Add(key);
+                                int len = entry.reading.Length - Inflect.instance.conj[id].orig.Length;
+                                string reading;
+                                if (len >= 0)
+                                    reading = entry.reading.Substring(0, len) + ending;
+                                else
+                                    reading = ""; 
+                                res.Add(formatReading(key, reading));
+                                res.Add(entry.key);
+                                res.Add(formatReading(entry.key, entry.reading));
+                                res.Add(formatMeaning(entry.meaning));
+                                found = true;
+                                break;
+                            }
+                            ++id;
+                        }
+                        if (found)
+                            break;
+                        --f;
+                    }
+                    if (found)
+                    {
+                        st = f2 + 1;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    st += 1;
+                }
+            }
+            //Form1.thisForm.Text = (dbg_ctr.ToString());
+            return string.Join("\r", res.ToArray());
+        }
+
         public void MecabLookup()
         {
             try
@@ -1180,7 +1351,7 @@ namespace ChiiTrans
                         return;
                     }
                 }
-                if (!Mecab.Ready())
+                /*if (!Mecab.Ready())
                     throw new Exception();
                 string data = Mecab.Translate(source);
                 if (data == null)
@@ -1221,8 +1392,10 @@ namespace ChiiTrans
                         reading = KatakanaToHiragana(key);
                     }
                     res.Add(new MecabLookupRecord(key, reading));
-                }
-                string result = MecabLookupTranslateWords(res);
+                }*/
+                //long old = DateTime.Now.Ticks;
+                string result = MyTranslateWords();
+                //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
                 Global.RunScript("UpdateWords", id, result, TranslationTask.COMPLETED);
                 if (options.useCache)
                 {
@@ -1232,6 +1405,7 @@ namespace ChiiTrans
             catch (Exception) 
             {
                 Global.RunScript("AbortDelayed", id);
+                throw;
             }
         }
 
