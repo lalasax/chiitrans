@@ -14,23 +14,51 @@ namespace ChiiTrans
         public string key;
         public string reading;
         public string[] meaning;
+        public string[] pos;
         public int priority;
+        private int id;
+        private static int id_ctr = 0;
 
-        public EdictEntry(string key, string reading, string[] meaning, int priority)
+        public EdictEntry(string key, string reading)
+        {
+            this.key = key;
+            this.reading = reading;
+            this.pos = new string[] { };
+            this.id = id_ctr++;
+        }
+        
+        public EdictEntry(string key, string reading, string[] meaning, string[] pos, int priority)
         {
             this.key = key;
             this.reading = reading;
             this.meaning = meaning;
             this.priority = priority;
+            this.pos = pos;
+            this.id = id_ctr++;
+        }
+
+        public void AddPOS(string _pos)
+        {
+            foreach (string p in pos)
+                if (p == _pos)
+                    return;
+            Array.Resize(ref pos, pos.Length + 1);
+            pos[pos.Length - 1] = _pos;
+        }
+
+        public bool isPOS(string _pos)
+        {
+            return Array.IndexOf(pos, _pos) >= 0;
         }
 
         public static int Comparer(EdictEntry a, EdictEntry b)
         {
             int res = a.key.CompareTo(b.key);
             if (res == 0)
-                return b.priority.CompareTo(a.priority);
-            else
-                return res;
+                res = b.priority.CompareTo(a.priority);
+            if (res == 0)
+                res = a.id.CompareTo(b.id);
+            return res;
         }
 
         public static int ByReading(EdictEntry a, EdictEntry b)
@@ -68,81 +96,121 @@ namespace ChiiTrans
         }
         public readonly bool Ready;
 
-        private readonly EdictEntry[] dict, rdict;
-        private EdictEntry[] user;
+        public readonly EdictEntry[] dict, rdict;
+        public EdictEntry[] user;
 
         //private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
 
-        public static string CleanMeaning(string meaning, out int priority)
+        private static string GetAnnotation(ref string meaning)
         {
-            /*Match m = r2.Match(meaning);
-            if (m.Success)
-            {
-                return m.Groups[1].Value;
-            }
+            if (meaning.Length == 0 || meaning[0] != '(')
+                return null;
+            int b2 = meaning.IndexOf(')', 1);
+            if (b2 < 0)
+                return null;
+            string res = meaning.Substring(1, b2 - 1);
+            ++b2;
+            while (b2 < meaning.Length && char.IsWhiteSpace(meaning[b2]))
+                ++b2;
+            if (b2 >= meaning.Length)
+                meaning = "";
             else
-                return "";*/
-            int i = 0;
-            string num = "";
-            priority = 0;
-            while (i < meaning.Length)
+                meaning = meaning.Substring(b2);
+            return res;
+        }
+
+        private static string GetAnnotationLast(ref string meaning)
+        {
+            int len = meaning.Length;
+            if (len == 0 || meaning[len - 1] != ')')
+                return null;
+            int b2 = meaning.LastIndexOf('(', len - 2);
+            if (b2 < 0)
+                return null;
+            string res = meaning.Substring(b2 + 1, len - b2 - 2);
+            --b2;
+            while (b2 >= 0 && char.IsWhiteSpace(meaning[b2]))
+                --b2;
+            if (b2 < 0)
+                meaning = "";
+            else
+                meaning = meaning.Substring(0, b2 + 1);
+            return res;
+        }
+
+        private static readonly string[] pos_list = { "adj-i", "adj-na", "adj-no", "adj-pn", "adj-f", "adj-t",
+            "adv", "adv-to", "aux", "aux-v", "conj", "ctr", "exp", "id", "int", "n", "n-adv", "n-t", "pn", "prt", "pref",
+            "suf", "v1", "vi", "vs", "vs-i", "vs-s", "vk", "vt", "vz", "adj-ta", "copula" }; // ,"v5*"
+
+        private static void ParseMeaning(string meaning, EdictEntry entry)
+        {
+            if (meaning.EndsWith("(P)/"))
             {
-                if (char.IsWhiteSpace(meaning[i]))
+                entry.priority = 2;
+                meaning = meaning.Substring(0, meaning.Length - 4);
+            }
+            bool uk = false;
+            string[] res = meaning.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < res.Length; ++i)
+            {
+                string rr = res[i].Trim();
+                string buf = "";
+                string tmp = GetAnnotation(ref rr);
+                while (tmp != null)
                 {
-                    ++i;
-                    continue;
-                }
-                if (meaning[i] == '(')
-                {
-                    if (i + 1 < meaning.Length)
+                    bool isPOS = false;
+                    foreach (string pos in tmp.Split(','))
                     {
-                        int pos = i + 1;
-                        bool good = false;
-                        int counter = 0;
-                        while (pos < meaning.Length && meaning[pos] != ')')
+                        if (pos.StartsWith("v5") || Array.IndexOf(pos_list, pos) >= 0)
                         {
-                            if (meaning[pos] == ' ')
-                            {
-                                good = true;
-                                break;
-                            }
-                            if (meaning[pos] == ',')
-                            {
-                                counter = 0;
-                            }
-                            else
-                            {
-                                ++counter;
-                                if (counter > 7)
-                                {
-                                    good = true;
-                                    break;
-                                }
-                            }
-                            ++pos;
-                        }
-                        if (!good && pos < meaning.Length)
-                        {
-                            if (meaning[i + 1] >= '0' && meaning[i + 1] <= '9')
-                            {
-                                num = meaning.Substring(i, pos + 1 - i) + " ";
-                            }
-                            if (meaning[i + 1] == 'P' && meaning[i + 2] == ')')
-                            {
-                                priority += 2;
-                            }
-                            if (meaning[i + 1] == 'u' && meaning[i + 2] == 'k' && meaning[i + 3] == ')')
-                            {
-                                priority += 1;
-                            }
-                            i = pos + 1;
-                            continue;
+                            entry.AddPOS(pos);
+                            isPOS = true;
                         }
                     }
+                    if (!isPOS)
+                    {
+                        if (tmp == "uk")
+                        {
+                            uk = true;
+                        }
+                        else
+                        {
+                            if (tmp.Length > 7 || (tmp.Length >= 1 && tmp[0] >= '0' && tmp[0] <= '9'))
+                                buf += "(" + tmp + ") ";
+                            if (tmp.Length > 7)
+                                break;
+                        }
+                    }
+                    tmp = GetAnnotation(ref rr);
                 }
-                break;
+                res[i] = buf + rr;
             }
-            return num + meaning.Substring(i);
+            if (uk)
+                entry.priority += 1;
+            entry.meaning = res;
+            /*if (entry.pos.Length > 0 && entry.meaning.Length > 0)
+            {
+                entry.meaning[entry.meaning.Length - 1] += " [" + string.Join(", ", entry.pos) + "]";
+            }*/
+        }
+
+        public static string CleanMeaning(string meaning)
+        {
+            meaning = meaning.Trim();
+            while (true)
+            {
+                string tmp = GetAnnotation(ref meaning);
+                if (tmp == null)
+                    break;
+                if (tmp.Length > 7 && tmp.IndexOf(' ') >= 0)
+                {
+                    meaning = "(" + tmp + ") " + meaning;
+                    break;
+                }
+            }
+            if (meaning.EndsWith("(P)"))
+                GetAnnotationLast(ref meaning);
+            return meaning;
         }
 
         private EdictEntry[] LoadDict(string[] ss)
@@ -153,7 +221,7 @@ namespace ChiiTrans
                 for (int i = 1; i < ss.Length; ++i)
                 {
                     string s = ss[i];
-                    string[] part = s.Split('/');
+                    string[] part = s.Split(new char[] { '/' }, 2);
                     string head = part[0];
                     int p0 = head.IndexOf('[');
                     int p1 = -1;
@@ -170,29 +238,12 @@ namespace ChiiTrans
                         key = head.Trim();
                         reading = key;
                     }
-                    List<string> meaning = new List<string>(part.Length - 1);
-                    bool pri1 = false;
-                    bool pri2 = false;
-                    for (int j = 1; j < part.Length; ++j)
-                    {
-                        int pp;
-                        string val = CleanMeaning(part[j], out pp);
-                        if (pp == 1)
-                            pri1 = true;
-                        if (pp == 2)
-                            pri2 = true;
-                        if (pp == 3)
-                        {
-                            pri1 = true;
-                            pri2 = true;
-                        }
-                        if (val != "")
-                            meaning.Add(val);
-                    }
-                    int priority = (pri1 ? 1 : 0) + (pri2 ? 2 : 0);
-                    if (priority > 3)
-                        MessageBox.Show("Debug: priority > 3");
-                    res[i - 1] = new EdictEntry(key, reading, meaning.ToArray(), priority);
+                    EdictEntry entry = new EdictEntry(key, reading);
+                    if (part.Length >= 2)
+                        ParseMeaning(part[1], entry);
+                    else
+                        ParseMeaning("", entry);
+                    res[i - 1] = entry;
                 }
                 Array.Sort(res, EdictEntry.Comparer);
                 return res;
@@ -466,6 +517,80 @@ namespace ChiiTrans
                 DictSearchAddDictByReading(added, res, rdict, key);
             }
             return res.ToArray();
+        }
+
+        private EdictEntry SearchExact(string key, string pos, bool second, bool byReading)
+        {
+            if (!Ready)
+                return null;
+            if (key.Length == 0 || key.Length == 1 && !Translation.isKanji(key[0]))
+                return null;
+            int x;
+            if (!byReading)
+            {
+                if (user != null)
+                {
+                    x = BinarySearch(user, key);
+                    while (x < user.Length && user[x].key == key)
+                    {
+                        EdictEntry entry = user[x];
+                        if (pos == null || entry.isPOS(pos))
+                        {
+                            if (!second && entry.meaning.Length > 0)
+                            {
+                                char ch = entry.meaning[0][0];
+                                if (ch == '=')
+                                {
+                                    return SearchExact(key, pos, true, true);
+                                }
+                                else if (char.GetUnicodeCategory(ch) == System.Globalization.UnicodeCategory.OtherLetter)
+                                {
+                                    key = entry.meaning[0];
+                                    return SearchExact(key, pos, true, false);
+                                }
+                                else
+                                    return entry;
+                            }
+                            else
+                            {
+                                return entry;
+                            }
+                        }
+                        ++x;
+                    }
+                }
+                x = BinarySearch(dict, key);
+                while (x < dict.Length && dict[x].key == key)
+                {
+                    EdictEntry entry = dict[x];
+                    if (pos == null || entry.isPOS(pos))
+                        return entry;
+                    ++x;
+                }
+            }
+            if (key.ToCharArray().All(Translation.isKatakana))
+                key = Translation.KatakanaToHiragana(key);
+            if (key.ToCharArray().All(Translation.isHiragana))
+            {
+                x = BinarySearchByReading(rdict, key);
+                string reading = Translation.KatakanaToHiragana(rdict[x].reading);
+                while (x < rdict.Length && rdict[x].reading == key)
+                {
+                    EdictEntry entry = rdict[x];
+                    if (pos == null || entry.isPOS(pos))
+                    {
+                        if (second || key.Length > 3 || key.Length > 2 && entry.priority >= 1 || entry.priority >= 3)
+                            return entry;
+                    }
+                    ++x;
+                }
+            }
+            return null;
+        }
+
+        public EdictEntry SearchExact(string key, string pos)
+        {
+            return SearchExact(key, pos, false, false);
         }
     }
 }

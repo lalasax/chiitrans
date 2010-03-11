@@ -274,5 +274,13 @@ namespace ChiiTrans
         {
             return options.alwaysOnTop || script.transparentMode || fullscreen;
         }
+
+        public static T[] CombineArrays<T>(T[] a1, T[] a2)
+        {
+            var res = new T[a1.Length + a2.Length];
+            Array.Copy(a1, res, a1.Length);
+            Array.Copy(a2, 0, res, a1.Length, a2.Length);
+            return res;
+        }
     }
 }

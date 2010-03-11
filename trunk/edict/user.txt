@@ -1,70 +1,53 @@
 ﻿# User dictionary (eDict format). You can specify a matching kanji for hiragana. '=' is to search by reading.
+なに/what/
+いや/否/
+こと/事/
+だった/(aux) positive auxiliary word used to express the standard form in the past tense/
+きり/=/
+キミ/君/
+ばいばい/bye-bye/
+はどう/
+いく/=/
+いこう/let's go/
+ゆく/=/
+たち/plural suffix/
+した/為る/
+どう/=/
 あの/=/
 これ/=/
 それ/=/
-そこ/there/
 いま/今/
-わからない/do not understand/
-なに/what/
 ほら/hey/
-ない/not/
 ヘン/変/
-こと/事/
-なんでも/anything/
 とき/時/
-悪い [わるい]/bad/
 ウソ/嘘/
-しない/don't do/
-言え/say/
-食べ/eat/
-いつまでも/forever/
-なんだ/what/
-いく/行/
+なん/what/
 わかん/understand/
-わかった/understood/
 ばいばい/bye-bye/
 だろ/seems/I think/I guess/I wonder/I hope/
 だろう/seems/I think/I guess/I wonder/I hope/
-なん/何/
 ほう/方/
-いや/否/
-くれ/呉れる/
-かもしれない/it is likely/
-こちら/=/
-がんばった/work hard/
-いる/居る/
 かんじ/感じ/
-聞こえ/to be heard/
 ラーメン/ramen/
-橋/bridge/
-いない/none/
+いない/to be not/
 かかる/掛かる/
-なかった/not/
-キミ/君/
 いえ/家/
-ても/
-てい/
-なの/
+やる/=/
+べき/=/
+から/from/because/since/
+うち/内/
+ほんと/=/
+まず/=/
 には/
-たの/
-して/
-んだ/
-さし/
-って/
-しろ/
-たん/
-のか/
-する/
-たい/
-くる/
-ある/
 今日は/
-にする/
-なのだ/
+しまった/
+してい/
 それは/
-でそう/
-いるか/
-はどう/
-ものを/
-いいん/
-かい/
+これは/
+おいた/
+なのだ/
+なの/
+のだ/
+ほうが/
+では/
+なのか/
