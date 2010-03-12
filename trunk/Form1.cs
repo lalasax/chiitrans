@@ -44,6 +44,26 @@ namespace ChiiTrans
             buttonOnOff.Enabled = true;
             FormTooltip.instance.Show();
             this.Activate();
+
+            Thread preloadThread = new Thread(PreloadThreadProc);
+            preloadThread.Start();
+        }
+
+        private void PreloadThreadProc()
+        {
+            var ed = Edict.instance;
+            var inflect = Inflect.instance;
+            foreach (var trans in Global.options.translators)
+            {
+                if (trans.inUse)
+                {
+                    string name = Translation.Translators[trans.id];
+                    if (name == "Atlas")
+                        Atlas.Ready();
+                    else if (name.IndexOf("MeCab") >= 0)
+                        Mecab.Ready();
+                }
+            }
         }
 
         private void UseCommandLineArgs()
@@ -615,7 +635,7 @@ namespace ChiiTrans
             if (options.wordParseMethod != Options.PARSE_WWWJDIC)
                 options.wordParseMethod = Options.PARSE_WWWJDIC;
             else
-                options.wordParseMethod = Options.PARSE_MECAB;
+                options.wordParseMethod = Options.PARSE_BUILTIN;
             foreach (TranslatorRecord rec in options.translators)
             {
                 if (rec.id != 8) //Hivemind off
@@ -687,40 +707,22 @@ namespace ChiiTrans
                 Global.RunScript("DictionarySearchResults", Translation.NextTransId(), s, string.Join("\r", res));
         }
 
-        private bool hasDebugProc = false;
-        //private TextBox lol = null;
+        private bool hasDebugProc = true;
         public void DebugProc()
         {
-            /*if (lol == null)
+            HashSet<string> st = new HashSet<string>();
+            foreach (EdictEntry e in Edict.instance.dict)
             {
-                lol = new TextBox();
-                lol.Location = new Point(browser.Left + 5, browser.Top + 5);
-                Controls.Add(lol);
-                lol.BringToFront();
-                return;
+                foreach (string s in e.pos)
+                    st.Add(s);
             }
-            Dictionary<string, int> lulz = new Dictionary<string, int>();
-            foreach (EdictEntry kai in Edict.instance.dict)
+            HashSet<string> inf = new HashSet<string>();
+            foreach (Inflect.Record rec in Inflect.instance.conj)
             {
-                if (kai.isPOS(lol.Text))
-                {
-                    string key = kai.key;
-                    string boo = new string(key.ToCharArray().Reverse().TakeWhile(ch => !Translation.isKanji(ch)).Reverse().ToArray());
-                    if (key == boo)
-                        continue;
-                    if (!lulz.ContainsKey(boo))
-                        lulz.Add(boo, 1);
-                    else
-                        lulz[boo] += 1;
-                }
+                inf.Add(rec.pos);
             }
-            StringBuilder kek = new StringBuilder();
-            foreach (var lul in lulz)
-            {
-                kek.Append(string.Format("{0}: {1}\r\n", lul.Key, lul.Value));
-            }
-            Form1.Debug(kek.ToString());*/
-            Form1.Debug(Inflect.instance.conj.Count().ToString());
+            inf.ExceptWith(st);
+            Form1.Debug(string.Join(",", inf.ToArray()));
         }
     }
 }

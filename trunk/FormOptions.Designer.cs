@@ -63,7 +63,7 @@
             this.radioNone = new System.Windows.Forms.RadioButton();
             this.radioJdic = new System.Windows.Forms.RadioButton();
             this.comboBoxJDic = new System.Windows.Forms.ComboBox();
-            this.radioMecab = new System.Windows.Forms.RadioButton();
+            this.radioEdict = new System.Windows.Forms.RadioButton();
             this.checkBoxPromt = new System.Windows.Forms.CheckBox();
             this.textBoxLanguage = new System.Windows.Forms.TextBox();
             this.checkBoxTranslateOther = new System.Windows.Forms.CheckBox();
@@ -518,7 +518,7 @@
             this.groupBox1.Controls.Add(this.radioNone);
             this.groupBox1.Controls.Add(this.radioJdic);
             this.groupBox1.Controls.Add(this.comboBoxJDic);
-            this.groupBox1.Controls.Add(this.radioMecab);
+            this.groupBox1.Controls.Add(this.radioEdict);
             this.groupBox1.Location = new System.Drawing.Point(8, 181);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(576, 128);
@@ -564,17 +564,17 @@
             this.comboBoxJDic.Size = new System.Drawing.Size(391, 29);
             this.comboBoxJDic.TabIndex = 20;
             // 
-            // radioMecab
+            // radioEdict
             // 
-            this.radioMecab.AutoSize = true;
-            this.radioMecab.Checked = true;
-            this.radioMecab.Location = new System.Drawing.Point(6, 28);
-            this.radioMecab.Name = "radioMecab";
-            this.radioMecab.Size = new System.Drawing.Size(153, 27);
-            this.radioMecab.TabIndex = 0;
-            this.radioMecab.TabStop = true;
-            this.radioMecab.Text = "MeCab + EDICT";
-            this.radioMecab.UseVisualStyleBackColor = true;
+            this.radioEdict.AutoSize = true;
+            this.radioEdict.Checked = true;
+            this.radioEdict.Location = new System.Drawing.Point(6, 28);
+            this.radioEdict.Name = "radioEdict";
+            this.radioEdict.Size = new System.Drawing.Size(228, 27);
+            this.radioEdict.TabIndex = 0;
+            this.radioEdict.TabStop = true;
+            this.radioEdict.Text = "Builtin parser using EDICT";
+            this.radioEdict.UseVisualStyleBackColor = true;
             // 
             // checkBoxPromt
             // 
@@ -1169,7 +1169,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioNone;
         private System.Windows.Forms.RadioButton radioJdic;
-        private System.Windows.Forms.RadioButton radioMecab;
+        private System.Windows.Forms.RadioButton radioEdict;
         private System.Windows.Forms.CheckBox checkBoxDisplayFixed;
         private System.Windows.Forms.CheckBox checkBoxDisplayOriginal;
         private System.Windows.Forms.RadioButton radioFuriganaRomaji;
