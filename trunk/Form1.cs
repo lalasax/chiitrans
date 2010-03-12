@@ -45,8 +45,7 @@ namespace ChiiTrans
             FormTooltip.instance.Show();
             this.Activate();
 
-            Thread preloadThread = new Thread(PreloadThreadProc);
-            preloadThread.Start();
+            Application.Idle += PreloadOnIdle;
         }
 
         private void PreloadThreadProc()
@@ -707,7 +706,7 @@ namespace ChiiTrans
                 Global.RunScript("DictionarySearchResults", Translation.NextTransId(), s, string.Join("\r", res));
         }
 
-        private bool hasDebugProc = true;
+        private bool hasDebugProc = false;
         public void DebugProc()
         {
             HashSet<string> st = new HashSet<string>();
@@ -723,6 +722,14 @@ namespace ChiiTrans
             }
             inf.ExceptWith(st);
             Form1.Debug(string.Join(",", inf.ToArray()));
+        }
+
+        private void PreloadOnIdle(object sender, EventArgs e)
+        {
+            Application.Idle -= PreloadOnIdle;
+            Thread preloadThread = new Thread(PreloadThreadProc);
+            preloadThread.Priority = ThreadPriority.Lowest;
+            preloadThread.Start();
         }
     }
 }
