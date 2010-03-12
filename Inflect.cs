@@ -30,6 +30,7 @@ namespace ChiiTrans
             try
             {
                 initializing = true;
+                Ready = true;
                 //long old = DateTime.Now.Ticks;
                 InitializeUsingCache();
                 //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
@@ -118,8 +119,6 @@ namespace ChiiTrans
                 }
                 Form1.Debug(dbg.ToString());*/
                 //Form1.Debug(conj.Count.ToString());
-
-                Ready = true;
             }
             catch (Exception)
             {
@@ -189,7 +188,7 @@ namespace ChiiTrans
 
         private void addConj(string pos, string nya_orig, string item, Dictionary<string, Helper> d, string stem, int deep)
         {
-            if (stem.Length > 5)
+            if (stem.Length > 7)
                 return;
             Helper helper = d[item];
             foreach (string orig in helper.orig)
@@ -237,6 +236,87 @@ namespace ChiiTrans
         public int Search(string form)
         {
             return BinarySearch(conj, form);
+        }
+
+        public static bool FindInflected(string source, out EdictEntry entry, out string stem, out string ending, out string orig)
+        {
+            int st = 0;
+            int f2 = source.Length - 1;
+            int f = f2 + 1;
+            bool found = false;
+            entry = null;
+            stem = null;
+            ending = null;
+            orig = null;
+            if (!Inflect.instance.Ready)
+                return false;
+            while (f > st)
+            {
+                if (f <= f2 && !Translation.isHiragana(source[f]) && source[f] != '来')
+                    break;
+                ending = source.Substring(f, f2 - f + 1);
+                int id = Inflect.instance.Search(ending);
+                stem = source.Substring(st, f - st);
+                if (stem.Length == 1 && ending == "")
+                {
+                    --f;
+                    continue;
+                }
+                while (id < Inflect.instance.conj.Count && Inflect.instance.conj[id].form == ending)
+                {
+                    orig = Inflect.instance.conj[id].orig;
+                    entry = Edict.instance.SearchExact(stem + orig, Inflect.instance.conj[id].pos);
+                    if (entry != null && entry.meaning.Length > 0)
+                    {
+                        found = true;
+                        break;
+                    }
+                    ++id;
+                }
+                if (found)
+                    break;
+                --f;
+            }
+            return found;
+        }
+
+        public static EdictEntry[] FindInflectedAll(string source)
+        {
+            if (!Inflect.instance.Ready)
+                return new EdictEntry[0];
+            int st = 0;
+            int f2 = source.Length - 1;
+            int f = f2 + 1;
+            List<EdictEntry> entries = new List<EdictEntry>();
+            EdictEntry entry;
+            string stem;
+            string ending;
+            string orig;
+            while (f > st)
+            {
+                if (f <= f2 && !Translation.isHiragana(source[f]) && source[f] != '来')
+                    break;
+                ending = source.Substring(f, f2 - f + 1);
+                int id = Inflect.instance.Search(ending);
+                stem = source.Substring(st, f - st);
+                if (stem.Length == 1 && ending == "")
+                {
+                    --f;
+                    continue;
+                }
+                while (id < Inflect.instance.conj.Count && Inflect.instance.conj[id].form == ending)
+                {
+                    orig = Inflect.instance.conj[id].orig;
+                    entry = Edict.instance.SearchExact(stem + orig, Inflect.instance.conj[id].pos);
+                    if (entry != null && entry.meaning.Length > 0)
+                    {
+                        entries.Add(entry);
+                    }
+                    ++id;
+                }
+                --f;
+            }
+            return entries.ToArray();
         }
     }
 }

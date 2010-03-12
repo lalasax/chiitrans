@@ -326,6 +326,9 @@ namespace ChiiTrans
             b.push("n'u", "んう");
             b.push("n'e", "んえ");
             b.push("n'o", "んお");
+            b.push("n'ya", "んや");
+            b.push("n'yu", "んゆ");
+            b.push("n'yo", "んよ");
         }
         
     }

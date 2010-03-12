@@ -1,13 +1,14 @@
 ﻿# User dictionary (eDict format). You can specify a matching kanji for hiragana. '=' is to search by reading.
 なに/what/
+何/what/
 いや/否/
 こと/事/
-だった/(aux) positive auxiliary word used to express the standard form in the past tense/
+だった/was/were/(aux) positive auxiliary word used to express the standard form in the past tense/
 きり/=/
-キミ/君/
+きみ/君/
 ばいばい/bye-bye/
 はどう/
-いく/=/
+いく/行く/
 いこう/let's go/
 ゆく/=/
 たち/plural suffix/
@@ -38,6 +39,12 @@
 うち/内/
 ほんと/=/
 まず/=/
+やって/遣る/
+ひと/=/
+あれ/彼/
+あほ/阿呆/
+こう/斯う/
+
 には/
 今日は/
 しまった/
@@ -51,3 +58,13 @@
 ほうが/
 では/
 なのか/
+しない/為る/
+いれば/
+口に/
+のか/
+くり/
+んだ/
+いいん/
+しい/
+いいや/
+だと/

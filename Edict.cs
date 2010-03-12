@@ -283,7 +283,7 @@ namespace ChiiTrans
         {
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
+                //Cursor.Current = Cursors.WaitCursor;
                 Ready = true;
                 //long old = DateTime.Now.Ticks;
                 dict = LoadDictUsingCache("edict", Encoding.GetEncoding("EUC-JP"), out rdict);
@@ -297,7 +297,7 @@ namespace ChiiTrans
             }
             finally
             {
-                Cursor.Current = Cursors.Default;
+                //Cursor.Current = Cursors.Default;
             }
         }
 
@@ -545,6 +545,11 @@ namespace ChiiTrans
             if (key.ToCharArray().All(Translation.isHiragana))
             {
                 DictSearchAddDictByReading(added, res, rdict, key);
+            }
+            EdictEntry[] infl = Inflect.FindInflectedAll(key);
+            foreach (EdictEntry entry in infl)
+            {
+                DictSearchAddItem(added, res, entry);
             }
             return res.ToArray();
         }
