@@ -32,7 +32,6 @@ namespace ChiiTrans
         {
             options = _options;
 
-            //long before = DateTime.Now.Ticks;
             this.id = id;
             this.source = source;
             this.sourceFixed = makeReplacements(source);
@@ -41,8 +40,6 @@ namespace ChiiTrans
             else
                 this.sourceNew = sourceFixed;
             sourceNew = makeFinalAdjustments(sourceNew);
-            //long passed = DateTime.Now.Ticks - before;
-            //Form1.Debug(passed.ToString());
             List<string> usedTranslators = new List<string>();
             foreach (TranslatorRecord rec in options.translators)
             {
@@ -58,7 +55,7 @@ namespace ChiiTrans
             }
             List<object> args = new List<object>();
             args.Add(id);
-            bool parseWords = options.displayOriginal && (options.wordParseMethod == Options.PARSE_MECAB && Mecab.Ready() || options.wordParseMethod == Options.PARSE_WWWJDIC);
+            bool parseWords = options.displayOriginal && (options.wordParseMethod == Options.PARSE_BUILTIN && Edict.instance.Ready && Inflect.instance.Ready || options.wordParseMethod == Options.PARSE_WWWJDIC);
             bool reserveLineHeight = parseWords && options.displayReadings;
             args.Add(reserveLineHeight);
             args.Add(options.furiganaRomaji);
@@ -75,7 +72,7 @@ namespace ChiiTrans
                 args.Add("");
                 args.Add("");
             }
-            args.Add(parseWords && options.wordParseMethod == Options.PARSE_MECAB && Edict.Created());
+            args.Add(parseWords && options.wordParseMethod == Options.PARSE_BUILTIN && Edict.Created());
             foreach (string name in usedTranslators)
             {
                 args.Add(name);
@@ -99,16 +96,19 @@ namespace ChiiTrans
             }
             if (parseWords)
             {
-                if (options.wordParseMethod == Options.PARSE_MECAB)
+                if (options.wordParseMethod == Options.PARSE_BUILTIN)
                 {
                     if (Edict.Created())
                     {
-                        MecabLookup();
+                        //long before = DateTime.Now.Ticks;
+                        BuiltinParserLookup();
                         CompleteTask();
+                        //long passed = DateTime.Now.Ticks - before;
+                        //Form1.Debug(((double)passed / 10000000).ToString());
                     }
                     else
                     {
-                        new TranslationTask(this, "Mecab", this.GetType().GetMethod("MecabLookup"), true);
+                        new TranslationTask(this, "Builtin", this.GetType().GetMethod("BuiltinParserLookup"), true);
                     }
                 }
                 else
@@ -289,16 +289,6 @@ namespace ChiiTrans
                            .Replace("…", "・・・")
                            .Replace("‥", "・・");
             source = Regex.Replace(source, "・{2,}", "... ");
-            /*    bool allKatakana = true;
-                foreach (char ch in source)
-                {
-                    if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter && isHiragana(ch))
-                    {
-                        allKatakana = false;
-                    }
-                }
-                if (allKatakana)
-                    source = KatakanaToHiragana(source);*/
             return source;
         }
 
@@ -849,74 +839,6 @@ namespace ChiiTrans
             return HiraganaToRomaji(res.ToString());
         }
 
-        private class MecabLookupRecord
-        {
-            public string key;
-            public string reading;
-
-            public MecabLookupRecord(string key, string reading)
-            {
-                this.key = key;
-                this.reading = reading;
-            }
-        }
-
-        private int countScore(string s, out EdictEntry e, int minHira)
-        {
-            if (s == "")
-            {
-                e = null;
-                return -100000;
-            }
-            bool onlyABC = true;
-            foreach (char ch in s)
-            {
-                if (char.IsWhiteSpace(ch))
-                    continue;
-                UnicodeCategory cat = char.GetUnicodeCategory(ch);
-                if (cat != UnicodeCategory.UppercaseLetter && cat != UnicodeCategory.LowercaseLetter)
-                {
-                    onlyABC = false;
-                    break;
-                }
-            }
-            if (onlyABC)
-            {
-                s = s.Trim();
-                e = new EdictEntry("", s, new string[] { s }, null, 0);
-                return s.Length * 100000;
-            }
-            else
-            {
-                e = Edict.instance.Search(s, minHira);
-                if (e == null)
-                    return -1000;
-                else
-                {
-                    if (e.key == s)
-                        return s.Length * 1000;
-                    if (e.reading == s)
-                        return 100 + s.Length * 100;
-                    int res = e.priority > 0 ? 100 : 0;
-                    for (int i = 0; i < s.Length; ++i)
-                    {
-                        if (i >= e.key.Length)
-                            break;
-                        if (s[i] == e.key[i])
-                        {
-                            if (isKanji(s[i]))
-                                res += 10;
-                            else
-                                res += 1;
-                        }
-                        else
-                            break;
-                    }
-                    return res;
-                }
-            }
-        }
-
         public static string formatMeaning(string[] meaning)
         {
             string tmp = string.Join("; ", meaning);
@@ -952,9 +874,15 @@ namespace ChiiTrans
             if (romaji)
             {
                 if (!kanji)
-                    reading = KatakanaToHiragana(key).Replace('は', 'わ');
+                {
+                    reading = KatakanaToHiragana(key);
+                    if (reading.Length > 0 && reading[0] != 'は')
+                        reading = reading.Replace('は', 'わ');
+                }
                 else
+                {
                     reading = KatakanaToHiragana(reading);
+                }
                 reading = HiraganaConvertor.instance.Convert(reading);
                 if (reading.Length > 0 && char.IsUpper(reading[0]))
                     reading = char.ToLower(reading[0]) + reading.Substring(1);
@@ -968,21 +896,6 @@ namespace ChiiTrans
             return reading;
         }
 
-        private bool isWord(string s)
-        {
-            bool hasLetters = false;
-            foreach (char ch in s)
-            {
-                if (char.IsLetter(ch))
-                {
-                    hasLetters = true;
-                    if (isKanji(ch))
-                        return true;
-                }
-            }
-            return hasLetters && s.Length >= 3;
-        }
-
         private static bool hasKanji(string s)
         {
             foreach (char ch in s)
@@ -992,223 +905,6 @@ namespace ChiiTrans
             }
             return false;
         }
-        
-        private string MecabLookupTranslateWords(List<MecabLookupRecord> _list)
-        {
-            List<MecabLookupRecord> list = new List<MecabLookupRecord>(_list.Count);
-            for (int ii = 0; ii < _list.Count; ++ii)
-            {
-                if (ii + 1 < _list.Count && _list[ii].key.Length > 0 && _list[ii + 1].key.Length > 0)
-                {
-                    char ch = _list[ii + 1].key[0];
-                    char ch0 = _list[ii].key[_list[ii].key.Length - 1];                    
-                    if (ch0 == 'っ' && isHiragana(ch))
-                    {
-                        list.Add(new MecabLookupRecord(_list[ii].key + _list[ii + 1].key, _list[ii].reading + _list[ii + 1].reading));
-                        ++ii;
-                        continue;
-                    }
-                }
-                list.Add(_list[ii]);
-            }
-            List<string> res = new List<string>();
-            int i = 0;
-            while (i < list.Count)
-            {
-                string s = list[i].key;
-                string s2, s3;
-                if (i + 1 < list.Count)
-                {
-                    s2 = s + list[i + 1].key;
-                }
-                else
-                {
-                    s2 = "";
-                }
-                if (i + 2 < list.Count)
-                {
-                    s3 = s2 + list[i + 2].key;
-                }
-                else
-                {
-                    s3 = "";
-                }
-                s = makeReplacements(s);
-                s2 = makeReplacements(s2);
-                s3 = makeReplacements(s3);
-                bool hasLetters = false;
-                foreach (char ch in s2)
-                {
-                    if (char.IsLetterOrDigit(ch))
-                    {
-                        hasLetters = true;
-                        break;
-                    }
-                }
-                if (!hasLetters)
-                    s2 = "";
-                EdictEntry e, e2, e3;
-                int score = countScore(s, out e, 2);
-                int score2 = countScore(s2, out e2, 2);
-                int score3 = countScore(s3, out e3, 4);
-                if (score3 > score && score3 > score2)
-                {
-                    string key = list[i].key + list[i + 1].key + list[i + 2].key;
-                    string reading = list[i].reading + list[i + 1].reading + list[i + 2].reading;
-                    res.Add(key);
-                    if (e3 != null && e3.key == "")
-                    {
-                        res.Add(e3.reading);
-                        res.Add("");
-                        res.Add("");
-                        res.Add(formatMeaning(e3.meaning));
-                    }
-                    else
-                    {
-                        if (e3 != null)
-                        {
-                            if (reading.Replace('わ', 'は') == e3.reading)
-                            {
-                                res.Add(formatReading(key, reading));
-                            }
-                            else
-                            {
-                                if (e3.key == key)
-                                    res.Add(formatReading(e3.key, e3.reading));
-                                else
-                                    res.Add(formatReading(key, reading));
-                            }
-                            res.Add(e3.key);
-                            res.Add(formatReading(e3.key, e3.reading));
-                            res.Add(formatMeaning(e3.meaning));
-                        }
-                        else
-                        {
-                            bool kanji = hasKanji(key);
-                            res.Add(kanji ? formatReading(key, reading) : "");
-                            res.Add("");
-                            res.Add("");
-                            res.Add(kanji ? "-" : "");
-                        }
-                    }
-                    i += 3;
-                }
-                else if (score2 > score)
-                {
-                    string key = list[i].key + list[i + 1].key;
-                    string reading = list[i].reading + list[i + 1].reading;
-                    res.Add(key);
-                    if (e2 != null && e2.key == "")
-                    {
-                        res.Add(e2.reading);
-                        res.Add("");
-                        res.Add("");
-                        res.Add(formatMeaning(e2.meaning));
-                    }
-                    else
-                    {
-                        if (e2 != null)
-                        {
-                            if (reading.Replace('わ', 'は') == e2.reading)
-                            {
-                                res.Add(formatReading(key, reading));
-                            }
-                            else
-                            {
-                                if (e2.key == key)
-                                    res.Add(formatReading(e2.key, e2.reading));
-                                else
-                                    res.Add(formatReading(key, reading));
-                            }
-                            res.Add(e2.key);
-                            res.Add(formatReading(e2.key, e2.reading));
-                            res.Add(formatMeaning(e2.meaning));
-                        }
-                        else
-                        {
-                            bool kanji = hasKanji(key);
-                            res.Add(kanji ? formatReading(key, reading) : "");
-                            res.Add("");
-                            res.Add("");
-                            res.Add(kanji ? "-" : "");
-                        }
-                    }
-                    i += 2;
-                }
-                else
-                {
-                    res.Add(list[i].key);
-                    if (e != null && e.key == "")
-                    {
-                        res.Add(e.reading);
-                        res.Add("");
-                        res.Add("");
-                        res.Add(formatMeaning(e.meaning));
-                    }
-                    else
-                    {
-                        if (e != null)
-                        {
-                            res.Add(formatReading(list[i].key, list[i].reading));
-                            res.Add(e.key);
-                            res.Add(formatReading(e.key, e.reading));
-                            res.Add(formatMeaning(e.meaning));
-                        }
-                        else
-                        {
-                            bool kanji = hasKanji(list[i].key);
-                            res.Add(kanji ? formatReading(list[i].key, list[i].reading) : "");
-                            res.Add("");
-                            res.Add("");
-                            res.Add(kanji ? "-" : "");
-                        }
-                    }
-                    ++i;
-                }
-            }
-            //Form1.Debug(string.Join("\r", res.ToArray()));
-            return string.Join("\r", res.ToArray());
-        }
-
-        /*
-        private string FindReading(int s, int f, List<MecabLookupRecord> list)
-        {
-            int qq = 0;
-            int i = 0;
-            while (i < list.Count)
-            {
-                if (qq + list[i].key.Length <= s)
-                {
-                    qq += list[i].key.Length;
-                    ++i;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if (qq != s)
-                return "";
-            StringBuilder res = new StringBuilder();
-            while (i < list.Count && qq + list[i].key.Length <= f)
-            {
-                res.Append(list[i].reading);
-                qq += list[i].key.Length;
-                ++i;
-            }
-            if (qq < f)
-            {
-                string left = source.Substring(qq, f - qq);
-                foreach (char ch in left)
-                {
-                    if (!isHiragana(ch))
-                        return "";
-                }
-                res.Append(left);
-            }
-            return formatReading(source.Substring(s, f - s), res.ToString());
-        }
-        */
         
         private string MyTranslateWords()
         {
@@ -1263,25 +959,22 @@ namespace ChiiTrans
                                 }
                             }
                         }
-                        if (all.Length <= 12)
+                        if (all.Length <= 2 && all[0] == 'は')
                         {
-                            if (all.Length <= 2 && all[0] == 'は')
-                            {
-                                if (st > 0 && char.IsLetter(source[st - 1]))
-                                    continue;
-                            }
-                            EdictEntry ex = Edict.instance.SearchExact(all, null);
-                            if (ex != null && ex.meaning.Length > 0)
-                            {
-                                res.Add(all);
-                                res.Add(formatReading(all, ex.reading));
-                                res.Add(ex.key);
-                                res.Add(formatReading(ex.key, ex.reading));
-                                res.Add(formatMeaning(ex.meaning));
-                                found = true;
-                                st = f2 + 1;
-                                break;
-                            }
+                            if (st > 0 && char.IsLetter(source[st - 1]))
+                                continue;
+                        }
+                        EdictEntry ex = Edict.instance.SearchExact(all, null);
+                        if (ex != null && ex.meaning.Length > 0)
+                        {
+                            res.Add(all);
+                            res.Add(formatReading(all, ex.reading));
+                            res.Add(ex.key);
+                            res.Add(formatReading(ex.key, ex.reading));
+                            res.Add(formatMeaning(ex.meaning));
+                            found = true;
+                            st = f2 + 1;
+                            break;
                         }
                     }
                     int f = f2 + 1;
@@ -1338,68 +1031,26 @@ namespace ChiiTrans
             return string.Join("\r", res.ToArray());
         }
 
-        public void MecabLookup()
+        public void BuiltinParserLookup()
         {
             try
             {
                 if (options.useCache)
                 {
-                    string cached = Global.cache.Find(source, "Mecab", options.furiganaRomaji ? "r" : "h");
+                    string cached = Global.cache.Find(source, "Builtin", options.furiganaRomaji ? "r" : "h");
                     if (cached != null)
                     {
                         Global.RunScript("UpdateWords", id, cached, TranslationTask.FROM_CACHE);
                         return;
                     }
                 }
-                /*if (!Mecab.Ready())
-                    throw new Exception();
-                string data = Mecab.Translate(source);
-                if (data == null)
-                    throw new Exception();
-                data = data.Replace("\r", "");
-                string[] ss = data.Split('\n');
-                List<MecabLookupRecord> res = new List<MecabLookupRecord>();
-                foreach (string s in ss)
-                {
-                    if (s == "EOS")
-                        break;
-                    string[] dd = s.Split(new char[] { '\t' }, 2);
-                    if (dd[0] == "")
-                    {
-                        if (dd[1][0] == '\t')
-                        {
-                            dd[0] = "\t";
-                            dd[1] = dd[1].Substring(1);
-                        }
-                        else
-                        {
-                            dd[0] = "\n";
-                        }
-                    }
-                    string key = dd[0];
-                    string reading;
-                    dd = dd[1].Split(',');
-                    if (dd.Length >= 9 && options.furiganaRomaji)
-                    {
-                        reading = KatakanaToHiragana(dd[8]);
-                    }
-                    else if (dd.Length >= 8)
-                    {
-                        reading = KatakanaToHiragana(dd[7]);
-                    }
-                    else
-                    {
-                        reading = KatakanaToHiragana(key);
-                    }
-                    res.Add(new MecabLookupRecord(key, reading));
-                }*/
                 //long old = DateTime.Now.Ticks;
                 string result = MyTranslateWords();
                 //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
                 Global.RunScript("UpdateWords", id, result, TranslationTask.COMPLETED);
                 if (options.useCache)
                 {
-                    Global.cache.Store(source, "Mecab", options.furiganaRomaji ? "r" : "h", result);
+                    Global.cache.Store(source, "Builtin", options.furiganaRomaji ? "r" : "h", result);
                 }
             }
             catch (Exception) 

@@ -30,7 +30,9 @@ namespace ChiiTrans
             try
             {
                 initializing = true;
-                Initialize();
+                //long old = DateTime.Now.Ticks;
+                InitializeUsingCache();
+                //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
             }
             finally
             {
@@ -116,10 +118,72 @@ namespace ChiiTrans
                 }
                 Form1.Debug(dbg.ToString());*/
                 //Form1.Debug(conj.Count.ToString());
+
+                Ready = true;
             }
             catch (Exception)
             {
                 Ready = false;
+            }
+        }
+
+        private void InitializeUsingCache()
+        {
+            string file_name = Path.Combine(Path.Combine(Application.StartupPath, "edict"), "conj.txt");
+            string cache_name = Path.Combine(Path.Combine(Application.StartupPath, "edict"), "conj.cache.txt");
+            try
+            {
+                if (File.GetLastWriteTime(file_name) >= File.GetLastWriteTime(cache_name))
+                    throw new Exception();
+                var sr = new StreamReader(new FileStream(cache_name, FileMode.Open, FileAccess.Read), Encoding.UTF8);
+                try
+                {
+                    int n = int.Parse(sr.ReadLine());
+                    conj = new List<Record>(n);
+                    for (int i = 0; i < n; ++i)
+                    {
+                        string form = sr.ReadLine();
+                        string pos = sr.ReadLine();
+                        string orig = sr.ReadLine();
+                        conj.Add(new Record(form, pos, orig));
+                    }
+                }
+                finally
+                {
+                    sr.Close();
+                }
+            }
+            catch (Exception)
+            {
+                Initialize();
+                if (Ready)
+                {
+                    try
+                    {
+                        SaveToCache(cache_name);
+                    }
+                    catch (Exception)
+                    { }
+                }
+            }
+        }
+
+        private void SaveToCache(string cache_name)
+        {
+            StreamWriter sw = new StreamWriter(new FileStream(cache_name, FileMode.Create, FileAccess.Write), Encoding.UTF8);
+            try
+            {
+                sw.WriteLine(conj.Count);
+                foreach (Record rec in conj)
+                {
+                    sw.WriteLine(rec.form);
+                    sw.WriteLine(rec.pos);
+                    sw.WriteLine(rec.orig);
+                }
+            }
+            finally
+            {
+                sw.Close();
             }
         }
 
@@ -128,10 +192,6 @@ namespace ChiiTrans
             if (stem.Length > 5)
                 return;
             Helper helper = d[item];
-            if (pos == "adj-i")
-            {
-                pos = "adj" + "-i";
-            }
             foreach (string orig in helper.orig)
             {
                 foreach (string form in helper.forms)

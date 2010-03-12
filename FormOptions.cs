@@ -64,8 +64,8 @@ namespace ChiiTrans
                 case Options.PARSE_NONE:
                     radioNone.Checked = true;
                     break;
-                case Options.PARSE_MECAB:
-                    radioMecab.Checked = true;
+                case Options.PARSE_BUILTIN:
+                    radioEdict.Checked = true;
                     break;
                 case Options.PARSE_WWWJDIC:
                     radioJdic.Checked = true;
@@ -167,8 +167,8 @@ namespace ChiiTrans
                 }
             }
 
-            if (radioMecab.Checked)
-                Global.options.wordParseMethod = Options.PARSE_MECAB;
+            if (radioEdict.Checked)
+                Global.options.wordParseMethod = Options.PARSE_BUILTIN;
             else if (radioJdic.Checked)
                 Global.options.wordParseMethod = Options.PARSE_WWWJDIC;
             else

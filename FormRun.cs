@@ -60,7 +60,7 @@ namespace ChiiTrans
                         if (key.Length >= 2 && key[0] == '/')
                         {
                             char ch = char.ToUpper(key[1]);
-                            if (ch == 'H' || ch == 'V' || ch == 'X' || ch == 'F' || ch == 'P')
+                            if (ch == 'H' || ch == 'V' || ch == 'X' || ch == 'F' || ch == 'P' || ch == 'K')
                                 args += key + " ";
                         }
                     }

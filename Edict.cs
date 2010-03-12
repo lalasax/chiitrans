@@ -19,6 +19,10 @@ namespace ChiiTrans
         private int id;
         private static int id_ctr = 0;
 
+        public EdictEntry()
+        {
+        }
+        
         public EdictEntry(string key, string reading)
         {
             this.key = key;
@@ -61,13 +65,36 @@ namespace ChiiTrans
             return res;
         }
 
-        public static int ByReading(EdictEntry a, EdictEntry b)
+        public class ByReading: IComparer<EdictEntry>
         {
-            int res = a.reading.CompareTo(b.reading);
-            if (res == 0)
-                return b.priority.CompareTo(a.priority);
-            else
-                return res;
+            public int Compare(EdictEntry a, EdictEntry b)
+            {
+                int res = a.reading.CompareTo(b.reading);
+                if (res == 0)
+                    return b.priority.CompareTo(a.priority);
+                else
+                    return res;
+            }
+        }
+
+        public void LoadFrom(StreamReader sr)
+        {
+            key = sr.ReadLine();
+            id = int.Parse(sr.ReadLine());
+            priority = int.Parse(sr.ReadLine());
+            pos = sr.ReadLine().Split(',');
+            reading = sr.ReadLine();
+            meaning = sr.ReadLine().Split('/');
+        }
+
+        public void SaveTo(StreamWriter sw)
+        {
+            sw.WriteLine(key);
+            sw.WriteLine(id.ToString());
+            sw.WriteLine(priority.ToString());
+            sw.WriteLine(string.Join(",", pos));
+            sw.WriteLine(reading);
+            sw.WriteLine(string.Join("/", meaning));
         }
     }
     
@@ -98,8 +125,6 @@ namespace ChiiTrans
 
         public readonly EdictEntry[] dict, rdict;
         public EdictEntry[] user;
-
-        //private static Regex r2 = new Regex(@"\s*(?:\(\D.*?\)\s*)*(.*)");
 
         private static string GetAnnotation(ref string meaning)
         {
@@ -253,26 +278,113 @@ namespace ChiiTrans
                 return null;
             }
         }
-        
+
         public Edict()
         {
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
                 Ready = true;
-                dict = LoadDict(LoadDictText("edict", Encoding.GetEncoding("EUC-JP")));
+                //long old = DateTime.Now.Ticks;
+                dict = LoadDictUsingCache("edict", Encoding.GetEncoding("EUC-JP"), out rdict);
+                //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
                 if (dict == null)
                 {
                     Ready = false;
                     return;
                 }
-                rdict = (EdictEntry[])dict.Clone();
-                Array.Sort(rdict, EdictEntry.ByReading);
                 ReloadUserDictionary();
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
+            }
+        }
+
+        public EdictEntry[] LoadDictUsingCache(string name, Encoding encoding, out EdictEntry[] rdict)
+        {
+            try
+            {
+                string file_name = GetRealFilename(name);
+                string cache_name = file_name + ".cache.txt";
+                if (File.GetLastWriteTime(file_name) >= File.GetLastWriteTime(cache_name))
+                    throw new Exception();
+                var sr = new StreamReader(new FileStream(cache_name, FileMode.Open, FileAccess.Read), Encoding.UTF8);
+                try
+                {
+                    int n = int.Parse(sr.ReadLine());
+                    EdictEntry[] res = new EdictEntry[n];
+                    for (int i = 0; i < n; ++i)
+                    {
+                        res[i] = new EdictEntry();
+                        res[i].LoadFrom(sr);
+                    }
+                    rdict = new EdictEntry[n];
+                    int ctr = 0;
+                    foreach (string s in sr.ReadLine().Split(','))
+                    {
+                        rdict[ctr++] = res[int.Parse(s)];
+                    }
+                    if (ctr != n)
+                    {
+                        //MessageBox.Show("Debug: size of dict and rdict do not match");
+                        throw new Exception();
+                    }
+                    return res;
+                }
+                finally
+                {
+                    sr.Close();
+                }
+            }
+            catch (Exception)
+            {
+                EdictEntry[] res = LoadDict(LoadDictText(name, encoding));
+                rdict = (EdictEntry[])res.Clone();
+                int[] nums = new int[res.Length];
+                for (int i = 0; i < nums.Length; ++i)
+                {
+                    nums[i] = i;
+                }
+                Array.Sort(rdict, nums, new EdictEntry.ByReading());
+                try
+                {
+                    SaveDictToCache(res, nums, name);
+                }
+                catch (Exception)
+                { }
+                return res;
+            }
+        }
+
+        public void SaveDictToCache(EdictEntry[] dict, int[] rdictpos, string name)
+        {
+            name = GetRealFilename(name) + ".cache.txt";
+            StreamWriter sw = new StreamWriter(new FileStream(name, FileMode.Create, FileAccess.Write), Encoding.UTF8);
+            try
+            {
+                sw.WriteLine(dict.Length);
+                foreach (EdictEntry entry in dict)
+                    entry.SaveTo(sw);
+                bool first = true;
+                foreach (int pos in rdictpos)
+                {
+                    if (first)
+                    {
+                        sw.Write(pos);
+                        first = false;
+                    }
+                    else
+                    {
+                        sw.Write(',');
+                        sw.Write(pos);
+                    }
+                }
+                sw.WriteLine();
+            }
+            finally
+            {
+                sw.Close();
             }
         }
 
@@ -309,88 +421,6 @@ namespace ChiiTrans
         public void SaveDictText(string filename, string text)
         {
             SaveDictText(filename, text, Encoding.UTF8);
-        }
-
-        private EdictEntry SearchByReading(string key, bool checkPriority)
-        {
-            int idd = BinarySearchByReading(rdict, key);
-            for (int id = idd; id < idd + 6; ++id)
-            {
-                if (id < rdict.Length && rdict[id].reading.Length - key.Length <= 2 && rdict[id].reading.StartsWith(key) && (!checkPriority || key.Length >= 4 || (key.Length >= 3 && rdict[id].priority >= 1) || rdict[id].priority >= 3))
-                    return rdict[id];
-            }
-            return null;
-        }
-        
-        private EdictEntry SearchInt(string key, bool second, int minHira)
-        {
-            if (!Ready)
-                return null;
-            for (int i = key.Length; i > 0 && i > key.Length - 3; --i)
-            {
-                int id;
-                string kk = key.Substring(0, i);
-                EdictEntry res = null;
-                if (user != null)
-                {
-                    id = BinarySearch(user, kk);
-                    if (id < user.Length && Like(key, user[id].key))
-                        res = user[id];
-                    if (res != null)
-                    {
-                        if (!second && res.meaning.Length > 0)
-                        {
-                            char ch = res.meaning[0][0];
-                            if (ch == '=')
-                                return SearchByReading(key, false);
-                            else if (char.GetUnicodeCategory(ch) == System.Globalization.UnicodeCategory.OtherLetter)
-                                return SearchInt(res.meaning[0], true, minHira);
-                            else
-                                return res;
-                        }
-                        else
-                        {
-                            return res;
-                        }
-                    }
-                }
-                id = BinarySearch(dict, kk);
-                for (int j = id; j < id + 6; ++j)
-                    if (j < dict.Length && Like(key, dict[j].key))
-                        return dict[j];
-                
-                res = null;
-                if (i == key.Length)
-                {
-                    if (!second && key.ToCharArray().All(Translation.isKatakana))
-                    {
-                        res = SearchInt(Translation.KatakanaToHiragana(key), true, minHira);
-                        if (res != null)
-                            return res;
-                    }
-                    bool allHiragana = key.ToCharArray().All(Translation.isHiragana);
-                    if (key.Length >= minHira && allHiragana)
-                    {
-                        res = SearchByReading(key, true);
-                        if (res != null)
-                            return res;
-                    }
-                }
-            }
-            return null;
-        }
-
-        public EdictEntry Search(string key, int minHira)
-        {
-            EdictEntry res = SearchInt(key, false, minHira);
-            if (res != null && res.meaning.Length == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return res;
-            }
         }
 
         private int BinarySearch(EdictEntry[] dict, string key)
@@ -574,7 +604,7 @@ namespace ChiiTrans
             {
                 x = BinarySearchByReading(rdict, key);
                 string reading = Translation.KatakanaToHiragana(rdict[x].reading);
-                while (x < rdict.Length && rdict[x].reading == key)
+                while (x < rdict.Length && reading == key)
                 {
                     EdictEntry entry = rdict[x];
                     if (pos == null || entry.isPOS(pos))
@@ -583,6 +613,8 @@ namespace ChiiTrans
                             return entry;
                     }
                     ++x;
+                    if (x < rdict.Length)
+                        reading = Translation.KatakanaToHiragana(rdict[x].reading);
                 }
             }
             return null;

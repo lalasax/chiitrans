@@ -68,7 +68,7 @@ namespace ChiiTrans
     {
         public const string VersionStamp = "ChiiTrans v.1.0";
         public const int PARSE_NONE = 0;
-        public const int PARSE_MECAB = 1;
+        public const int PARSE_BUILTIN = 1;
         public const int PARSE_WWWJDIC = 2;
         
         public List<TranslatorRecord> translators;
@@ -155,7 +155,7 @@ namespace ChiiTrans
 
             SetDefaultColors();
 
-            wordParseMethod = PARSE_MECAB;
+            wordParseMethod = PARSE_BUILTIN;
             JDicServer = "http://www.csse.monash.edu.au/~jwb/cgi-bin/wwwjdic.cgi";
             alwaysOnTop = false;
             checkDouble = true;
