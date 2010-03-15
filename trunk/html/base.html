@@ -289,7 +289,7 @@ function UpdateTranslation(id, name, translated_text, status)
     {
         var block = $(blocks[id].trans[name]);
         if (name.substring(0, 8) == "Hivemind")
-            UpdateHivemind(block, blocks[id].source, translated_text, status);
+            UpdateHivemind(id, name, translated_text, status);
         else 
             block.html(translated_text);
         scrollWnd();        
@@ -440,11 +440,13 @@ function UpdateWords(id, s, status)
     scrollWnd();        
 }
 
-function UpdateHivemind(div, src, text, status)
+function UpdateHivemind(block_id, block_name, text, status)
 {
+    var div = $(blocks[block_id].trans[block_name]);
+    var src = blocks[block_id].source;
     if (status <= 0)
     {
-        $(div).html(text);
+        div.html(text);
         return;
     }
     var tt = text.split(',');
@@ -455,9 +457,9 @@ function UpdateHivemind(div, src, text, status)
     var link = make('span', 'hivemind_link', textnode(text));
     $(link).click(function(ev)
     {
-        window.external.HivemindClick(id, src);
+        window.external.HivemindClick(block_id, block_name, id, src);
     });
-    $(div).html(link); 
+    div.html(link); 
 }
 
 function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins)

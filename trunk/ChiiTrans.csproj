@@ -143,6 +143,12 @@
     <Compile Include="Global.cs" />
     <Compile Include="HalfWidth.cs" />
     <Compile Include="HiraganaConvertor.cs" />
+    <Compile Include="HivemindSubmit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HivemindSubmit.Designer.cs">
+      <DependentUpon>HivemindSubmit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Inflect.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Mecab.cs" />
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTooltip.resx">
       <DependentUpon>FormTooltip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HivemindSubmit.resx">
+      <DependentUpon>HivemindSubmit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

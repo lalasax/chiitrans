@@ -14,6 +14,7 @@ namespace ChiiTrans
         public string FullscreenPosition;
         public string MonitorFormPosition;
         public string OptionsFormPosition;
+        public string HivemindSubmitFormPosition;
 
         private string cfgFile;
 
@@ -28,6 +29,7 @@ namespace ChiiTrans
             FullscreenPosition = null;
             MonitorFormPosition = null;
             OptionsFormPosition = null;
+            HivemindSubmitFormPosition = null;
             try
             {
                 JsObject data = Json.Parse(File.ReadAllText(cfgFile));
@@ -35,6 +37,7 @@ namespace ChiiTrans
                 FullscreenPosition = data.str["fullscreen"];
                 MonitorFormPosition = data.str["monitor"];
                 OptionsFormPosition = data.str["options"];
+                HivemindSubmitFormPosition = data.str["hivemind_submit"];
             }
             catch(Exception)
             {
@@ -50,6 +53,7 @@ namespace ChiiTrans
                 data.str["fullscreen"] = FullscreenPosition;
                 data.str["monitor"] = MonitorFormPosition;
                 data.str["options"] = OptionsFormPosition;
+                data.str["hivemind_submit"] = HivemindSubmitFormPosition;
                 File.WriteAllText(cfgFile, data.Serialize());
             }
             catch (Exception)

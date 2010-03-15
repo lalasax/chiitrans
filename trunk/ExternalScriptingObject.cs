@@ -45,20 +45,23 @@ namespace ChiiTrans
             }
         }
 
-        public void HivemindClick(string id, string src)
+        public void HivemindClick(string block_id, string block_name, string id, string src)
         {
             string url;
             url = Global.options.hivemindServer;
             url += (url.EndsWith("/") ? "" : "/");
             if (string.IsNullOrEmpty(id) || id == "0")
             {
-                url += "index.php?q=" + Translation.UrlEncode(src);
+                //url += "index.php?q=" + Translation.UrlEncode(src);
+                HivemindSubmit.instance.UpdateData(block_id, block_name, src);
+                HivemindSubmit.instance.Show();
+                HivemindSubmit.instance.Activate();
             }
             else
             {
                 url += "index.php?p=view&id=" + id;
+                Process.Start(url);
             }
-            Process.Start(url);
         }
 
         public void ShowTooltip(string title, string text)

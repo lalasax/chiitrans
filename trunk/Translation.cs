@@ -307,7 +307,7 @@ namespace ChiiTrans
                 current.Remove(this);
         }
 
-        private HttpWebRequest CreateHTTPRequest(string url)
+        public static HttpWebRequest CreateHTTPRequest(string url)
         {
             HttpWebRequest result = (HttpWebRequest)WebRequest.Create(url);
             result.Proxy = null;
@@ -316,18 +316,18 @@ namespace ChiiTrans
             return result;
         }
 
-        private string ReadAnswer(HttpWebRequest req)
+        public static string ReadAnswer(HttpWebRequest req)
         {
             return ReadAnswer(req, Encoding.UTF8);
         }
 
-        private string ReadAnswer(HttpWebRequest req, Encoding encoding)
+        public static string ReadAnswer(HttpWebRequest req, Encoding encoding)
         {
             WebResponse res = req.GetResponse();
             return new StreamReader(req.GetResponse().GetResponseStream(), encoding).ReadToEnd();
         }
 
-        private void WritePost(HttpWebRequest req, string data)
+        public static void WritePost(HttpWebRequest req, string data)
         {
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
