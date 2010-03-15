@@ -75,6 +75,7 @@ namespace ChiiTrans
             checkBoxAlwaysOnTop.Checked = options.alwaysOnTop;
             checkBoxCheckDouble.Checked = options.checkDouble;
             checkBoxCheckPhrases.Checked = options.checkRepeatingPhrases;
+            checkBoxRepeatingPhrasesAdv.Checked = options.checkRepeatingPhrasesAdv;
             checkBoxSuffixes.Checked = options.replaceSuffixes;
             checkBoxExcludeSpeakers.Checked = options.excludeSpeakers;
             textBoxPattern.Text = options.excludeSpeakersPattern;
@@ -177,6 +178,7 @@ namespace ChiiTrans
             Global.options.alwaysOnTop = checkBoxAlwaysOnTop.Checked;
             Global.options.checkDouble = checkBoxCheckDouble.Checked;
             Global.options.checkRepeatingPhrases = checkBoxCheckPhrases.Checked;
+            Global.options.checkRepeatingPhrasesAdv = checkBoxRepeatingPhrasesAdv.Checked;
             Global.options.replaceSuffixes = checkBoxSuffixes.Checked;
             Global.options.excludeSpeakers = checkBoxExcludeSpeakers.Checked;
             Global.options.excludeSpeakersPattern = textBoxPattern.Text;
