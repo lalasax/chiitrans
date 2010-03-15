@@ -89,6 +89,7 @@ namespace ChiiTrans
         public string translateLanguage;
         public bool useCache;
         public bool checkRepeatingPhrases;
+        public bool checkRepeatingPhrasesAdv;
         public bool displayOriginal;
         public int bottomLayerOpacity;
         public bool displayFixed;
@@ -160,6 +161,7 @@ namespace ChiiTrans
             alwaysOnTop = false;
             checkDouble = true;
             checkRepeatingPhrases = true;
+            checkRepeatingPhrasesAdv = false;
             replaceSuffixes = true;
             excludeSpeakers = false;
             excludeSpeakersPattern = "^.+?「(.*?)」$";
@@ -265,6 +267,7 @@ namespace ChiiTrans
             loadOpt(data, "alwaysOnTop");
             loadOpt(data, "checkDouble");
             loadOpt(data, "checkRepeatingPhrases");
+            loadOpt(data, "checkRepeatingPhrasesAdv");
             loadOpt(data, "replaceSuffixes");
             loadOpt(data, "excludeSpeakers");
             loadOpt(data, "excludeSpeakersPattern");
@@ -314,6 +317,7 @@ namespace ChiiTrans
             saveOpt(data, "alwaysOnTop");
             saveOpt(data, "checkDouble");
             saveOpt(data, "checkRepeatingPhrases");
+            saveOpt(data, "checkRepeatingPhrasesAdv");
             saveOpt(data, "replaceSuffixes");
             saveOpt(data, "excludeSpeakers");
             saveOpt(data, "excludeSpeakersPattern");

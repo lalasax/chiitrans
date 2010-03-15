@@ -72,7 +72,6 @@ namespace ChiiTrans
         private AgthMessageList messages;
         public Dictionary<string, BlockList> blocks;
         public bool manualMonitoring;
-        private string lastText;
         public string CurrentApp { get; private set; }
         private string CurrentAppKeys;
         private Dictionary<uint, string> pidToApp;
@@ -87,7 +86,6 @@ namespace ChiiTrans
             blocks = new Dictionary<string, BlockList>();
             newMessages = new AutoResetEvent(false);
             manualMonitoring = false;
-            lastText = "";
             CurrentApp = null;
             pidToApp = new Dictionary<uint, string>();
             oldPid = 0;
@@ -232,14 +230,14 @@ namespace ChiiTrans
         uint oldPid;
         private void ParsingThreadProc()
         {
-            Dictionary<string, string> parsed = new Dictionary<string, string>();
+            Dictionary<string, StringBuilder> parsed = new Dictionary<string, StringBuilder>();
             while (true)
             {
                 newMessages.WaitOne();
                 parsed.Clear();
                 Thread.Sleep(0);
                 int old = messages.Count;
-                for (int i = 0; i < 100; ++i) //to prevent infinite flood cycle
+                for (int i = 0; i < 50; ++i) //to prevent infinite flood cycle
                 {
                     Thread.Sleep(Global.options.messageDelay);
                     if (messages.Count <= old)
@@ -259,12 +257,14 @@ namespace ChiiTrans
                                 oldPid = msg.pid;
                                 SetCurrentApp(msg.pid);
                             }
-                            string s;
+                            StringBuilder s;
                             if (!parsed.TryGetValue(msg.agthThread, out s))
                             {
-                                s = "";
+                                s = new StringBuilder();
+                                parsed[msg.agthThread] = s;
                             }
-                            parsed[msg.agthThread] = s + msg.text;
+                            //if (s.Length + msg.text.Length <= Global.options.maxSourceLength)
+                            s.Append(msg.text);
                         }
                         lastThreadName = messages[messages.Count - 1].agthThread;
                         messages.Clear();
@@ -289,9 +289,9 @@ namespace ChiiTrans
                     }
                 }
 
-                foreach (KeyValuePair<string, string> pair in parsed)
+                foreach (KeyValuePair<string, StringBuilder> pair in parsed)
                 {
-                    AddBlock(pair.Key, pair.Value, good);
+                    AddBlock(pair.Key, pair.Value.ToString(), good);
                 }
             }
         }
@@ -337,10 +337,9 @@ namespace ChiiTrans
             }
             if (FormMonitor.instance.Visible)
                 FormMonitor.instance.AddThreadBlock(agthThread, text);
-            if (is_on && blocks[agthThread].IsMonitored && text != lastText)
+            if (is_on && blocks[agthThread].IsMonitored)
             {
-                Translation.Translate(text, null);
-                lastText = text;
+                Translation.Translate(text, null, true);
             }
         }
 

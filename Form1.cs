@@ -152,23 +152,28 @@ namespace ChiiTrans
         private UpdateButtonOnOffType UpdateButtonOnOffDelegate;
         public void UpdateButtonOnOff(bool isOn)
         {
-            if (InvokeRequired)
+            try
             {
-                Invoke(UpdateButtonOnOffDelegate, isOn);
-            }
-            else
-            {
-                if (isOn)
+                if (InvokeRequired)
                 {
-                    buttonOnOff.Image = imageList1.Images["on"];
-                    buttonOnOff.Text = "Turn off (T)";
+                    Invoke(UpdateButtonOnOffDelegate, isOn);
                 }
                 else
                 {
-                    buttonOnOff.Image = imageList1.Images["off"];
-                    buttonOnOff.Text = "Turn on (T)";
+                    if (isOn)
+                    {
+                        buttonOnOff.Image = imageList1.Images["on"];
+                        buttonOnOff.Text = "Turn off (T)";
+                    }
+                    else
+                    {
+                        buttonOnOff.Image = imageList1.Images["off"];
+                        buttonOnOff.Text = "Turn on (T)";
+                    }
                 }
             }
+            catch (Exception)
+            { }
         }
 
         private void button2_Click(object sender, EventArgs e)

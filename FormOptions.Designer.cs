@@ -107,6 +107,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.textBoxUserDict = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.checkBoxRepeatingPhrasesAdv = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -200,6 +201,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.checkBoxRepeatingPhrasesAdv);
             this.tabPage1.Controls.Add(this.checkBoxDisplayFixed);
             this.tabPage1.Controls.Add(this.checkBoxDisplayOriginal);
             this.tabPage1.Controls.Add(this.radioFuriganaRomaji);
@@ -1059,6 +1061,16 @@
             this.colorDialog1.AnyColor = true;
             this.colorDialog1.FullOpen = true;
             // 
+            // checkBoxRepeatingPhrasesAdv
+            // 
+            this.checkBoxRepeatingPhrasesAdv.AutoSize = true;
+            this.checkBoxRepeatingPhrasesAdv.Location = new System.Drawing.Point(293, 67);
+            this.checkBoxRepeatingPhrasesAdv.Name = "checkBoxRepeatingPhrasesAdv";
+            this.checkBoxRepeatingPhrasesAdv.Size = new System.Drawing.Size(295, 27);
+            this.checkBoxRepeatingPhrasesAdv.TabIndex = 44;
+            this.checkBoxRepeatingPhrasesAdv.Text = "Aggressive check (for flood of text)";
+            this.checkBoxRepeatingPhrasesAdv.UseVisualStyleBackColor = true;
+            // 
             // FormOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1183,5 +1195,6 @@
         private System.Windows.Forms.TextBox textBoxUserDict;
         private System.Windows.Forms.ComboBox comboBoxHivemind;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox checkBoxRepeatingPhrasesAdv;
     }
 }

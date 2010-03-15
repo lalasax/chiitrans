@@ -1008,7 +1008,7 @@ namespace ChiiTrans
             if (isHiragana(source[f2 - 1]) && f2 < source.Length && "ぁぃぅぇぉゃゅょ゜".IndexOf(source[f2]) >= 0)
                 return null;
             string all = source.Substring(st, f2 - st);
-            if (all.Length == 1 && "おかとなにねのはへやをがだでんも".IndexOf(all[0]) >= 0)
+            if (all.Length == 1 && "おかとなにねのはへやをがだでんもよ".IndexOf(all[0]) >= 0)
                 return new WordRecord();
             if (all.Length <= 8)
             {
@@ -1370,6 +1370,11 @@ namespace ChiiTrans
 
         public static void Translate(string raw_source, Options options)
         {
+            Translate(raw_source, options, false);
+        }
+
+        public static void Translate(string raw_source, Options options, bool auto)
+        {
             if (options == null)
                 options = Global.options;
             if (raw_source == "")
@@ -1377,8 +1382,16 @@ namespace ChiiTrans
             if (raw_source.Length > options.maxSourceLength * 2)
                 raw_source = raw_source.Substring(0, options.maxSourceLength * 2);
             string source = GetSource(raw_source, options);
-            if (source != null && source != "")
+            if (source != null && source != "" && (!auto || source != lastGoodBuffer))
             {
+                if (source.Length > options.maxSourceLength)
+                {
+                    if (auto && options.checkRepeatingPhrasesAdv)
+                        return;
+                    else
+                        source = source.Substring(0, options.maxSourceLength);
+                }
+                lastGoodBuffer = source;
                 AddTranslationBlock(source, options);
             }
         }
@@ -1388,9 +1401,10 @@ namespace ChiiTrans
             string result = raw_text;
             if (result.ToCharArray().All(ch => !char.IsLetter(ch)))
                 return null;
-            lastGoodBuffer = raw_text;
-            if (options.checkDouble)
-                result = CheckDouble(result);
+            if (options.checkRepeatingPhrasesAdv)
+            {
+                result = CheckRepeatingPhrasesAdv(result, options);
+            }
             if (options.checkRepeatingPhrases)
             {
                 List<string> rep;
@@ -1401,10 +1415,41 @@ namespace ChiiTrans
                     result = string.Join("", rep.ToArray());
                 }
             }
-            if (result.Length > options.maxSourceLength)
-                result = result.Substring(0, options.maxSourceLength);
+            if (options.checkDouble)
+                result = CheckDouble(result);
             result = result.Trim();
             return result;
+        }
+
+        private static string CheckRepeatingPhrasesAdv(string src, Options options)
+        {
+            if (src.Length <= 2)
+                return src;
+            src = src.Trim();
+            int y = 2;
+            string key = src.Substring(0, 2);
+            while (true)
+            {
+                int x = src.IndexOf(key, y);
+                if (x <= 0)
+                    return src;
+                string part = src.Substring(0, x);
+                bool found = true;
+                int i;
+                for (i = x; (i + x) <= src.Length; i += x)
+                {
+                    if (part != src.Substring(i, x))
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found && i < src.Length)
+                    found = part.StartsWith(src.Substring(i));
+                if (found)
+                    return part;
+                y = x + 1;
+            }
         }
 
         public static int NextTransId()
