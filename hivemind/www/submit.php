@@ -14,8 +14,9 @@ else
     $name = get($_POST, 'user');
     $password = get($_POST, 'hash');
     if (!$name || !$password)
-        die('Invalid request.');
-    $user = User::createFromLogin($name, $password);
+        $user = User::createAnonymous();
+    else
+        $user = User::createFromLogin($name, $password);
 }
 
 if ($user->banned)
@@ -95,7 +96,7 @@ else
         if ($from == 'site')
             redirect("index.php?p=view&id=$src_id");
         else
-            die('OK');
+            die("OK,$src_id");
     }
     else
         die("Cannot insert new translation!");       

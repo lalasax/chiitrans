@@ -238,6 +238,10 @@ namespace ChiiTrans
             {
                 Global.windowPosition.OptionsFormPosition = WindowPosition.Serialize(formOptions);
             }
+            if (HivemindSubmit.isCreated())
+            {
+                Global.windowPosition.HivemindSubmitFormPosition = WindowPosition.Serialize(HivemindSubmit.instance);
+            }
             Global.windowPosition.Save();
             Hide();
             if (FormMonitor.isCreated())
