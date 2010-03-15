@@ -523,7 +523,7 @@ namespace ChiiTrans
 
         public string TranslateEDICT()
         {
-            string[] res = MyTranslateWords(source).Split('\r');
+            string[] res = MyTranslateWordsDyn(source).Split('\r');
             int pos = 0;
             List<string> ans = new List<string>();
             if (res.Length >= 5)
@@ -993,7 +993,189 @@ namespace ChiiTrans
             }
             return false;
         }
+
+        class WordRecord
+        {
+            public string key;
+            public string reading;
+            public string dict_key;
+            public string dict_reading;
+            public string[] meaning;
+        }
+
+        private WordRecord GetWordRecordReal(string source, int st, int f2)
+        {
+            if (isHiragana(source[f2 - 1]) && f2 < source.Length && "ぁぃぅぇぉゃゅょ゜".IndexOf(source[f2]) >= 0)
+                return null;
+            string all = source.Substring(st, f2 - st);
+            if (all.Length == 1 && "おかとなにねのはへやをがだでんも".IndexOf(all[0]) >= 0)
+                return new WordRecord();
+            if (all.Length <= 8)
+            {
+                string rep = all;
+                foreach (Replacement rr in options.replacements)
+                {
+                    if (rr.oldText == all)
+                    {
+                        rep = rr.newText;
+                        break;
+                    }
+                }
+                if (rep != all)
+                {
+                    bool allABC = true;
+                    foreach (char ch in rep)
+                    {
+                        var cat = char.GetUnicodeCategory(ch);
+                        if (ch != '-' && cat != UnicodeCategory.SpaceSeparator && cat != UnicodeCategory.UppercaseLetter && cat != UnicodeCategory.LowercaseLetter)
+                        {
+                            allABC = false;
+                            break;
+                        }
+                    }
+                    if (allABC)
+                    {
+                        WordRecord res = new WordRecord();
+                        res.key = all;
+                        res.reading = rep;
+                        res.dict_key = all;
+                        res.dict_reading = "-";
+                        res.meaning = new string[] { rep };
+                        return res;
+                    }
+                }
+            }
+            /*if (all.Length <= 3 && all[0] == 'は')
+            {
+                if (st > 0 && char.IsLetter(source[st - 1]))
+                    continue;
+            }*/
+            EdictEntry ex = Edict.instance.SearchExact(all, null);
+            if (ex != null && ex.meaning.Length > 0)
+            {
+                WordRecord res = new WordRecord();
+                res.key = all;
+                res.reading = ex.reading;
+                res.dict_key = ex.key;
+                res.dict_reading = ex.reading;
+                res.meaning = ex.meaning;
+                return res;
+            }
+            EdictEntry entry;
+            string ending;
+            string stem;
+            string orig;
+            bool found = Inflect.FindInflected(all, out entry, out stem, out ending, out orig);
+            if (found)
+            {
+                WordRecord res = new WordRecord();
+                string key = stem + ending;
+                res.key = key;
+                int len = entry.reading.Length - orig.Length;
+                string reading;
+                if (len >= 0)
+                    reading = entry.reading.Substring(0, len) + ending;
+                else
+                    reading = "";
+                res.reading = reading;
+                res.dict_key = entry.key;
+                res.dict_reading = entry.reading;
+                res.meaning = entry.meaning;
+                return res;
+            }
+            return null;
+        }
         
+        private WordRecord GetWordRecord(string source, Dictionary<int, WordRecord> rec, int beg, int end, int n)
+        {
+            int id = beg * (n + 1) + end;
+            if (rec.ContainsKey(id))
+                return rec[id];
+            WordRecord res = GetWordRecordReal(source, beg, end);
+            rec.Add(id, res);
+            return res;
+        }
+        
+        private string MyTranslateWordsDyn(string source)
+        {
+            if (source == lastParsedSource)
+                return lastParsedResult;
+            int n = source.Length;
+            int[] score = new int[n + 1];
+            int[] prev = new int[n + 1];
+            Dictionary<int, WordRecord> rec = new Dictionary<int,WordRecord>();
+            score[0] = 0;
+            for (int i = 1; i <= n; ++i)
+            {
+                int pr = -1;
+                int maxscore = int.MinValue;
+                for (int j = Math.Max(0, i - 10); j < i; ++j)
+                {
+                    WordRecord rr = GetWordRecord(source, rec, j, i, n);
+                    if (rr != null)
+                    {
+                        int curscore = (i - j) * (i - j) + score[j];
+                        if (curscore > maxscore)
+                        {
+                            maxscore = curscore;
+                            pr = j;
+                        }
+                    }
+                }
+                if (pr == -1)
+                {
+                    score[i] = score[i - 1] - 1000;
+                    prev[i] = -1;
+                }
+                else
+                {
+                    score[i] = maxscore;
+                    prev[i] = pr;
+                }
+            }
+            List<WordRecord> list = new List<WordRecord>();
+            int x = n;
+            while (x > 0)
+            {
+                int y = prev[x];
+                if (y == -1)
+                {
+                    --x;
+                    continue;
+                }
+                else
+                {
+                    list.Add(GetWordRecord(source, rec, y, x, n));
+                    x = y;
+                }
+            }
+            List<string> res = new List<string>();
+            foreach (WordRecord rr in ((IEnumerable<WordRecord>)list).Reverse())
+            {
+                if (string.IsNullOrEmpty(rr.key))
+                    continue;
+                if (rr.dict_reading == "-")
+                {
+                    res.Add(rr.key);
+                    res.Add(rr.reading);
+                    res.Add(rr.dict_key);
+                    res.Add(rr.dict_reading);
+                    res.Add(rr.meaning[0]);
+                }
+                else
+                {
+                    res.Add(rr.key);
+                    res.Add(formatReading(rr.key, rr.reading));
+                    res.Add(rr.dict_key);
+                    res.Add(formatReading(rr.dict_key, rr.dict_reading));
+                    res.Add(formatMeaning(rr.meaning));
+                }
+            }
+            lastParsedSource = source;
+            lastParsedResult = string.Join("\r", res.ToArray());
+            return lastParsedResult;
+        }
+
         private string MyTranslateWords(string source)
         {
             if (source == lastParsedSource)
@@ -1045,7 +1227,7 @@ namespace ChiiTrans
                             }
                         }
                     }
-                    if (all.Length <= 2 && all[0] == 'は')
+                    if (all.Length <= 3 && all[0] == 'は')
                     {
                         if (st > 0 && char.IsLetter(source[st - 1]))
                             continue;
@@ -1110,7 +1292,7 @@ namespace ChiiTrans
                     }
                 }
                 //long old = DateTime.Now.Ticks;
-                string result = MyTranslateWords(source);
+                string result = MyTranslateWordsDyn(source);
                 //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
                 Global.RunScript("UpdateWords", id, result, TranslationTask.COMPLETED);
                 if (options.useCache)
@@ -1121,7 +1303,6 @@ namespace ChiiTrans
             catch (Exception) 
             {
                 Global.RunScript("AbortDelayed", id);
-                throw;
             }
         }
 
