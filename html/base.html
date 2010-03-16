@@ -315,12 +315,14 @@ function DictionarySearchResults(id, source, result)
     {
         var res = "<table class='dictsearch'>";
         var entries = result.split("\r");
-        for (var i = 0; i < entries.length; i += 3)
+        for (var i = 0; i < entries.length; i += 4)
         {
             var title = "<nobr class='translation_orig'>" + entries[i] + "</nobr>";
             if (entries[i + 1])
-                title += "<br><nobr>(" + entries[i + 1] + ")</nobr>";
-            var meaning = entries[i + 2].split("$");
+                title += " <nobr>(" + entries[i + 1] + ")</nobr>";
+            if (entries[i + 2])
+                title += "<br><nobr>(" + entries[i + 2] + ")</nobr>";
+            var meaning = entries[i + 3].split("$");
             if (meaning.length > 1)
                 meaning = "<ol>" + meaning.join("<li>") + "</ol>";
             else

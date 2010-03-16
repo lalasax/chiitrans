@@ -508,6 +508,7 @@ namespace ChiiTrans
             if (entry.meaning.Length == 0)
                 return;
             res.Add(entry.key);
+            res.Add(string.Join(", ", entry.pos));
             res.Add(Translation.formatReading(entry.key, entry.reading, Global.options.furiganaRomaji));
             res.Add(Translation.formatMeaning(entry.meaning));
         }
