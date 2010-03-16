@@ -1,3 +1,13 @@
+Version 1.11
+ - Builtin parser of Japanese text implemented. MeCab is used only for translit now.
+ - Recognizing inflected verbs and adjectives.
+ - Caching of EDICT dictionary and conjugations table (faster load speed).
+ - /KF option allowed for agth.
+ - Submit form for Hivemind server.
+ - New translator: EDICT. Displays first few meanings for every word.
+ - Option to enable aggressive check for repeating phrases (useful for games with flood of text).
+ - Improved dictionary search - displaying inflected words and part-of-speech information.
+
 Version 1.10
  - Dictionary search added.
  - Visually faster response for local translation engines (MeCab, Atlas).
