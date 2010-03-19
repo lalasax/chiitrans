@@ -570,29 +570,25 @@ namespace ChiiTrans
                     while (x < user.Length && user[x].key == key)
                     {
                         EdictEntry entry = user[x];
-                        if (pos == null || entry.isPOS(pos))
+                        if (!second && entry.meaning.Length > 0)
                         {
-                            if (!second && entry.meaning.Length > 0)
+                            char ch = entry.meaning[0][0];
+                            if (ch == '=')
                             {
-                                char ch = entry.meaning[0][0];
-                                if (ch == '=')
-                                {
-                                    return SearchExact(key, pos, true, true);
-                                }
-                                else if (char.GetUnicodeCategory(ch) == System.Globalization.UnicodeCategory.OtherLetter)
-                                {
-                                    key = entry.meaning[0];
-                                    return SearchExact(key, pos, true, false);
-                                }
-                                else
-                                    return entry;
+                                return SearchExact(key, pos, true, true);
+                            }
+                            else if (char.GetUnicodeCategory(ch) == System.Globalization.UnicodeCategory.OtherLetter)
+                            {
+                                key = entry.meaning[0];
+                                return SearchExact(key, pos, true, false);
                             }
                             else
-                            {
                                 return entry;
-                            }
                         }
-                        ++x;
+                        else
+                        {
+                            return entry;
+                        }
                     }
                 }
                 x = BinarySearch(dict, key);

@@ -257,7 +257,7 @@ namespace ChiiTrans
                 ending = source.Substring(f, f2 - f + 1);
                 int id = Inflect.instance.Search(ending);
                 stem = source.Substring(st, f - st);
-                if (stem.Length == 1 && ending == "")
+                if (stem.Length == 1 && ending == "" && Translation.isHiragana(stem[0]))
                 {
                     --f;
                     continue;
@@ -299,7 +299,7 @@ namespace ChiiTrans
                 ending = source.Substring(f, f2 - f + 1);
                 int id = Inflect.instance.Search(ending);
                 stem = source.Substring(st, f - st);
-                if (stem.Length == 1 && ending == "")
+                if (stem.Length == 1 && ending == "" && Translation.isHiragana(stem[0]))
                 {
                     --f;
                     continue;

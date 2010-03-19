@@ -379,7 +379,7 @@ namespace ChiiTrans
                     string sel = GetSelectedText();
                     if (sel == "")
                     {
-                        sel = GetTextForAction();
+                        sel = Translation.lastGoodBuffer;
                         if (sel != null)
                             Clipboard.SetText(sel);
                     }

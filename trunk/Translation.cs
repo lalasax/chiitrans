@@ -961,16 +961,18 @@ namespace ChiiTrans
                 return "";
             if (romaji)
             {
-                if (!kanji)
+                if (key == "は")
+                    reading = "わ";
+                /*if (!kanji)
                 {
                     reading = KatakanaToHiragana(key);
                     if (reading.Length > 0 && reading[0] != 'は')
                         reading = reading.Replace('は', 'わ');
                 }
                 else
-                {
+                {*/
                     reading = KatakanaToHiragana(reading);
-                }
+                //}
                 reading = HiraganaConvertor.instance.Convert(reading);
                 if (reading.Length > 0 && char.IsUpper(reading[0]))
                     reading = char.ToLower(reading[0]) + reading.Substring(1);
@@ -1001,6 +1003,7 @@ namespace ChiiTrans
             public string dict_key;
             public string dict_reading;
             public string[] meaning;
+            public int score;
         }
 
         private WordRecord GetWordRecordReal(string source, int st, int f2)
@@ -1008,8 +1011,12 @@ namespace ChiiTrans
             if (isHiragana(source[f2 - 1]) && f2 < source.Length && "ぁぃぅぇぉゃゅょ゜".IndexOf(source[f2]) >= 0)
                 return null;
             string all = source.Substring(st, f2 - st);
-            if (all.Length == 1 && "おかとなにねのはへやをがだでんもよ".IndexOf(all[0]) >= 0)
-                return new WordRecord();
+            if (all.Length == 1 && "おかとなにねのはへやをがだでんもよぞ".IndexOf(all[0]) >= 0)
+            {
+                WordRecord res = new WordRecord();
+                res.score = 1;
+                return res;
+            }
             if (all.Length <= 8)
             {
                 string rep = all;
@@ -1041,6 +1048,7 @@ namespace ChiiTrans
                         res.dict_key = all;
                         res.dict_reading = "-";
                         res.meaning = new string[] { rep };
+                        res.score = 1000;
                         return res;
                     }
                 }
@@ -1059,6 +1067,9 @@ namespace ChiiTrans
                 res.dict_key = ex.key;
                 res.dict_reading = ex.reading;
                 res.meaning = ex.meaning;
+                res.score = res.key.Length * res.key.Length;
+                if (res.key != res.dict_key)
+                    res.score -= 1;
                 return res;
             }
             EdictEntry entry;
@@ -1081,6 +1092,9 @@ namespace ChiiTrans
                 res.dict_key = entry.key;
                 res.dict_reading = entry.reading;
                 res.meaning = entry.meaning;
+                res.score = res.key.Length * res.key.Length;
+                if (res.key != res.dict_key)
+                    res.score -= 1;
                 return res;
             }
             return null;
@@ -1112,26 +1126,28 @@ namespace ChiiTrans
                 for (int j = Math.Max(0, i - 10); j < i; ++j)
                 {
                     WordRecord rr = GetWordRecord(source, rec, j, i, n);
+                    int curscore;
                     if (rr != null)
                     {
-                        int curscore = (i - j) * (i - j) + score[j];
-                        if (curscore > maxscore)
+                        curscore = rr.score + score[j];
+                        if (curscore >= maxscore)
                         {
                             maxscore = curscore;
                             pr = j;
                         }
                     }
+                    else
+                    {
+                        curscore = score[j] - (i - j) * (i - j) * 1000;
+                        if (curscore >= maxscore)
+                        {
+                            maxscore = curscore;
+                            pr = -1;
+                        }
+                    }
                 }
-                if (pr == -1)
-                {
-                    score[i] = score[i - 1] - 1000;
-                    prev[i] = -1;
-                }
-                else
-                {
-                    score[i] = maxscore;
-                    prev[i] = pr;
-                }
+                score[i] = maxscore;
+                prev[i] = pr;
             }
             List<WordRecord> list = new List<WordRecord>();
             int x = n;
