@@ -1,6 +1,6 @@
 ﻿# User dictionary (eDict format). You can specify a matching kanji for hiragana. '=' is to search by reading.
 なに/what/
-何/what/
+何 [なに]/what/
 いや/否/
 こと/事/
 だった/was/were/(aux) positive auxiliary word used to express the standard form in the past tense/
@@ -12,7 +12,6 @@
 いこう/let's go/
 ゆく/=/
 たち/plural suffix/
-した/為る/
 どう/=/
 あの/=/
 これ/=/
@@ -44,6 +43,11 @@
 あれ/彼/
 あほ/阿呆/
 こう/斯う/
+いた/居る/
+つく/付く/
+くる/(vk,vi,aux-v) (1) to come (spatially or temporally)/to approach/to arrive/(2) to come back/to do ... and come back/(3) to come to be/to become/to get/to grow/to continue/(vk,vi) (4) to come from/to be caused by/to derive from/(5) to come to (i.e. "when it comes to spinach ...")/(P)/
+してる/(v1) doing/
+した/為る/
 
 なり/
 には/
@@ -69,3 +73,6 @@
 しい/
 いいや/
 だと/
+からだ/
+はねる/
+になう/
