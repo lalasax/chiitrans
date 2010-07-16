@@ -76,6 +76,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
+            this.showFormBordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -124,7 +125,7 @@
             this.menuitemOptions,
             this.menuitemMore});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(279, 310);
+            this.contextMenu.Size = new System.Drawing.Size(279, 332);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // menuitemTranslate
@@ -238,7 +239,8 @@
             this.menuitemKataHira,
             this.menuitemClearCache,
             this.menuitemMonitor,
-            this.reloadUserDictionaryToolStripMenuItem});
+            this.reloadUserDictionaryToolStripMenuItem,
+            this.showFormBordersToolStripMenuItem});
             this.menuitemMore.Name = "menuitemMore";
             this.menuitemMore.Size = new System.Drawing.Size(278, 24);
             this.menuitemMore.Text = "More";
@@ -510,6 +512,14 @@
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
             // 
+            // showFormBordersToolStripMenuItem
+            // 
+            this.showFormBordersToolStripMenuItem.Name = "showFormBordersToolStripMenuItem";
+            this.showFormBordersToolStripMenuItem.ShortcutKeyDisplayString = "B";
+            this.showFormBordersToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
+            this.showFormBordersToolStripMenuItem.Text = "Show form borders";
+            this.showFormBordersToolStripMenuItem.Click += new System.EventHandler(this.showFormBordersToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -523,12 +533,11 @@
             this.Name = "Form1";
             this.Text = "ChiiTrans - Automatic translation tool for Japanese games";
             this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
-            this.Activated += new System.EventHandler(this.Form1_Activated);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
+            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.contextMenu.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -585,6 +594,7 @@
         private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton buttonDictionary;
         private System.Windows.Forms.ToolStripMenuItem searchInDictionaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showFormBordersToolStripMenuItem;
     }
 }
 

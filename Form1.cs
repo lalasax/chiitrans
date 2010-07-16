@@ -369,6 +369,8 @@ namespace ChiiTrans
                         buttonTranslateFull_Click(sender, null);
                     else if (e.KeyCode == Keys.D)
                         buttonDictionary_Click(sender, null);
+                    else if (e.KeyCode == Keys.B && Global.script.transparentMode)
+                        MakeSizable();
                 }
                 else if (e.Control && e.KeyCode == Keys.V || e.Shift && e.KeyCode == Keys.Insert)
                 {
@@ -399,17 +401,19 @@ namespace ChiiTrans
         string oldFormText;
         private void TransparentModeOn()
         {
+            suspendBottomLayerUpdates = true;
             Global.script.transparentMode = true;
             UpdateToolbarVisible();
             TransparencyKey = Color.FromArgb(0, 0, 1);
             oldFormText = Text;
-            Text = "Press Escape to restore the window";
+            Text = "Press Escape to restore the window. Press B to show window frame.";
             Global.RunScript("TransparentModeOn");
             ChangeBottomLayerOpacity(0);
             FormBottomLayer.instance.UpdatePos();
             FormBottomLayer.instance.BackColor = Global.options.colors["back_tmode"].color;
             FormBottomLayer.instance.Show();
             TopMost = true;
+            suspendBottomLayerUpdates = false;
         }
 
         private void TransparentModeOff()
@@ -526,26 +530,6 @@ namespace ChiiTrans
         }
 
         public bool suspendBottomLayerUpdates = false;
-        private void Form1_Activated(object sender, EventArgs e)
-        {
-            if (!suspendBottomLayerUpdates && Global.script.transparentMode && FormBorderStyle == FormBorderStyle.None)
-            {
-                suspendBottomLayerUpdates = true;
-                //SuspendLayout();
-                //browser.Hide();
-                int oldWidth = Width;
-                int oldHeight = Height;
-                FormBorderStyle = FormBorderStyle.Sizable;
-                int border = (Width - oldWidth) / 2;
-                Left -= border;
-                Top -= (Height - oldHeight - border);
-                //browser.Show();
-                //ResumeLayout(false);
-                TopMost = true;
-                FormBottomLayer.instance.UpdatePos();
-                suspendBottomLayerUpdates = false;
-            }
-        }
 
         private void Form1_Deactivate(object sender, EventArgs e)
         {
@@ -739,6 +723,32 @@ namespace ChiiTrans
             Thread preloadThread = new Thread(PreloadThreadProc);
             preloadThread.Priority = ThreadPriority.Lowest;
             preloadThread.Start();
+        }
+
+        private void MakeSizable()
+        {
+            if (!suspendBottomLayerUpdates && Global.script.transparentMode && FormBorderStyle == FormBorderStyle.None)
+            {
+                suspendBottomLayerUpdates = true;
+                //SuspendLayout();
+                //browser.Hide();
+                int oldWidth = Width;
+                int oldHeight = Height;
+                FormBorderStyle = FormBorderStyle.Sizable;
+                int border = (Width - oldWidth) / 2;
+                Left -= border;
+                Top -= (Height - oldHeight - border);
+                //browser.Show();
+                //ResumeLayout(false);
+                TopMost = true;
+                FormBottomLayer.instance.UpdatePos();
+                suspendBottomLayerUpdates = false;
+            }
+        }
+
+        private void showFormBordersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MakeSizable();
         }
     }
 }
