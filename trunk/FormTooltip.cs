@@ -39,6 +39,7 @@ namespace ChiiTrans
             FormBorderStyle = FormBorderStyle.None;
             //panel.Left = 1;
             //panel.Top = 1;
+
             panel.MaximumSize = new Size(MaximumSize.Width - 12, MaximumSize.Height);
             labelMaxSize = new Size(panel.MaximumSize.Width, panel.MaximumSize.Height);
             label1 = new Label();
@@ -107,16 +108,21 @@ namespace ChiiTrans
             }*/
             //panel.ResumeLayout(true);
             //ResumeLayout();
+
             Point newpos = new Point(Cursor.Position.X + 15, Cursor.Position.Y + 15);
-            if (newpos.X + Width > Screen.PrimaryScreen.WorkingArea.Width)
-                newpos.X = Cursor.Position.X - 15 - Width;
-            if (newpos.Y + Height > Screen.PrimaryScreen.WorkingArea.Height)
+            Rectangle workingArea = Screen.GetWorkingArea(Form1.thisForm);
+            int screenWidth = workingArea.Width + workingArea.Left;
+            int screenHeight = workingArea.Height + workingArea.Top;
+            if (newpos.X + Width > screenWidth)
+                newpos.X = screenWidth - Width - 15;
+            if (newpos.Y + Height > screenHeight)
                 newpos.Y = Cursor.Position.Y - 15 - Height;
-            if (newpos.X < 0)
-                newpos.X = 0;
-            if (newpos.Y < 0)
-                newpos.Y = 0;
+            if (newpos.X < workingArea.Left)
+                newpos.X = workingArea.Left;
+            if (newpos.Y < workingArea.Top)
+                newpos.Y = workingArea.Top;
             Location = newpos;
+
             //Form1.thisForm.suspendBottomLayerUpdates = true;
             //TopLevel = true;
             //
