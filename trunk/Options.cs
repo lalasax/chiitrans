@@ -102,6 +102,7 @@ namespace ChiiTrans
         public bool largeMargins;
         public string hivemindServer;
         public bool toolbarVisible;
+        public bool monitorNewThreads;
 
         private Type OptionsType;
         
@@ -165,7 +166,7 @@ namespace ChiiTrans
             replaceSuffixes = true;
             excludeSpeakers = false;
             excludeSpeakersPattern = "^.+?「(.*?)」$";
-            messageDelay = 300;
+            messageDelay = 100;
             maxSourceLength = 250;
             translateLanguage = "ru";
             translateToOtherLanguage = false;
@@ -183,6 +184,7 @@ namespace ChiiTrans
             largeMargins = false;
             hivemindServer = "http://chii.sorakake.ru/";
             toolbarVisible = true;
+            monitorNewThreads = false;
 
             replacements = new ReplacementList();
         }
@@ -295,6 +297,7 @@ namespace ChiiTrans
             loadOpt(data, "largeMargins");
             loadOpt(data, "hivemindServer");
             loadOpt(data, "toolbarVisible");
+            loadOpt(data, "monitorNewThreads");
         }
 
         public void SaveOptions(string filename)
@@ -339,6 +342,7 @@ namespace ChiiTrans
             saveOpt(data, "largeMargins");
             saveOpt(data, "hivemindServer");
             saveOpt(data, "toolbarVisible");
+            saveOpt(data, "monitorNewThreads");
 
             File.WriteAllText(filename, data.Serialize());
         }
