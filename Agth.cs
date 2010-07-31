@@ -312,14 +312,17 @@ namespace ChiiTrans
             if (!blocks.ContainsKey(agthThread))
             {
                 blocks.Add(agthThread, new BlockList());
-                if (!manualMonitoring && !alreadyAdded)
+                if (Global.options.monitorNewThreads || !manualMonitoring && !alreadyAdded)
                 {
                     bool good = isGoodName(agthThread);
                     if (good || !lastGoodName && !haveGood)
                     {
-                        foreach (BlockList bl in blocks.Values)
+                        if (!manualMonitoring)
                         {
-                            bl.IsMonitored = false;
+                            foreach (BlockList bl in blocks.Values)
+                            {
+                                bl.IsMonitored = false;
+                            }
                         }
                         blocks[agthThread].IsMonitored = true;
                         lastGoodName = good;

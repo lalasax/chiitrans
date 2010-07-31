@@ -142,6 +142,7 @@ namespace ChiiTrans
                     if (listBoxThreads.SelectedIndex >= 0)
                         UpdateThreadContents();
                 }
+                checkBoxMonitorNew.Checked = Global.options.monitorNewThreads;
             }
         }
 
@@ -149,6 +150,27 @@ namespace ChiiTrans
         {
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape || e.KeyCode == Keys.M)
                 Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < listBoxThreads.Items.Count; ++i)
+            {
+                listBoxThreads.SetItemCheckState(i, CheckState.Checked);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < listBoxThreads.Items.Count; ++i)
+            {
+                listBoxThreads.SetItemCheckState(i, CheckState.Unchecked);
+            }
+        }
+
+        private void checkBoxMonitorNew_CheckedChanged(object sender, EventArgs e)
+        {
+            Global.options.monitorNewThreads = checkBoxMonitorNew.Checked;
         }
     }
 }
