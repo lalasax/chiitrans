@@ -189,6 +189,7 @@ var dropShadow = false;
 var tmode = false;
 var maxBlocks = 50;
 var largeMargins = false;
+var marginSize = "500px";
 
 function appendBlock(id)
 {
@@ -201,13 +202,27 @@ function appendBlock(id)
         }
         else
         {
-            $(blocks[id].main).addClass(largeMargins ? "large_padding_up" : "padding_up");
+            if (largeMargins)
+            {
+                $(blocks[id].main).css("paddingTop", marginSize);
+            }
+            else
+            {
+                $(blocks[id].main).addClass("padding_up");
+            }
         }
         $("#content").append(blocks[id].main);
     }
     else
     {
-        $(blocks[id].main).addClass(largeMargins ? "large_padding_down" : "padding_down");
+        if (largeMargins)
+        {
+            $(blocks[id].main).css("paddingBottom", marginSize);
+        }
+        else
+        {
+            $(blocks[id].main).addClass("padding_down");
+        }
         $("#content").prepend(blocks[id].main);
     }
 }
@@ -464,13 +479,14 @@ function UpdateHivemind(block_id, block_name, text, status)
     div.html(link); 
 }
 
-function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins)
+function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins, _marginSize)
 {
     $(document.body).css({fontFamily: font_name, fontSize: font_size + "pt"});
     appendBottom = _appendBottom;
     dropShadow = _dropShadow;
     maxBlocks = _maxBlocks;
     largeMargins = _largeMargins;
+    marginSize = _marginSize;
     checkMaxBlocks();
     updateShadow();
     scrollWnd();

@@ -1,8 +1,16 @@
+If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
+
+Version 1.12
+ - Monitored Threads new feature: some moar buttons and option to auto-monitor new threads.
+ - Option to choose margin size when Use Large Margins is enabled.
+ - Replacements are applied in order from longest to shortest.
+ - Fixed delay when "Aggressive check for repeating phrases" is enabled.
+ - EDICT updated.
+
 Version 1.11c
  - A fix from Zork Zero: tooltips did not display correctly on 2 monitors system.
  - Removed frame flickering in transparent mode. Press B to display window frame (and to move/resize window).
  - Updated EDICT to latest version.
- If you have any suggestions for this tool, email me at chiitranslator@gmail.com
 
 Version 1.11b
  - A few fixes to builtin parsing algorithm.

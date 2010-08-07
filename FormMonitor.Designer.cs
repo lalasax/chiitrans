@@ -35,6 +35,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.checkBoxMonitorNew = new System.Windows.Forms.CheckBox();
+            this.buttonClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBoxThreads
@@ -104,7 +105,7 @@
             // 
             this.checkBoxMonitorNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxMonitorNew.AutoSize = true;
-            this.checkBoxMonitorNew.Location = new System.Drawing.Point(163, 422);
+            this.checkBoxMonitorNew.Location = new System.Drawing.Point(245, 420);
             this.checkBoxMonitorNew.Name = "checkBoxMonitorNew";
             this.checkBoxMonitorNew.Size = new System.Drawing.Size(160, 23);
             this.checkBoxMonitorNew.TabIndex = 9;
@@ -112,11 +113,23 @@
             this.checkBoxMonitorNew.UseVisualStyleBackColor = true;
             this.checkBoxMonitorNew.CheckedChanged += new System.EventHandler(this.checkBoxMonitorNew_CheckedChanged);
             // 
+            // buttonClear
+            // 
+            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonClear.Location = new System.Drawing.Point(163, 415);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(75, 30);
+            this.buttonClear.TabIndex = 10;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
             // FormMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(523, 497);
+            this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.checkBoxMonitorNew);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -145,6 +158,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBoxMonitorNew;
+        private System.Windows.Forms.Button buttonClear;
 
     }
 }

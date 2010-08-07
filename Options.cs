@@ -39,7 +39,7 @@ namespace ChiiTrans
         }
     }
 
-    public class ReplacementList : List<Replacement>
+    public class ReplacementListComparers
     {
         public static int SortByOldText(Replacement a, Replacement b)
         {
@@ -73,7 +73,7 @@ namespace ChiiTrans
         
         public List<TranslatorRecord> translators;
         public Dictionary<string, ColorRecord> colors;
-        public ReplacementList replacements;
+        public List<Replacement> replacements;
 
         public int wordParseMethod;
         public string JDicServer;
@@ -100,6 +100,7 @@ namespace ChiiTrans
         public bool furiganaRomaji;
         public int maxBlocks;
         public bool largeMargins;
+        public int marginSize;
         public string hivemindServer;
         public bool toolbarVisible;
         public bool monitorNewThreads;
@@ -119,11 +120,7 @@ namespace ChiiTrans
             {
                 res.translators.Add(new TranslatorRecord(rec.id, rec.inUse));
             }
-            res.replacements = new ReplacementList();
-            foreach (Replacement rep in replacements)
-            {
-                res.replacements.Add(new Replacement(rep.oldText, rep.newText));
-            }
+            res.replacements = new List<Replacement>(replacements);
             res.colors = new Dictionary<string, ColorRecord>();
             foreach (KeyValuePair<string, ColorRecord> kvp in colors)
             {
@@ -182,11 +179,12 @@ namespace ChiiTrans
             furiganaRomaji = false;
             maxBlocks = 50;
             largeMargins = false;
+            marginSize = 500;
             hivemindServer = "http://chii.sorakake.ru/";
             toolbarVisible = true;
             monitorNewThreads = false;
 
-            replacements = new ReplacementList();
+            replacements = new List<Replacement>();
         }
 
         public void Save()
@@ -208,7 +206,7 @@ namespace ChiiTrans
             }
             catch (Exception)
             {
-                replacements = new ReplacementList();
+                replacements = new List<Replacement>();
             }
         }
 
@@ -295,6 +293,7 @@ namespace ChiiTrans
             loadOpt(data, "furiganaRomaji");
             loadOpt(data, "maxBlocks");
             loadOpt(data, "largeMargins");
+            loadOpt(data, "marginSize");
             loadOpt(data, "hivemindServer");
             loadOpt(data, "toolbarVisible");
             loadOpt(data, "monitorNewThreads");
@@ -340,6 +339,7 @@ namespace ChiiTrans
             saveOpt(data, "furiganaRomaji");
             saveOpt(data, "maxBlocks");
             saveOpt(data, "largeMargins");
+            saveOpt(data, "marginSize");
             saveOpt(data, "hivemindServer");
             saveOpt(data, "toolbarVisible");
             saveOpt(data, "monitorNewThreads");
@@ -349,7 +349,7 @@ namespace ChiiTrans
 
         public void LoadReplacements(string filename)
         {
-            replacements = new ReplacementList();
+            replacements = new List<Replacement>();
 
             string[] lines = File.ReadAllLines(filename);
             int start = 0;
@@ -402,15 +402,7 @@ namespace ChiiTrans
 
         public void RemoveDuplicateReplacements()
         {
-            ReplacementList res = new ReplacementList();
-            HashSet<string> existing = new HashSet<string>();
-            foreach (Replacement rep in replacements.Reverse<Replacement>())
-            {
-                if (existing.Add(rep.oldText))
-                    res.Add(rep);
-            }
-            res.Reverse();
-            replacements = res;
+            replacements = new List<Replacement>(replacements.Distinct());
         }
     }
 }

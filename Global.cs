@@ -177,25 +177,24 @@ namespace ChiiTrans
             }
             Rectangle rect = PInvokeFunc.GetWindowRect(gameWindow);
             int w = rect.Width;
-            int dw640 = Math.Abs(w - 640);
-            int dw800 = Math.Abs(w - 800);
-            int dw1024 = Math.Abs(w - 1024);
-            int fullX;
-            int fullY;
-            if (dw640 < dw800 && dw640 < dw1024)
+            int h = rect.Height;
+            int fullX = -1;
+            int fullY = -1;
+            int[,] sizes = { { 640, 480 }, { 800, 600 }, { 1024, 768 }, { 1152, 720 }, { 1152, 864 }, { 1280, 720 },
+                             { 1280, 768 }, { 1280, 800 }, { 1280, 960 }, {1280, 1024}, { 1360, 768 }, { 1440, 900 }, 
+                             { 1600, 900 }, { 1600, 1024 }, { 1600, 1200 } };
+            int minD = int.MaxValue;
+            for (int i = 0; i < sizes.Length; ++i)
             {
-                fullX = 640;
-                fullY = 480;
-            }
-            else if (dw800 < dw640 && dw800 < dw1024)
-            {
-                fullX = 800;
-                fullY = 600;
-            }
-            else
-            {
-                fullX = 1024;
-                fullY = 768;
+                int dx = w - sizes[i, 0];
+                int dy = h - sizes[i, 1];
+                int d = dx * dx + dy * dy;
+                if (d <= minD)
+                {
+                    minD = d;
+                    fullX = sizes[i, 0];
+                    fullY = sizes[i, 1];
+                }
             }
 
             Global.windowPosition.MainFormPosition = WindowPosition.Serialize(Form1.thisForm);
