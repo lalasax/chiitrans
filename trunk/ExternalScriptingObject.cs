@@ -21,16 +21,14 @@ namespace ChiiTrans
                 Global.options.appendBottom,
                 Global.options.dropShadow,
                 Global.options.maxBlocks,
-                Global.options.largeMargins
+                Global.options.largeMargins,
+                Global.options.marginSize
             );
             List<object> obj = new List<object>();
             foreach (KeyValuePair<string, ColorRecord> kvp in Global.options.colors)
             {
                 obj.Add(kvp.Key);
                 string clr = string.Format("#{0:X6}", kvp.Value.color.ToArgb() & 0xFFFFFF);
-                /*while (clr.Length < 6)
-                    clr = "0" + clr;
-                obj.Add("#" + clr);*/
                 obj.Add(clr);
             }
             Global.RunScript2("ApplyColors", obj.ToArray());

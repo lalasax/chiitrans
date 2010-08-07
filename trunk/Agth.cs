@@ -240,7 +240,7 @@ namespace ChiiTrans
                 for (int i = 0; i < 50; ++i) //to prevent infinite flood cycle
                 {
                     Thread.Sleep(Global.options.messageDelay);
-                    if (messages.Count <= old)
+                    if (messages.Count <= old || Global.options.checkRepeatingPhrasesAdv) //no wait for flood games
                         break;
                     old = messages.Count;
                 }

@@ -149,7 +149,7 @@ namespace ChiiTrans
             result = sb.ToString();
             string sempai = null;
             string sensei = null;
-            foreach (Replacement rep in options.replacements)
+            foreach (Replacement rep in options.replacements.OrderByDescending(rep => rep.oldText.Length))
             {
                 //suffixes hack
                 if (rep.oldText == "先輩")

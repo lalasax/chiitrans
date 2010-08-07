@@ -100,6 +100,7 @@ namespace ChiiTrans
                 radioFuriganaHiragana.Checked = true;
             numMaxBlocks.Value = options.maxBlocks;
             checkBoxLargeMargin.Checked = options.largeMargins;
+            numMarginSize.Value = options.marginSize;
             comboBoxHivemind.Text = options.hivemindServer;
 
             bindingSource1.DataSource = options.replacements;
@@ -199,6 +200,7 @@ namespace ChiiTrans
             Global.options.furiganaRomaji = radioFuriganaRomaji.Checked;
             Global.options.maxBlocks = (int)numMaxBlocks.Value;
             Global.options.largeMargins = checkBoxLargeMargin.Checked;
+            Global.options.marginSize = (int)numMarginSize.Value;
             Global.options.hivemindServer = comboBoxHivemind.Text;
 
             try
@@ -356,13 +358,13 @@ namespace ChiiTrans
 
         private void sortByOld_Click(object sender, EventArgs e)
         {
-            options.replacements.Sort(ReplacementList.SortByOldText);
+            options.replacements.Sort(ReplacementListComparers.SortByOldText);
             bindingSource1.ResetBindings(false);
         }
 
         private void sortByNew_Click(object sender, EventArgs e)
         {
-            options.replacements.Sort(ReplacementList.SortByNewText);
+            options.replacements.Sort(ReplacementListComparers.SortByNewText);
             bindingSource1.ResetBindings(false);
         }
 

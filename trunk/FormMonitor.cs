@@ -172,5 +172,11 @@ namespace ChiiTrans
         {
             Global.options.monitorNewThreads = checkBoxMonitorNew.Checked;
         }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            Global.agth.blocks.Clear();
+            FormMonitor_VisibleChanged(null, null);
+        }
     }
 }
