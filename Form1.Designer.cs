@@ -54,6 +54,7 @@
             this.menuitemClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadUserDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showFormBordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.buttonOnOff = new System.Windows.Forms.ToolStripButton();
@@ -75,8 +76,8 @@
             this.buttonTransparent = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
+            this.buttonUpdateEDICT = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
-            this.showFormBordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -125,7 +126,7 @@
             this.menuitemOptions,
             this.menuitemMore});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(279, 332);
+            this.contextMenu.Size = new System.Drawing.Size(279, 310);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // menuitemTranslate
@@ -291,6 +292,14 @@
             this.reloadUserDictionaryToolStripMenuItem.Text = "Reload user dictionary";
             this.reloadUserDictionaryToolStripMenuItem.Click += new System.EventHandler(this.reloadUserDictionaryToolStripMenuItem_Click);
             // 
+            // showFormBordersToolStripMenuItem
+            // 
+            this.showFormBordersToolStripMenuItem.Name = "showFormBordersToolStripMenuItem";
+            this.showFormBordersToolStripMenuItem.ShortcutKeyDisplayString = "B";
+            this.showFormBordersToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
+            this.showFormBordersToolStripMenuItem.Text = "Show form borders";
+            this.showFormBordersToolStripMenuItem.Click += new System.EventHandler(this.showFormBordersToolStripMenuItem_Click);
+            // 
             // textBoxDebug
             // 
             this.textBoxDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -327,6 +336,7 @@
             this.buttonFullscreen,
             this.buttonTransparent,
             this.toolStripSeparator3,
+            this.buttonUpdateEDICT,
             this.toolStripHomePage});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -506,19 +516,21 @@
             this.toolStripHomePage.Text = "Go to ChiiTrans\' home page";
             this.toolStripHomePage.Click += new System.EventHandler(this.toolStripHomePage_Click);
             // 
+            // buttonUpdateEDICT
+            // 
+            this.buttonUpdateEDICT.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonUpdateEDICT.Image = ((System.Drawing.Image)(resources.GetObject("buttonUpdateEDICT.Image")));
+            this.buttonUpdateEDICT.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonUpdateEDICT.Name = "buttonUpdateEDICT";
+            this.buttonUpdateEDICT.Size = new System.Drawing.Size(26, 26);
+            this.buttonUpdateEDICT.Text = "Update EDICT dictionary file";
+            this.buttonUpdateEDICT.Click += new System.EventHandler(this.buttonUpdateEDICT_Click);
+            // 
             // openFileDialogRun
             // 
             this.openFileDialogRun.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
-            // 
-            // showFormBordersToolStripMenuItem
-            // 
-            this.showFormBordersToolStripMenuItem.Name = "showFormBordersToolStripMenuItem";
-            this.showFormBordersToolStripMenuItem.ShortcutKeyDisplayString = "B";
-            this.showFormBordersToolStripMenuItem.Size = new System.Drawing.Size(277, 24);
-            this.showFormBordersToolStripMenuItem.Text = "Show form borders";
-            this.showFormBordersToolStripMenuItem.Click += new System.EventHandler(this.showFormBordersToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -595,6 +607,7 @@
         private System.Windows.Forms.ToolStripButton buttonDictionary;
         private System.Windows.Forms.ToolStripMenuItem searchInDictionaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showFormBordersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton buttonUpdateEDICT;
     }
 }
 

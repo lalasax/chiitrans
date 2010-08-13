@@ -374,8 +374,9 @@ namespace ChiiTrans
             string url = "http://translate.google.com/translate_a/t";
             string query = "client=t&text=" + UrlEncode(sourceFixed.Replace('　', ' ')) + "&sl=ja&tl=ja";
             HttpWebRequest req = CreateHTTPRequest(url + "?" + query);
-            JsObject js = Json.Parse(ReadAnswer(req));
-            string result = js["sentences"]["0"]["translit"].ToString();
+            string ans = ReadAnswer(req);
+            JsObject js = Json.Parse(ans);
+            string result = js["0"]["0"]["2"].ToString();
             result = Regex.Replace(result, "~tsu ([A-Za-z])", match => match.Groups[1].Value + match.Groups[1].Value);
             result = result.Replace("~tsu", "");
             return result;

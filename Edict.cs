@@ -121,9 +121,9 @@ namespace ChiiTrans
         {
             return _instance != null;
         }
-        public readonly bool Ready;
+        public bool Ready;
 
-        public readonly EdictEntry[] dict, rdict;
+        public EdictEntry[] dict, rdict;
         public EdictEntry[] user;
 
         private static string GetAnnotation(ref string meaning)
@@ -281,13 +281,15 @@ namespace ChiiTrans
 
         public Edict()
         {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             try
             {
-                //Cursor.Current = Cursors.WaitCursor;
                 Ready = true;
-                //long old = DateTime.Now.Ticks;
                 dict = LoadDictUsingCache("edict", Encoding.GetEncoding("EUC-JP"), out rdict);
-                //Form1.Debug(((double)(DateTime.Now.Ticks - old) / 10000000).ToString());
                 if (dict == null)
                 {
                     Ready = false;
@@ -295,10 +297,10 @@ namespace ChiiTrans
                 }
                 ReloadUserDictionary();
             }
-            finally
+            catch (Exception)
             {
-                //Cursor.Current = Cursors.Default;
-            }
+                Ready = false;
+            }        
         }
 
         public EdictEntry[] LoadDictUsingCache(string name, Encoding encoding, out EdictEntry[] rdict)
@@ -398,7 +400,7 @@ namespace ChiiTrans
             user = LoadDict(LoadDictText("user.txt", Encoding.UTF8));
         }
 
-        private string GetRealFilename(string filename)
+        public string GetRealFilename(string filename)
         {
             return Path.Combine(Path.Combine(Application.StartupPath, "edict"), filename);
         }
@@ -625,6 +627,25 @@ namespace ChiiTrans
         public EdictEntry SearchExact(string key, string pos)
         {
             return SearchExact(key, pos, false, false);
+        }
+
+        public string VersionInfo()
+        {
+            try
+            {
+                string fn = GetRealFilename("edict");
+                var fs = new FileStream(fn, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                var sr = new StreamReader(fs, Encoding.GetEncoding("EUC-JP"));
+                string s = sr.ReadLine();
+                sr.Close();
+                fs.Close();
+                var ss = s.Split('/');
+                return ss[ss.Length - 2].Trim() + ", " + (dict.Length + 1) + " entries";
+            }
+            catch (Exception)
+            {
+                return "(not available)";
+            }
         }
     }
 }

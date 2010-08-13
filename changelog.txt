@@ -1,5 +1,9 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.12b
+ - Fixed communications protocol with Google Translate.
+ - A button to download and update EDICT dictionary file.
+
 Version 1.12
  - Monitored Threads new feature: some moar buttons and option to auto-monitor new threads.
  - Option to choose margin size when Use Large Margins is enabled.
