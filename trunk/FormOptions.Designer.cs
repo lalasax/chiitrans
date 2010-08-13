@@ -86,7 +86,13 @@
             this.moveDownButton = new System.Windows.Forms.ToolStripButton();
             this.buttonInsert = new System.Windows.Forms.ToolStripButton();
             this.removeItemsButton = new System.Windows.Forms.ToolStripButton();
+            this.sortButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.sortByOld = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numMarginSize = new System.Windows.Forms.NumericUpDown();
             this.checkBoxLargeMargin = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.numMaxBlocks = new System.Windows.Forms.NumericUpDown();
@@ -105,12 +111,6 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.textBoxUserDict = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.numMarginSize = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.sortByOld = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortByNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -123,11 +123,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).BeginInit();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -547,7 +547,7 @@
             this.radioNone.AutoSize = true;
             this.radioNone.Location = new System.Drawing.Point(6, 94);
             this.radioNone.Name = "radioNone";
-            this.radioNone.Size = new System.Drawing.Size(73, 27);
+            this.radioNone.Size = new System.Drawing.Size(63, 21);
             this.radioNone.TabIndex = 21;
             this.radioNone.Text = "None";
             this.radioNone.UseVisualStyleBackColor = true;
@@ -557,7 +557,7 @@
             this.radioJdic.AutoSize = true;
             this.radioJdic.Location = new System.Drawing.Point(6, 61);
             this.radioJdic.Name = "radioJdic";
-            this.radioJdic.Size = new System.Drawing.Size(169, 27);
+            this.radioJdic.Size = new System.Drawing.Size(142, 21);
             this.radioJdic.TabIndex = 1;
             this.radioJdic.Text = "WWWJDIC mirror:";
             this.radioJdic.UseVisualStyleBackColor = true;
@@ -586,7 +586,7 @@
             this.radioEdict.Checked = true;
             this.radioEdict.Location = new System.Drawing.Point(6, 28);
             this.radioEdict.Name = "radioEdict";
-            this.radioEdict.Size = new System.Drawing.Size(228, 27);
+            this.radioEdict.Size = new System.Drawing.Size(194, 21);
             this.radioEdict.TabIndex = 0;
             this.radioEdict.TabStop = true;
             this.radioEdict.Text = "Builtin parser using EDICT";
@@ -597,7 +597,7 @@
             this.checkBoxPromt.AutoSize = true;
             this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
             this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
+            this.checkBoxPromt.Size = new System.Drawing.Size(238, 21);
             this.checkBoxPromt.TabIndex = 23;
             this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
             this.checkBoxPromt.UseVisualStyleBackColor = true;
@@ -618,7 +618,7 @@
             this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 314);
             this.checkBoxTranslateOther.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTranslateOther.Name = "checkBoxTranslateOther";
-            this.checkBoxTranslateOther.Size = new System.Drawing.Size(253, 27);
+            this.checkBoxTranslateOther.Size = new System.Drawing.Size(214, 21);
             this.checkBoxTranslateOther.TabIndex = 18;
             this.checkBoxTranslateOther.Text = "Translate to other language: ";
             this.checkBoxTranslateOther.UseVisualStyleBackColor = true;
@@ -821,6 +821,32 @@
             this.removeItemsButton.Text = "Delete row";
             this.removeItemsButton.Click += new System.EventHandler(this.removeItemsButton_Click);
             // 
+            // sortButton
+            // 
+            this.sortButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.sortButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortByOld,
+            this.sortByNew});
+            this.sortButton.Image = ((System.Drawing.Image)(resources.GetObject("sortButton.Image")));
+            this.sortButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.sortButton.Name = "sortButton";
+            this.sortButton.Size = new System.Drawing.Size(29, 22);
+            this.sortButton.Text = "Sort";
+            // 
+            // sortByOld
+            // 
+            this.sortByOld.Name = "sortByOld";
+            this.sortByOld.Size = new System.Drawing.Size(185, 24);
+            this.sortByOld.Text = "Sort by old text";
+            this.sortByOld.Click += new System.EventHandler(this.sortByOld_Click);
+            // 
+            // sortByNew
+            // 
+            this.sortByNew.Name = "sortByNew";
+            this.sortByNew.Size = new System.Drawing.Size(185, 24);
+            this.sortByNew.Text = "Sort by new text";
+            this.sortByNew.Click += new System.EventHandler(this.sortByNew_Click);
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.label8);
@@ -847,12 +873,45 @@
             this.tabPage4.Text = "Appearance";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(557, 186);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(28, 23);
+            this.label8.TabIndex = 52;
+            this.label8.Text = "px";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(438, 186);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 23);
+            this.label7.TabIndex = 51;
+            this.label7.Text = "Size:";
+            // 
+            // numMarginSize
+            // 
+            this.numMarginSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMarginSize.Location = new System.Drawing.Point(489, 184);
+            this.numMarginSize.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numMarginSize.Name = "numMarginSize";
+            this.numMarginSize.Size = new System.Drawing.Size(68, 29);
+            this.numMarginSize.TabIndex = 50;
+            // 
             // checkBoxLargeMargin
             // 
             this.checkBoxLargeMargin.AutoSize = true;
             this.checkBoxLargeMargin.Location = new System.Drawing.Point(6, 184);
             this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(285, 21);
             this.checkBoxLargeMargin.TabIndex = 49;
             this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
             this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
@@ -962,7 +1021,7 @@
             this.checkBoxShadow.AutoSize = true;
             this.checkBoxShadow.Location = new System.Drawing.Point(6, 121);
             this.checkBoxShadow.Name = "checkBoxShadow";
-            this.checkBoxShadow.Size = new System.Drawing.Size(294, 27);
+            this.checkBoxShadow.Size = new System.Drawing.Size(244, 21);
             this.checkBoxShadow.TabIndex = 42;
             this.checkBoxShadow.Text = "Drop shadow in transparent mode";
             this.checkBoxShadow.UseVisualStyleBackColor = true;
@@ -1052,65 +1111,6 @@
             this.colorDialog1.AnyColor = true;
             this.colorDialog1.FullOpen = true;
             // 
-            // numMarginSize
-            // 
-            this.numMarginSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMarginSize.Location = new System.Drawing.Point(489, 184);
-            this.numMarginSize.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.numMarginSize.Name = "numMarginSize";
-            this.numMarginSize.Size = new System.Drawing.Size(68, 29);
-            this.numMarginSize.TabIndex = 50;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(438, 186);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 23);
-            this.label7.TabIndex = 51;
-            this.label7.Text = "Size:";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(557, 186);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(28, 23);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "px";
-            // 
-            // sortByOld
-            // 
-            this.sortByOld.Name = "sortByOld";
-            this.sortByOld.Size = new System.Drawing.Size(185, 24);
-            this.sortByOld.Text = "Sort by old text";
-            this.sortByOld.Click += new System.EventHandler(this.sortByOld_Click);
-            // 
-            // sortByNew
-            // 
-            this.sortByNew.Name = "sortByNew";
-            this.sortByNew.Size = new System.Drawing.Size(185, 24);
-            this.sortByNew.Text = "Sort by new text";
-            this.sortByNew.Click += new System.EventHandler(this.sortByNew_Click);
-            // 
-            // sortButton
-            // 
-            this.sortButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.sortButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortByOld,
-            this.sortByNew});
-            this.sortButton.Image = ((System.Drawing.Image)(resources.GetObject("sortButton.Image")));
-            this.sortButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.sortButton.Name = "sortButton";
-            this.sortButton.Size = new System.Drawing.Size(29, 22);
-            this.sortButton.Text = "Sort";
-            // 
             // FormOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1147,12 +1147,12 @@
             this.toolStrip1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).EndInit();
             this.ResumeLayout(false);
 
         }

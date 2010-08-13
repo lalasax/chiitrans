@@ -750,5 +750,10 @@ namespace ChiiTrans
         {
             MakeSizable();
         }
+
+        private void buttonUpdateEDICT_Click(object sender, EventArgs e)
+        {
+            FormUpdate.instance.ShowDialog();
+        }
     }
 }

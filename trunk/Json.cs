@@ -102,6 +102,14 @@ namespace ChiiTrans
                     if (tokens[pos].type == TokenType.COMMA)
                         pos += 1;
                 }
+                while (pos < tokens.Count && tokens[pos].type == TokenType.COMMA)
+                {
+                    var cur2 = new JsObject();
+                    res.Add(cur2);
+                    ++pos;
+                }
+                if (pos >= tokens.Count)
+                    break;
                 var cur = ParseObject(tokens, pos);
                 pos = cur.second;
                 res.Add(cur.first);
