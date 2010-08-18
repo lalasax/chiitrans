@@ -143,7 +143,7 @@ namespace ChiiTrans
                 if (s == null || s == "")
                     continue;
                 Rectangle rect = PInvokeFunc.GetWindowRect(hwnd);
-                if (rect.Width >= 640 && rect.Width < 1100)
+                if (rect.Width >= 640 && rect.Width < 1300)
                     result.Add(hwnd);
             }
             return result.ToArray();
@@ -184,7 +184,7 @@ namespace ChiiTrans
                              { 1280, 768 }, { 1280, 800 }, { 1280, 960 }, {1280, 1024}, { 1360, 768 }, { 1440, 900 }, 
                              { 1600, 900 }, { 1600, 1024 }, { 1600, 1200 } };
             int minD = int.MaxValue;
-            for (int i = 0; i < sizes.Length; ++i)
+            for (int i = 0; i <= sizes.GetUpperBound(0); ++i)
             {
                 int dx = w - sizes[i, 0];
                 int dy = h - sizes[i, 1];
