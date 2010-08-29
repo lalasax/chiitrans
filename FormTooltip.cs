@@ -22,6 +22,11 @@ namespace ChiiTrans
             }
         }
 
+        public static bool isCreated()
+        {
+            return _instance != null;
+        }
+
         private Font LabelFont;
         private Label label1;
         private Size labelMaxSize;

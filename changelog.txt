@@ -1,5 +1,8 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.12c
+ - Fixed fullscreen mode.
+
 Version 1.12b
  - Fixed communications protocol with Google Translate.
  - A button to download and update EDICT dictionary file.
