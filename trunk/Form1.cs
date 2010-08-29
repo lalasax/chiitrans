@@ -257,6 +257,10 @@ namespace ChiiTrans
             {
                 FormBottomLayer.instance.Hide();
             }
+            if (FormTooltip.isCreated())
+            {
+                FormTooltip.instance.Hide();
+            }
             if (Global.options.useCache)
                 Global.cache.Save();
             Global.options.SaveOptions();
