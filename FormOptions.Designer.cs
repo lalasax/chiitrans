@@ -111,6 +111,9 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.textBoxUserDict = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.button7 = new System.Windows.Forms.Button();
+            this.textBoxTooltipFont = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -547,7 +550,7 @@
             this.radioNone.AutoSize = true;
             this.radioNone.Location = new System.Drawing.Point(6, 94);
             this.radioNone.Name = "radioNone";
-            this.radioNone.Size = new System.Drawing.Size(63, 21);
+            this.radioNone.Size = new System.Drawing.Size(73, 27);
             this.radioNone.TabIndex = 21;
             this.radioNone.Text = "None";
             this.radioNone.UseVisualStyleBackColor = true;
@@ -557,7 +560,7 @@
             this.radioJdic.AutoSize = true;
             this.radioJdic.Location = new System.Drawing.Point(6, 61);
             this.radioJdic.Name = "radioJdic";
-            this.radioJdic.Size = new System.Drawing.Size(142, 21);
+            this.radioJdic.Size = new System.Drawing.Size(169, 27);
             this.radioJdic.TabIndex = 1;
             this.radioJdic.Text = "WWWJDIC mirror:";
             this.radioJdic.UseVisualStyleBackColor = true;
@@ -586,7 +589,7 @@
             this.radioEdict.Checked = true;
             this.radioEdict.Location = new System.Drawing.Point(6, 28);
             this.radioEdict.Name = "radioEdict";
-            this.radioEdict.Size = new System.Drawing.Size(194, 21);
+            this.radioEdict.Size = new System.Drawing.Size(228, 27);
             this.radioEdict.TabIndex = 0;
             this.radioEdict.TabStop = true;
             this.radioEdict.Text = "Builtin parser using EDICT";
@@ -597,7 +600,7 @@
             this.checkBoxPromt.AutoSize = true;
             this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
             this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(238, 21);
+            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
             this.checkBoxPromt.TabIndex = 23;
             this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
             this.checkBoxPromt.UseVisualStyleBackColor = true;
@@ -618,7 +621,7 @@
             this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 314);
             this.checkBoxTranslateOther.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTranslateOther.Name = "checkBoxTranslateOther";
-            this.checkBoxTranslateOther.Size = new System.Drawing.Size(214, 21);
+            this.checkBoxTranslateOther.Size = new System.Drawing.Size(253, 27);
             this.checkBoxTranslateOther.TabIndex = 18;
             this.checkBoxTranslateOther.Text = "Translate to other language: ";
             this.checkBoxTranslateOther.UseVisualStyleBackColor = true;
@@ -849,6 +852,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button7);
+            this.tabPage4.Controls.Add(this.textBoxTooltipFont);
+            this.tabPage4.Controls.Add(this.label9);
             this.tabPage4.Controls.Add(this.label8);
             this.tabPage4.Controls.Add(this.label7);
             this.tabPage4.Controls.Add(this.numMarginSize);
@@ -877,7 +883,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(557, 186);
+            this.label8.Location = new System.Drawing.Point(557, 245);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(28, 23);
             this.label8.TabIndex = 52;
@@ -887,7 +893,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(438, 186);
+            this.label7.Location = new System.Drawing.Point(439, 245);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 23);
             this.label7.TabIndex = 51;
@@ -896,7 +902,7 @@
             // numMarginSize
             // 
             this.numMarginSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMarginSize.Location = new System.Drawing.Point(489, 184);
+            this.numMarginSize.Location = new System.Drawing.Point(489, 243);
             this.numMarginSize.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -909,9 +915,9 @@
             // checkBoxLargeMargin
             // 
             this.checkBoxLargeMargin.AutoSize = true;
-            this.checkBoxLargeMargin.Location = new System.Drawing.Point(6, 184);
+            this.checkBoxLargeMargin.Location = new System.Drawing.Point(7, 243);
             this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(285, 21);
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
             this.checkBoxLargeMargin.TabIndex = 49;
             this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
             this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
@@ -919,7 +925,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(215, 151);
+            this.label5.Location = new System.Drawing.Point(216, 210);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(98, 23);
             this.label5.TabIndex = 48;
@@ -927,7 +933,7 @@
             // 
             // numMaxBlocks
             // 
-            this.numMaxBlocks.Location = new System.Drawing.Point(89, 149);
+            this.numMaxBlocks.Location = new System.Drawing.Point(90, 208);
             this.numMaxBlocks.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -950,7 +956,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 151);
+            this.label1.Location = new System.Drawing.Point(3, 210);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 23);
             this.label1.TabIndex = 46;
@@ -970,7 +976,7 @@
             // labelColors
             // 
             this.labelColors.AutoSize = true;
-            this.labelColors.Location = new System.Drawing.Point(1, 214);
+            this.labelColors.Location = new System.Drawing.Point(2, 273);
             this.labelColors.Name = "labelColors";
             this.labelColors.Size = new System.Drawing.Size(58, 23);
             this.labelColors.TabIndex = 44;
@@ -990,7 +996,7 @@
             this.gridColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.name,
             this.color});
-            this.gridColors.Location = new System.Drawing.Point(6, 240);
+            this.gridColors.Location = new System.Drawing.Point(6, 300);
             this.gridColors.MultiSelect = false;
             this.gridColors.Name = "gridColors";
             this.gridColors.ReadOnly = true;
@@ -998,7 +1004,7 @@
             this.gridColors.RowTemplate.Height = 28;
             this.gridColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridColors.Size = new System.Drawing.Size(579, 186);
+            this.gridColors.Size = new System.Drawing.Size(579, 126);
             this.gridColors.TabIndex = 43;
             this.gridColors.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColors_CellDoubleClick);
             // 
@@ -1019,9 +1025,9 @@
             // checkBoxShadow
             // 
             this.checkBoxShadow.AutoSize = true;
-            this.checkBoxShadow.Location = new System.Drawing.Point(6, 121);
+            this.checkBoxShadow.Location = new System.Drawing.Point(7, 180);
             this.checkBoxShadow.Name = "checkBoxShadow";
-            this.checkBoxShadow.Size = new System.Drawing.Size(244, 21);
+            this.checkBoxShadow.Size = new System.Drawing.Size(294, 27);
             this.checkBoxShadow.TabIndex = 42;
             this.checkBoxShadow.Text = "Drop shadow in transparent mode";
             this.checkBoxShadow.UseVisualStyleBackColor = true;
@@ -1032,7 +1038,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBarOpacity.AutoSize = false;
             this.trackBarOpacity.LargeChange = 10;
-            this.trackBarOpacity.Location = new System.Drawing.Point(5, 84);
+            this.trackBarOpacity.Location = new System.Drawing.Point(6, 143);
             this.trackBarOpacity.Margin = new System.Windows.Forms.Padding(2);
             this.trackBarOpacity.Maximum = 100;
             this.trackBarOpacity.Name = "trackBarOpacity";
@@ -1043,7 +1049,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(2, 59);
+            this.label4.Location = new System.Drawing.Point(3, 118);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(293, 23);
@@ -1079,9 +1085,9 @@
             this.labelFont.Location = new System.Drawing.Point(2, 3);
             this.labelFont.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelFont.Name = "labelFont";
-            this.labelFont.Size = new System.Drawing.Size(44, 23);
+            this.labelFont.Size = new System.Drawing.Size(162, 23);
             this.labelFont.TabIndex = 37;
-            this.labelFont.Text = "Font";
+            this.labelFont.Text = "Font - main window";
             // 
             // tabPage5
             // 
@@ -1110,6 +1116,39 @@
             // 
             this.colorDialog1.AnyColor = true;
             this.colorDialog1.FullOpen = true;
+            // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(489, 85);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(96, 29);
+            this.button7.TabIndex = 55;
+            this.button7.Text = "Change...";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // textBoxTooltipFont
+            // 
+            this.textBoxTooltipFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTooltipFont.Location = new System.Drawing.Point(6, 85);
+            this.textBoxTooltipFont.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxTooltipFont.Name = "textBoxTooltipFont";
+            this.textBoxTooltipFont.ReadOnly = true;
+            this.textBoxTooltipFont.Size = new System.Drawing.Size(479, 29);
+            this.textBoxTooltipFont.TabIndex = 54;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(2, 60);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(118, 23);
+            this.label9.TabIndex = 53;
+            this.label9.Text = "Font - tooltips";
             // 
             // FormOptions
             // 
@@ -1240,5 +1279,8 @@
         private System.Windows.Forms.ToolStripDropDownButton sortButton;
         private System.Windows.Forms.ToolStripMenuItem sortByOld;
         private System.Windows.Forms.ToolStripMenuItem sortByNew;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox textBoxTooltipFont;
+        private System.Windows.Forms.Label label9;
     }
 }

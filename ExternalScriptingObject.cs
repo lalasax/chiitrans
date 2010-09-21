@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Web;
+using System.Threading;
 
 namespace ChiiTrans
 {
@@ -43,7 +44,32 @@ namespace ChiiTrans
             }
         }
 
-        public void HivemindClick(string block_id, string block_name, string id, string src)
+        public void HivemindFastSubmit(string block_id, string block_name, string id, string src, string trans)
+        {
+            string url;
+            url = Global.options.hivemindServer;
+            url += (url.EndsWith("/") ? "" : "/");
+            StringBuilder q = new StringBuilder();
+            if (string.IsNullOrEmpty(id) || id == "0")
+            {
+                q.Append("src=" + Translation.UrlEncode(src));
+            }
+            else
+            {
+                q.Append("src_id=" + Translation.UrlEncode(id));
+            }
+            q.Append("&trans=" + Translation.UrlEncode(trans));
+            HivemindSubmit.RequestData req = new HivemindSubmit.RequestData();
+            req.query = q.ToString();
+            req.block_id = block_id;
+            req.block_name = block_name;
+            req.translation = trans;
+            Thread reqThread = new Thread(HivemindSubmit.instance.reqThreadProc);
+            reqThread.IsBackground = true;
+            reqThread.Start(req);
+        }
+
+        public void HivemindEdit(string block_id, string block_name, string id, string src)
         {
             string url;
             url = Global.options.hivemindServer;
@@ -60,6 +86,16 @@ namespace ChiiTrans
                 url += "index.php?p=view&id=" + id;
                 Process.Start(url);
             }
+        }
+
+        public void LockHotkeys()
+        {
+            Global.lockHotkeys = true;
+        }
+
+        public void UnlockHotkeys()
+        {
+            Global.lockHotkeys = false;
         }
 
         public void ShowTooltip(string title, string text)

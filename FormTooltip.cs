@@ -59,9 +59,9 @@ namespace ChiiTrans
         {
             //SuspendLayout();
             //panel.SuspendLayout();
-            LabelFont = new Font("Arial", Global.options.font.Size * 0.8f, FontStyle.Regular);
-            label1.Font = new Font("MS Mincho", Global.options.font.Size * 1.1f, FontStyle.Regular);
-            panel.ColumnStyles[0].Width = Global.options.font.Size * 3f;
+            LabelFont = new Font(Global.options.tooltipFont.FontFamily.Name, Global.options.tooltipFont.Size * 0.8f, FontStyle.Regular);
+            label1.Font = new Font("MS Mincho", Global.options.tooltipFont.Size * 1.1f, FontStyle.Regular);
+            panel.ColumnStyles[0].Width = Global.options.tooltipFont.Size * 3f;
             label1.Text = title;
             string[] meaning = text.Split('$');
             panel.Controls.Clear();
