@@ -1230,7 +1230,16 @@ namespace ChiiTrans
                     res.Add(formatReading(rr.key, rr.reading));
                     res.Add(rr.dict_key);
                     res.Add(formatReading(rr.dict_key, rr.dict_reading));
-                    res.Add(formatMeaning(rr.meaning));
+                    string meaning;
+                    if (Edict.instance.warodai != null && Edict.instance.warodai.ContainsKey(rr.dict_key))
+                    {
+                        meaning = Regex.Replace(Edict.instance.warodai[rr.dict_key], @"\<.*?\>", "");
+                    }
+                    else
+                    {
+                        meaning = formatMeaning(rr.meaning);
+                    }
+                    res.Add(meaning);
                 }
             }
             lastParsedSource = source;
@@ -1238,7 +1247,7 @@ namespace ChiiTrans
             return lastParsedResult;
         }
 
-        private string MyTranslateWords(string source)
+        /*private string MyTranslateWords(string source)
         {
             if (source == lastParsedSource)
                 return lastParsedResult;
@@ -1338,7 +1347,7 @@ namespace ChiiTrans
             lastParsedSource = source;
             lastParsedResult = string.Join("\r", res.ToArray());
             return lastParsedResult;
-        }
+        }*/
 
         public void BuiltinParserLookup()
         {

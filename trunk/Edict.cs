@@ -125,6 +125,7 @@ namespace ChiiTrans
 
         public EdictEntry[] dict, rdict;
         public EdictEntry[] user;
+        public Dictionary<string, string> warodai;
 
         private static string GetAnnotation(ref string meaning)
         {
@@ -296,11 +297,40 @@ namespace ChiiTrans
                     return;
                 }
                 ReloadUserDictionary();
+                LoadWarodai();
             }
             catch (Exception)
             {
                 Ready = false;
             }        
+        }
+
+        private void LoadWarodai()
+        {
+            try
+            {
+                string fn = GetRealFilename("warodai.txt");
+                if (File.Exists(fn))
+                {
+                    warodai = new Dictionary<string, string>();
+                    string[] s = File.ReadAllText(fn, Encoding.GetEncoding(1200)).Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 1; i < s.Length; ++i)
+                    {
+                        string key;
+                        int x = s[i].IndexOf('【') + 1;
+                        if (x == 0)
+                            key = s[i].Substring(s[i].IndexOf('('));
+                        else
+                            key = s[i].Substring(x, s[i].IndexOf('】') - x);
+                        string text = s[i].Substring(s[i].IndexOf('\n') + 1);
+                        if (!warodai.ContainsKey(key))
+                        {
+                            warodai.Add(key, text);
+                        }
+                    }
+                }
+            }
+            catch (Exception) { throw; }
         }
 
         public EdictEntry[] LoadDictUsingCache(string name, Encoding encoding, out EdictEntry[] rdict)
