@@ -12,6 +12,7 @@ namespace ChiiTrans
     public partial class FormOptions : Form
     {
         private Font font;
+        private Font tooltipFont;
         private Options options;
         private List<ColorRecord> colors;
         private bool userDictInit;
@@ -84,6 +85,8 @@ namespace ChiiTrans
             this.font = options.font;
             fontDialog1.Font = font;
             textBoxFont.Text = (string)(new FontConverter().ConvertToString(font));
+            this.tooltipFont = options.tooltipFont;
+            textBoxTooltipFont.Text = (string)(new FontConverter().ConvertToString(tooltipFont));
             checkBoxTranslateOther.Checked = options.translateToOtherLanguage;
             textBoxLanguage.Text = options.translateLanguage;
             checkBoxCache.Checked = options.useCache;
@@ -186,6 +189,7 @@ namespace ChiiTrans
             Global.options.messageDelay = (int)numericClipboardPollInterval.Value;
             Global.options.maxSourceLength = (int)numericMaxSourceLength.Value;
             Global.options.font = this.font;
+            Global.options.tooltipFont = this.tooltipFont;
             Global.options.replacements = options.replacements;
             Global.options.translateToOtherLanguage = checkBoxTranslateOther.Checked;
             Global.options.translateLanguage = textBoxLanguage.Text;
@@ -447,6 +451,15 @@ namespace ChiiTrans
         private void textBoxUserDict_TextChanged(object sender, EventArgs e)
         {
             userDictChanged = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (fontDialog1.ShowDialog() == DialogResult.OK)
+            {
+                tooltipFont = fontDialog1.Font;
+                textBoxTooltipFont.Text = (string)(new FontConverter().ConvertToString(tooltipFont));
+            }
         }
     }
 }

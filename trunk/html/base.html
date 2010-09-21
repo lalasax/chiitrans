@@ -112,15 +112,14 @@ ruby.romaji
     ruby-align: center;
 }
 
-.hivemind_link
+.hivemind_edit
 {
-    cursor: pointer;
-}
-
-.hivemind_link:hover
-{
-    color: blue;
-    text-decoration:underline;
+    border: 0px;
+    width: 99%;
+    background: transparent;
+    margin: -1px 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 table.dictsearch
@@ -190,6 +189,8 @@ var tmode = false;
 var maxBlocks = 50;
 var largeMargins = false;
 var marginSize = "500px";
+var fontSettings;
+var hotkeysLocked = false; 
 
 function appendBlock(id)
 {
@@ -359,6 +360,7 @@ function ClearContent()
     $("#content").empty();
     blocks = {};
     blocks_list = [];
+    UnlockHotkeys();
 }
 
 function UpdateWords(id, s, status)
@@ -457,6 +459,13 @@ function UpdateWords(id, s, status)
     scrollWnd();        
 }
 
+function resizeTextArea(area) {
+    var hh = $(this).attr('scrollHeight');
+    if (hh == '0')
+        return;
+    $(this).css('height', hh)
+}
+
 function UpdateHivemind(block_id, block_name, text, status)
 {
     var div = $(blocks[block_id].trans[block_name]);
@@ -469,19 +478,76 @@ function UpdateHivemind(block_id, block_name, text, status)
     var tt = text.split(',');
     var id = tt.shift();
     var text = tt.join(',');
+    var link;
     if (text == '')
-        text = '(not found)';
-    var link = make('span', 'hivemind_link', textnode(text));
-    $(link).click(function(ev)
     {
-        window.external.HivemindClick(block_id, block_name, id, src);
-    });
-    div.html(link); 
+        text = '(not found)';
+    }
+    link = $("<textarea class='hivemind_edit' title='Ctrl-click to open the form'></textarea>");
+    $(link).val(text)
+    .addClass(tmode ? "html_tmode" : "html_normal")
+    .css(fontSettings)
+    .click(function(ev)
+    {
+        if (ev.ctrlKey)
+        {
+            ev.preventDefault();
+            window.external.HivemindEdit(block_id, block_name, id, src);
+        }
+    })
+    .focus(function(ev)
+    {
+        var $this = $(this);
+        if ($this.val() == '(not found)')
+        {
+            $this.val('');
+        }
+        $this.data('focused', true);
+        LockHotkeys();
+    })
+    .blur(function(ev)
+    {
+        $(this).data('focused', false);
+        var $this = $(this);
+        if ($this.val() == '')
+        {
+            $this.val('(not found)');
+        }
+        UnlockHotkeys();
+        resizeTextArea.call(this);
+    }).keypress(function(ev)
+    {
+        var res = $(this).val();
+        if (ev.keyCode == 13 && res != '')
+        {
+            UnlockHotkeys();
+            window.external.HivemindFastSubmit(block_id, block_name, id, src, res);
+        }
+        else if (ev.keyCode == 27)
+        {
+            $(this).val(text);
+            $(this).blur();
+        }
+    }).hover(function(ev)
+    {
+        if (!$(this).data('focused'))
+        {
+            $(this).css({color: 'blue'})
+        }
+    }, function(ev)
+    {
+        $(this).css({color: ''})
+    })
+    div.html(link);
+    link.each(resizeTextArea)
+    .keydown(resizeTextArea)
+    .keyup(resizeTextArea);
 }
 
 function ApplySettings(font_name, font_size, _appendBottom, _dropShadow, _maxBlocks, _largeMargins, _marginSize)
 {
-    $(document.body).css({fontFamily: font_name, fontSize: font_size + "pt"});
+    fontSettings = {fontFamily: font_name, fontSize: font_size + "pt"};  
+    $(document.body).css(fontSettings);
     appendBottom = _appendBottom;
     dropShadow = _dropShadow;
     maxBlocks = _maxBlocks;
@@ -537,6 +603,7 @@ function TransparentModeOn()
     tmode = true;
     $("html").addClass("html_tmode").removeClass("html_normal");
     $("body").addClass("html_tmode").removeClass("html_normal");
+    $(".hivemind_edit").addClass("html_tmode").removeClass("html_normal");
     $(".span_word").addClass("span_word_tmode").removeClass("span_word");
     $(".span_word2").addClass("span_word2_tmode").removeClass("span_word2");
     $(".trans_row").addClass("trans_row_tmode").removeClass("trans_row");
@@ -552,6 +619,7 @@ function TransparentModeOff()
     updateShadow();
     $("html").addClass("html_normal").removeClass("html_tmode");
     $("body").addClass("html_normal").removeClass("html_tmode");
+    $(".hivemind_edit").addClass("html_normal").removeClass("html_tmode");
     $(".span_word_tmode").addClass("span_word").removeClass("span_word_tmode");
     $(".span_word2_tmode").addClass("span_word2").removeClass("span_word2_tmode");
     $(".trans_row_tmode").addClass("trans_row").removeClass("trans_row_tmode");
@@ -560,10 +628,24 @@ function TransparentModeOff()
     scrollWnd();
 }
 
+function UnlockHotkeys()
+{
+    hotkeysLocked = false;
+    external.UnlockHotkeys();
+}
+
+function LockHotkeys()
+{
+    hotkeysLocked = true;
+    external.LockHotkeys();
+}
+
 //// PRIVATE ////
+
 
 $(function()
 {
+    UnlockHotkeys();
     window.external.UpdateBrowserSettings();
 });
 
@@ -711,7 +793,9 @@ function textnode(x) {
 
 function getTranslatorTitle(s)
 {
-    if (s == "Translit (Google)")
+    if (s == "Translit (int.)")
+        s = "Translit";
+    else if (s == "Translit (Google)")
         s = "Google TL";
     else if (s == "Translit (MeCab)")
         s = "MeCab TL";
@@ -799,7 +883,7 @@ function hideTooltip()
 
 $(document).keydown(function(ev)
 {
-    if (ev.keyCode == 32)
+    if (ev.keyCode == 32 && !hotkeysLocked)
         ev.preventDefault();
 });
 

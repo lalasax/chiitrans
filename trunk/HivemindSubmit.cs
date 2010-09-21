@@ -96,7 +96,7 @@ namespace ChiiTrans
             Hide();
         }
 
-        class RequestData
+        public class RequestData
         {
             public string query;
             public string block_id;
@@ -104,7 +104,7 @@ namespace ChiiTrans
             public string translation;
         }
 
-        void reqThreadProc(Object data)
+        public void reqThreadProc(Object data)
         {
             RequestData reqdata = (RequestData)data;
             try

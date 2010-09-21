@@ -334,6 +334,8 @@ namespace ChiiTrans
         Keys oldKey;
         private void browser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            if (Global.lockHotkeys)
+                return;
             if (e.KeyCode == oldKey && duplicateWorkaround)
             {
                 duplicateWorkaround = false;

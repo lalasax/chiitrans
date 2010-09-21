@@ -24,7 +24,7 @@ namespace ChiiTrans
         private string sourceNew;
         private string sourceFixed;
         public int id { get; private set; }
-        public static string[] Translators = { "Translit (MeCab)", "Atlas", "Translit (Google)", "OCN", "Babylon", "Google", "SysTran", "Excite", "Hivemind (alpha)", "EDICT" };
+        public static string[] Translators = { "Atlas", "Translit (int.)", "Translit (Google)", "Translit (MeCab)", "OCN", "Babylon", "Google", "SysTran", "Excite", "Hivemind (alpha)", "EDICT" };
         private int tasksToComplete;
         private Options options;
 
@@ -92,6 +92,8 @@ namespace ChiiTrans
                     new TranslationTask(this, s, this.GetType().GetMethod("TranslateMecabTranslit"), false);
                 else if (s == "Translit (Google)")
                     new TranslationTask(this, s, this.GetType().GetMethod("TranslateTranslit"), false);
+                else if (s == "Translit (int.)")
+                    new TranslationTask(this, s, this.GetType().GetMethod("TranslateMyTranslit"), false);
                 else if (s.StartsWith("Hivemind"))
                     new TranslationTask(this, s, this.GetType().GetMethod("TranslateHivemind"), false);
                 else
@@ -151,6 +153,10 @@ namespace ChiiTrans
             string sensei = null;
             foreach (Replacement rep in options.replacements.OrderByDescending(rep => rep.oldText.Length))
             {
+                if (rep.oldText.StartsWith("#"))
+                {
+                    continue;
+                }
                 //suffixes hack
                 if (rep.oldText == "先輩")
                     sempai = rep.newText;
@@ -600,6 +606,45 @@ namespace ChiiTrans
                 result = HiraganaConvertor.instance.Convert(result);
             }
             return result;
+        }
+
+        public string TranslateMyTranslit()
+        {
+            string[] res = MyTranslateWordsDyn(source).Split('\r');
+            int pos = 0;
+            List<string> ans = new List<string>();
+            if (res.Length >= 5)
+            {
+                for (int i = 0; i < res.Length; i += 5)
+                {
+                    string key = res[i];
+                    int x = source.IndexOf(key, pos);
+                    if (x > 0)
+                    {
+                        string foo = source.Substring(pos, x - pos);
+                        foo = foo.Replace('は', 'わ');
+                        ans.Add(foo);
+                    }
+                    if (x >= 0)
+                        pos = x + key.Length;
+                    ans.Add(res[i + 1] == "" ? res[i] : res[i + 1]);
+                }
+            }
+            if (pos < source.Length)
+            {
+                string foo = source.Substring(pos);
+                foo = foo.Replace('は', 'わ');
+                ans.Add(foo);
+            }
+            StringBuilder resstr = new StringBuilder();
+            for (int i = 0; i < ans.Count; ++i)
+            {
+                string s = ans[i];
+                if (i > 0 && (s.Length == 0 || char.IsLetterOrDigit(s[0])))
+                    resstr.Append(' ');
+                resstr.Append(s);
+            }
+            return HiraganaConvertor.instance.Convert(KatakanaToHiragana(resstr.ToString()));
         }
 
         public string TranslateAtlas()

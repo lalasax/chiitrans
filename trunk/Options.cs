@@ -85,6 +85,7 @@ namespace ChiiTrans
         public int messageDelay;
         public int maxSourceLength;
         public Font font;
+        public Font tooltipFont;
         public bool translateToOtherLanguage;
         public string translateLanguage;
         public bool useCache;
@@ -127,6 +128,7 @@ namespace ChiiTrans
                 res.colors.Add(kvp.Key, new ColorRecord(kvp.Value.name, kvp.Value.color));
             }
             res.font = (Font)font.Clone();
+            res.tooltipFont = (Font)tooltipFont.Clone();
             return res;
         }
 
@@ -149,8 +151,9 @@ namespace ChiiTrans
         public void SetDefault()
         {
             translators = new List<TranslatorRecord>();
+            string[] onByDefault = { "Google", "Atlas", "Hivemind (alpha)" };
             for (int i = 0; i < Translation.Translators.Length; ++i)
-                translators.Add(new TranslatorRecord(i, i != 8)); //hivemind off by default
+                translators.Add(new TranslatorRecord(i, Array.IndexOf(onByDefault, Translation.Translators[i]) != -1));
 
             SetDefaultColors();
 
@@ -169,6 +172,7 @@ namespace ChiiTrans
             translateToOtherLanguage = false;
             useCache = true;
             font = new Font("Arial", 12);
+            tooltipFont = new Font("Arial", 12);
             displayOriginal = true;
             displayFixed = false;
             bottomLayerOpacity = 50;
@@ -280,6 +284,13 @@ namespace ChiiTrans
             catch (Exception)
             {
             }
+            try
+            {
+                tooltipFont = (Font)(new FontConverter().ConvertFromString(data.str["tooltipFont"]));
+            }
+            catch (Exception)
+            {
+            }
             loadOpt(data, "translateToOtherLanguage");
             loadOpt(data, "translateLanguage");
             loadOpt(data, "useCache");
@@ -326,6 +337,7 @@ namespace ChiiTrans
             saveOpt(data, "messageDelay");
             saveOpt(data, "maxSourceLength");
             data.str["font"] = new FontConverter().ConvertToString(font);
+            data.str["tooltipFont"] = new FontConverter().ConvertToString(tooltipFont);
             saveOpt(data, "translateToOtherLanguage");
             saveOpt(data, "translateLanguage");
             saveOpt(data, "useCache");

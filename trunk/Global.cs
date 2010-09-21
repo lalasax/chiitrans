@@ -21,6 +21,7 @@ namespace ChiiTrans
         public static WindowPosition windowPosition;
 
         public static bool fullscreen = false;
+        public static bool lockHotkeys = false;
         private static Device dxDevice;
         private static Point oldGameLocation;
         public static IntPtr gameWindow;
