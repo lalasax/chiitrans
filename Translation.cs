@@ -656,6 +656,7 @@ namespace ChiiTrans
         {
             src = Regex.Replace(src, "(?<!\\w)あ(?!\\w)", "ああ");
             src = Regex.Replace(src, "(?<!\\w)え(?!\\w)", "eh");
+            src = Regex.Replace(src, "(?<!\\w)ふん(?!\\w)", "hm");
             StringBuilder res = new StringBuilder();
             StringBuilder buf = new StringBuilder();
             int i;
