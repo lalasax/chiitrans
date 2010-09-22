@@ -1,5 +1,12 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.13
+ - Improved interface for Hivemind. Now you can just edit the text in-place and it will be saved and visible to all other users.
+ - Translit (internal) is added to translators list.
+ - Option to select another font for tooltips.
+ - Warodai dictionary support. Download it at http://www.warodai.ru/warodai_txt.zip, unzip and copy to /edict folder, enjoy.
+ - Changed default translators. Atlas, Google and Hivemind are enabled by default.
+
 Version 1.12c
  - Fixed fullscreen mode.
 

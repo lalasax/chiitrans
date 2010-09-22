@@ -323,14 +323,14 @@ namespace ChiiTrans
                         else
                             key = s[i].Substring(x, s[i].IndexOf('】') - x);
                         string text = s[i].Substring(s[i].IndexOf('\n') + 1);
-                        if (!warodai.ContainsKey(key))
+                        if (!warodai.ContainsKey(key) || text.Length > warodai[key].Length)
                         {
-                            warodai.Add(key, text);
+                            warodai[key] = text;
                         }
                     }
                 }
             }
-            catch (Exception) { throw; }
+            catch (Exception) { }
         }
 
         public EdictEntry[] LoadDictUsingCache(string name, Encoding encoding, out EdictEntry[] rdict)

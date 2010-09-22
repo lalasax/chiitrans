@@ -219,7 +219,6 @@
   <ItemGroup>
     <Content Include="changelog.txt" />
     <Content Include="scroll.ico" />
-    <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
