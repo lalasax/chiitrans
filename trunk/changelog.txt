@@ -6,6 +6,7 @@ Version 1.13
  - Option to select another font for tooltips.
  - Warodai dictionary support. Download it at http://www.warodai.ru/warodai_txt.zip, unzip and copy to /edict folder, enjoy.
  - Changed default translators. Atlas, Google and Hivemind are enabled by default.
+ - Replacements starting with '#' count as 'commented' and are skipped.
 
 Version 1.12c
  - Fixed fullscreen mode.
