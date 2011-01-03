@@ -107,6 +107,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDictionaryEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDictionaryEdit.Designer.cs">
+      <DependentUpon>FormDictionaryEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAddReplacement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,12 +155,6 @@
     <Compile Include="FormTooltip.Designer.cs">
       <DependentUpon>FormTooltip.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUpdate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUpdate.Designer.cs">
-      <DependentUpon>FormUpdate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Global.cs" />
     <Compile Include="HalfWidth.cs" />
     <Compile Include="HiraganaConvertor.cs" />
@@ -174,6 +174,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDictionaryEdit.resx">
+      <DependentUpon>FormDictionaryEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddReplacement.resx">
       <DependentUpon>FormAddReplacement.cs</DependentUpon>
@@ -195,9 +198,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTooltip.resx">
       <DependentUpon>FormTooltip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUpdate.resx">
-      <DependentUpon>FormUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HivemindSubmit.resx">
       <DependentUpon>HivemindSubmit.cs</DependentUpon>

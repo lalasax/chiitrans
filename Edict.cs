@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace ChiiTrans
 {
-    class EdictEntry
+    public class EdictEntry
     {
         public string key;
         public string reading;
@@ -585,6 +585,30 @@ namespace ChiiTrans
                 DictSearchAddItem(added, res, entry);
             }
             return res.ToArray();
+        }
+
+        public EdictEntry[] DictionarySearchEntries(string key)
+        {
+            if (!Ready)
+                return null;
+            List<string> res = new List<string>();
+            HashSet<EdictEntry> added = new HashSet<EdictEntry>();
+            if (user != null)
+            {
+                DictSearchAddDict(added, res, user, key);
+            }
+            DictSearchAddDict(added, res, dict, key);
+            key = Translation.KatakanaToHiragana(key);
+            if (key.ToCharArray().All(Translation.isHiragana))
+            {
+                DictSearchAddDictByReading(added, res, rdict, key);
+            }
+            EdictEntry[] infl = Inflect.FindInflectedAll(key);
+            foreach (EdictEntry entry in infl)
+            {
+                DictSearchAddItem(added, res, entry);
+            }
+            return added.ToArray();
         }
 
         private EdictEntry SearchExact(string key, string pos, bool second, bool byReading)

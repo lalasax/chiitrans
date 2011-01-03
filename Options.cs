@@ -186,7 +186,7 @@ namespace ChiiTrans
             marginSize = 500;
             hivemindServer = "http://chii.sorakake.ru/";
             toolbarVisible = true;
-            monitorNewThreads = false;
+            monitorNewThreads = true;
 
             replacements = new List<Replacement>();
         }

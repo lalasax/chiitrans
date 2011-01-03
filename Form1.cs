@@ -324,7 +324,15 @@ namespace ChiiTrans
             {
                 string oldText, newText;
                 formAddReplacement.GetControlValues(out oldText, out newText);
-                Global.options.replacements.Add(new Replacement(oldText, newText));
+                Replacement old = Global.options.replacements.Find(x => x.oldText == oldText);
+                if (old != null)
+                {
+                    old.newText = newText;
+                }
+                else
+                {
+                    Global.options.replacements.Add(new Replacement(oldText, newText));
+                }
                 Global.options.SaveReplacements();
             }
             TopMost = Global.isTopMost();
@@ -377,6 +385,8 @@ namespace ChiiTrans
                         buttonDictionary_Click(sender, null);
                     else if (e.KeyCode == Keys.B && Global.script.transparentMode)
                         MakeSizable();
+                    else if (e.KeyCode == Keys.U)
+                        buttonUserDict_Click(sender, null);
                 }
                 else if (e.Control && e.KeyCode == Keys.V || e.Shift && e.KeyCode == Keys.Insert)
                 {
@@ -759,7 +769,25 @@ namespace ChiiTrans
 
         private void buttonUpdateEDICT_Click(object sender, EventArgs e)
         {
-            FormUpdate.instance.ShowDialog();
+            //FormUpdate.instance.ShowDialog();
+        }
+
+        private void buttonUserDict_Click(object sender, EventArgs e)
+        {
+            string s = GetSelectedText();
+            if (s != null)
+                s = s.Trim();
+            if (string.IsNullOrEmpty(s))
+                return;
+            EdictEntry entry = new EdictEntry(s, "", new string[] {}, null, 0);
+            if (FormDictionaryEdit.instance.MyShow(entry) == System.Windows.Forms.DialogResult.OK)
+            {
+                List<string> usr = new List<string>(Edict.instance.LoadDictText("user.txt"));
+                usr.Add(string.Format("{0} [{1}]/{2}", entry.key, entry.reading, ((entry.pos != null && entry.pos.Length > 0) ? "(" + string.Join(", ", entry.pos) + ") " : "") + string.Join("/", entry.meaning)));
+                string usr_new = string.Join(Environment.NewLine, usr.ToArray());
+                Edict.instance.ReloadUserDictionary(usr_new);
+                Edict.instance.SaveDictText("user.txt", usr_new);
+            }
         }
     }
 }

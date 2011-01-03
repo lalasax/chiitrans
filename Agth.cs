@@ -224,7 +224,7 @@ namespace ChiiTrans
         private bool isGoodName(string agthThread)
         {
             string threadName = agthThread.Substring(agthThread.LastIndexOf(' ') + 1);
-            return threadName == "KiriKiri" || threadName == "System40" || threadName == "RealLive" || threadName.StartsWith("TextOut");
+            return threadName == "KiriKiri" || threadName == "System40" || threadName == "RealLive" || threadName.StartsWith("TextOut") || threadName.StartsWith("UserHook");
         }
 
         uint oldPid;

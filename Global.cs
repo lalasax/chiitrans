@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.DirectX.DirectDraw;
+//using Microsoft.DirectX.DirectDraw;
 using System.Drawing;
 
 namespace ChiiTrans
@@ -22,7 +22,7 @@ namespace ChiiTrans
 
         public static bool fullscreen = false;
         public static bool lockHotkeys = false;
-        private static Device dxDevice;
+        //private static Device dxDevice;
         private static Point oldGameLocation;
         public static IntPtr gameWindow;
 
@@ -152,7 +152,7 @@ namespace ChiiTrans
         
         public static void FullscreenOn()
         {
-            if (gameWindow == IntPtr.Zero)
+            /*if (gameWindow == IntPtr.Zero)
             {
                 IntPtr[] possibleWindows = GetPossibleWindows();
                 if (possibleWindows.Length == 0)
@@ -237,12 +237,12 @@ namespace ChiiTrans
             }
 
             //Microsoft.DirectX.DirectDraw.Device dev = new Microsoft.DirectX.DirectDraw.Device();
-            //dev.SetDisplayMode(800, 600, 32, 0, true);
+            //dev.SetDisplayMode(800, 600, 32, 0, true);*/
         }
 
         public static void FullscreenOff()
         {
-            if (fullscreen)
+            /*if (fullscreen)
             {
                 try
                 {
@@ -261,7 +261,7 @@ namespace ChiiTrans
                 catch (Exception)
                 {
                 }
-            }
+            }*/
         }
 
         public static void ResetGameWindow()
