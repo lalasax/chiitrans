@@ -71,25 +71,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.listBoxTranslators = new System.Windows.Forms.CheckedListBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReplacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.addButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveUpButton = new System.Windows.Forms.ToolStripButton();
-            this.moveDownButton = new System.Windows.Forms.ToolStripButton();
-            this.buttonInsert = new System.Windows.Forms.ToolStripButton();
-            this.removeItemsButton = new System.Windows.Forms.ToolStripButton();
-            this.sortButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.sortByOld = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortByNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.textBoxTooltipFont = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.numMarginSize = new System.Windows.Forms.NumericUpDown();
@@ -108,12 +93,31 @@
             this.button5 = new System.Windows.Forms.Button();
             this.textBoxFont = new System.Windows.Forms.TextBox();
             this.labelFont = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReplacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.addButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveUpButton = new System.Windows.Forms.ToolStripButton();
+            this.moveDownButton = new System.Windows.Forms.ToolStripButton();
+            this.buttonInsert = new System.Windows.Forms.ToolStripButton();
+            this.removeItemsButton = new System.Windows.Forms.ToolStripButton();
+            this.sortButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.sortByOld = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.textBoxUserDict = new System.Windows.Forms.TextBox();
+            this.gridUserDict = new System.Windows.Forms.DataGridView();
+            this.WordCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReadingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TranslationCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EditCol = new System.Windows.Forms.DataGridViewButtonColumn();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button7 = new System.Windows.Forms.Button();
-            this.textBoxTooltipFont = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -121,16 +125,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericMaxSourceLength)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUserDict)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -194,8 +199,8 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.ItemSize = new System.Drawing.Size(120, 23);
             this.tabControl1.Location = new System.Drawing.Point(4, 2);
@@ -550,7 +555,7 @@
             this.radioNone.AutoSize = true;
             this.radioNone.Location = new System.Drawing.Point(6, 94);
             this.radioNone.Name = "radioNone";
-            this.radioNone.Size = new System.Drawing.Size(73, 27);
+            this.radioNone.Size = new System.Drawing.Size(63, 21);
             this.radioNone.TabIndex = 21;
             this.radioNone.Text = "None";
             this.radioNone.UseVisualStyleBackColor = true;
@@ -560,7 +565,7 @@
             this.radioJdic.AutoSize = true;
             this.radioJdic.Location = new System.Drawing.Point(6, 61);
             this.radioJdic.Name = "radioJdic";
-            this.radioJdic.Size = new System.Drawing.Size(169, 27);
+            this.radioJdic.Size = new System.Drawing.Size(142, 21);
             this.radioJdic.TabIndex = 1;
             this.radioJdic.Text = "WWWJDIC mirror:";
             this.radioJdic.UseVisualStyleBackColor = true;
@@ -589,7 +594,7 @@
             this.radioEdict.Checked = true;
             this.radioEdict.Location = new System.Drawing.Point(6, 28);
             this.radioEdict.Name = "radioEdict";
-            this.radioEdict.Size = new System.Drawing.Size(228, 27);
+            this.radioEdict.Size = new System.Drawing.Size(194, 21);
             this.radioEdict.TabIndex = 0;
             this.radioEdict.TabStop = true;
             this.radioEdict.Text = "Builtin parser using EDICT";
@@ -600,7 +605,7 @@
             this.checkBoxPromt.AutoSize = true;
             this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
             this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
+            this.checkBoxPromt.Size = new System.Drawing.Size(238, 21);
             this.checkBoxPromt.TabIndex = 23;
             this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
             this.checkBoxPromt.UseVisualStyleBackColor = true;
@@ -621,7 +626,7 @@
             this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 314);
             this.checkBoxTranslateOther.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTranslateOther.Name = "checkBoxTranslateOther";
-            this.checkBoxTranslateOther.Size = new System.Drawing.Size(253, 27);
+            this.checkBoxTranslateOther.Size = new System.Drawing.Size(214, 21);
             this.checkBoxTranslateOther.TabIndex = 18;
             this.checkBoxTranslateOther.Text = "Translate to other language: ";
             this.checkBoxTranslateOther.UseVisualStyleBackColor = true;
@@ -665,6 +670,278 @@
             this.listBoxTranslators.Name = "listBoxTranslators";
             this.listBoxTranslators.Size = new System.Drawing.Size(546, 172);
             this.listBoxTranslators.TabIndex = 12;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.button7);
+            this.tabPage4.Controls.Add(this.textBoxTooltipFont);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.label8);
+            this.tabPage4.Controls.Add(this.label7);
+            this.tabPage4.Controls.Add(this.numMarginSize);
+            this.tabPage4.Controls.Add(this.checkBoxLargeMargin);
+            this.tabPage4.Controls.Add(this.label5);
+            this.tabPage4.Controls.Add(this.numMaxBlocks);
+            this.tabPage4.Controls.Add(this.label1);
+            this.tabPage4.Controls.Add(this.buttonResetColors);
+            this.tabPage4.Controls.Add(this.labelColors);
+            this.tabPage4.Controls.Add(this.gridColors);
+            this.tabPage4.Controls.Add(this.checkBoxShadow);
+            this.tabPage4.Controls.Add(this.trackBarOpacity);
+            this.tabPage4.Controls.Add(this.label4);
+            this.tabPage4.Controls.Add(this.button5);
+            this.tabPage4.Controls.Add(this.textBoxFont);
+            this.tabPage4.Controls.Add(this.labelFont);
+            this.tabPage4.Location = new System.Drawing.Point(4, 27);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(594, 464);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Appearance";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(489, 85);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(96, 29);
+            this.button7.TabIndex = 55;
+            this.button7.Text = "Change...";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // textBoxTooltipFont
+            // 
+            this.textBoxTooltipFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTooltipFont.Location = new System.Drawing.Point(6, 85);
+            this.textBoxTooltipFont.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxTooltipFont.Name = "textBoxTooltipFont";
+            this.textBoxTooltipFont.ReadOnly = true;
+            this.textBoxTooltipFont.Size = new System.Drawing.Size(479, 29);
+            this.textBoxTooltipFont.TabIndex = 54;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(2, 60);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(118, 23);
+            this.label9.TabIndex = 53;
+            this.label9.Text = "Font - tooltips";
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(557, 245);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(28, 23);
+            this.label8.TabIndex = 52;
+            this.label8.Text = "px";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(439, 245);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 23);
+            this.label7.TabIndex = 51;
+            this.label7.Text = "Size:";
+            // 
+            // numMarginSize
+            // 
+            this.numMarginSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMarginSize.Location = new System.Drawing.Point(489, 243);
+            this.numMarginSize.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numMarginSize.Name = "numMarginSize";
+            this.numMarginSize.Size = new System.Drawing.Size(68, 29);
+            this.numMarginSize.TabIndex = 50;
+            // 
+            // checkBoxLargeMargin
+            // 
+            this.checkBoxLargeMargin.AutoSize = true;
+            this.checkBoxLargeMargin.Location = new System.Drawing.Point(7, 243);
+            this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(285, 21);
+            this.checkBoxLargeMargin.TabIndex = 49;
+            this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
+            this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(216, 210);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 23);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "translations";
+            // 
+            // numMaxBlocks
+            // 
+            this.numMaxBlocks.Location = new System.Drawing.Point(90, 208);
+            this.numMaxBlocks.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxBlocks.Name = "numMaxBlocks";
+            this.numMaxBlocks.Size = new System.Drawing.Size(120, 29);
+            this.numMaxBlocks.TabIndex = 47;
+            this.numMaxBlocks.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 210);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 23);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "Show last";
+            // 
+            // buttonResetColors
+            // 
+            this.buttonResetColors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonResetColors.Location = new System.Drawing.Point(450, 432);
+            this.buttonResetColors.Name = "buttonResetColors";
+            this.buttonResetColors.Size = new System.Drawing.Size(135, 26);
+            this.buttonResetColors.TabIndex = 45;
+            this.buttonResetColors.Text = "Reset colors";
+            this.buttonResetColors.UseVisualStyleBackColor = true;
+            this.buttonResetColors.Click += new System.EventHandler(this.buttonResetColors_Click);
+            // 
+            // labelColors
+            // 
+            this.labelColors.AutoSize = true;
+            this.labelColors.Location = new System.Drawing.Point(2, 273);
+            this.labelColors.Name = "labelColors";
+            this.labelColors.Size = new System.Drawing.Size(58, 23);
+            this.labelColors.TabIndex = 44;
+            this.labelColors.Text = "Colors";
+            // 
+            // gridColors
+            // 
+            this.gridColors.AllowUserToAddRows = false;
+            this.gridColors.AllowUserToDeleteRows = false;
+            this.gridColors.AllowUserToResizeColumns = false;
+            this.gridColors.AllowUserToResizeRows = false;
+            this.gridColors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridColors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridColors.ColumnHeadersVisible = false;
+            this.gridColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.name,
+            this.color});
+            this.gridColors.Location = new System.Drawing.Point(6, 300);
+            this.gridColors.MultiSelect = false;
+            this.gridColors.Name = "gridColors";
+            this.gridColors.ReadOnly = true;
+            this.gridColors.RowHeadersVisible = false;
+            this.gridColors.RowTemplate.Height = 28;
+            this.gridColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridColors.Size = new System.Drawing.Size(579, 126);
+            this.gridColors.TabIndex = 43;
+            this.gridColors.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColors_CellDoubleClick);
+            // 
+            // name
+            // 
+            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.name.HeaderText = "Name";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // color
+            // 
+            this.color.HeaderText = "Color";
+            this.color.Name = "color";
+            this.color.ReadOnly = true;
+            this.color.Width = 28;
+            // 
+            // checkBoxShadow
+            // 
+            this.checkBoxShadow.AutoSize = true;
+            this.checkBoxShadow.Location = new System.Drawing.Point(7, 180);
+            this.checkBoxShadow.Name = "checkBoxShadow";
+            this.checkBoxShadow.Size = new System.Drawing.Size(244, 21);
+            this.checkBoxShadow.TabIndex = 42;
+            this.checkBoxShadow.Text = "Drop shadow in transparent mode";
+            this.checkBoxShadow.UseVisualStyleBackColor = true;
+            // 
+            // trackBarOpacity
+            // 
+            this.trackBarOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBarOpacity.AutoSize = false;
+            this.trackBarOpacity.LargeChange = 10;
+            this.trackBarOpacity.Location = new System.Drawing.Point(6, 143);
+            this.trackBarOpacity.Margin = new System.Windows.Forms.Padding(2);
+            this.trackBarOpacity.Maximum = 100;
+            this.trackBarOpacity.Name = "trackBarOpacity";
+            this.trackBarOpacity.Size = new System.Drawing.Size(580, 32);
+            this.trackBarOpacity.TabIndex = 41;
+            this.trackBarOpacity.TickFrequency = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 118);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(293, 23);
+            this.label4.TabIndex = 40;
+            this.label4.Text = "Window opacity in transparent mode";
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(489, 28);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(96, 29);
+            this.button5.TabIndex = 39;
+            this.button5.Text = "Change...";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // textBoxFont
+            // 
+            this.textBoxFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxFont.Location = new System.Drawing.Point(6, 28);
+            this.textBoxFont.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxFont.Name = "textBoxFont";
+            this.textBoxFont.ReadOnly = true;
+            this.textBoxFont.Size = new System.Drawing.Size(479, 29);
+            this.textBoxFont.TabIndex = 38;
+            // 
+            // labelFont
+            // 
+            this.labelFont.AutoSize = true;
+            this.labelFont.Location = new System.Drawing.Point(2, 3);
+            this.labelFont.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelFont.Name = "labelFont";
+            this.labelFont.Size = new System.Drawing.Size(162, 23);
+            this.labelFont.TabIndex = 37;
+            this.labelFont.Text = "Font - main window";
             // 
             // tabPage3
             // 
@@ -850,248 +1127,9 @@
             this.sortByNew.Text = "Sort by new text";
             this.sortByNew.Click += new System.EventHandler(this.sortByNew_Click);
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.button7);
-            this.tabPage4.Controls.Add(this.textBoxTooltipFont);
-            this.tabPage4.Controls.Add(this.label9);
-            this.tabPage4.Controls.Add(this.label8);
-            this.tabPage4.Controls.Add(this.label7);
-            this.tabPage4.Controls.Add(this.numMarginSize);
-            this.tabPage4.Controls.Add(this.checkBoxLargeMargin);
-            this.tabPage4.Controls.Add(this.label5);
-            this.tabPage4.Controls.Add(this.numMaxBlocks);
-            this.tabPage4.Controls.Add(this.label1);
-            this.tabPage4.Controls.Add(this.buttonResetColors);
-            this.tabPage4.Controls.Add(this.labelColors);
-            this.tabPage4.Controls.Add(this.gridColors);
-            this.tabPage4.Controls.Add(this.checkBoxShadow);
-            this.tabPage4.Controls.Add(this.trackBarOpacity);
-            this.tabPage4.Controls.Add(this.label4);
-            this.tabPage4.Controls.Add(this.button5);
-            this.tabPage4.Controls.Add(this.textBoxFont);
-            this.tabPage4.Controls.Add(this.labelFont);
-            this.tabPage4.Location = new System.Drawing.Point(4, 27);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(594, 464);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Appearance";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(557, 245);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(28, 23);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "px";
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(439, 245);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 23);
-            this.label7.TabIndex = 51;
-            this.label7.Text = "Size:";
-            // 
-            // numMarginSize
-            // 
-            this.numMarginSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMarginSize.Location = new System.Drawing.Point(489, 243);
-            this.numMarginSize.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.numMarginSize.Name = "numMarginSize";
-            this.numMarginSize.Size = new System.Drawing.Size(68, 29);
-            this.numMarginSize.TabIndex = 50;
-            // 
-            // checkBoxLargeMargin
-            // 
-            this.checkBoxLargeMargin.AutoSize = true;
-            this.checkBoxLargeMargin.Location = new System.Drawing.Point(7, 243);
-            this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
-            this.checkBoxLargeMargin.TabIndex = 49;
-            this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
-            this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(216, 210);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 23);
-            this.label5.TabIndex = 48;
-            this.label5.Text = "translations";
-            // 
-            // numMaxBlocks
-            // 
-            this.numMaxBlocks.Location = new System.Drawing.Point(90, 208);
-            this.numMaxBlocks.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numMaxBlocks.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMaxBlocks.Name = "numMaxBlocks";
-            this.numMaxBlocks.Size = new System.Drawing.Size(120, 29);
-            this.numMaxBlocks.TabIndex = 47;
-            this.numMaxBlocks.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 210);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 23);
-            this.label1.TabIndex = 46;
-            this.label1.Text = "Show last";
-            // 
-            // buttonResetColors
-            // 
-            this.buttonResetColors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonResetColors.Location = new System.Drawing.Point(450, 432);
-            this.buttonResetColors.Name = "buttonResetColors";
-            this.buttonResetColors.Size = new System.Drawing.Size(135, 26);
-            this.buttonResetColors.TabIndex = 45;
-            this.buttonResetColors.Text = "Reset colors";
-            this.buttonResetColors.UseVisualStyleBackColor = true;
-            this.buttonResetColors.Click += new System.EventHandler(this.buttonResetColors_Click);
-            // 
-            // labelColors
-            // 
-            this.labelColors.AutoSize = true;
-            this.labelColors.Location = new System.Drawing.Point(2, 273);
-            this.labelColors.Name = "labelColors";
-            this.labelColors.Size = new System.Drawing.Size(58, 23);
-            this.labelColors.TabIndex = 44;
-            this.labelColors.Text = "Colors";
-            // 
-            // gridColors
-            // 
-            this.gridColors.AllowUserToAddRows = false;
-            this.gridColors.AllowUserToDeleteRows = false;
-            this.gridColors.AllowUserToResizeColumns = false;
-            this.gridColors.AllowUserToResizeRows = false;
-            this.gridColors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridColors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridColors.ColumnHeadersVisible = false;
-            this.gridColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.name,
-            this.color});
-            this.gridColors.Location = new System.Drawing.Point(6, 300);
-            this.gridColors.MultiSelect = false;
-            this.gridColors.Name = "gridColors";
-            this.gridColors.ReadOnly = true;
-            this.gridColors.RowHeadersVisible = false;
-            this.gridColors.RowTemplate.Height = 28;
-            this.gridColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.gridColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridColors.Size = new System.Drawing.Size(579, 126);
-            this.gridColors.TabIndex = 43;
-            this.gridColors.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColors_CellDoubleClick);
-            // 
-            // name
-            // 
-            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.name.HeaderText = "Name";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // color
-            // 
-            this.color.HeaderText = "Color";
-            this.color.Name = "color";
-            this.color.ReadOnly = true;
-            this.color.Width = 28;
-            // 
-            // checkBoxShadow
-            // 
-            this.checkBoxShadow.AutoSize = true;
-            this.checkBoxShadow.Location = new System.Drawing.Point(7, 180);
-            this.checkBoxShadow.Name = "checkBoxShadow";
-            this.checkBoxShadow.Size = new System.Drawing.Size(294, 27);
-            this.checkBoxShadow.TabIndex = 42;
-            this.checkBoxShadow.Text = "Drop shadow in transparent mode";
-            this.checkBoxShadow.UseVisualStyleBackColor = true;
-            // 
-            // trackBarOpacity
-            // 
-            this.trackBarOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarOpacity.AutoSize = false;
-            this.trackBarOpacity.LargeChange = 10;
-            this.trackBarOpacity.Location = new System.Drawing.Point(6, 143);
-            this.trackBarOpacity.Margin = new System.Windows.Forms.Padding(2);
-            this.trackBarOpacity.Maximum = 100;
-            this.trackBarOpacity.Name = "trackBarOpacity";
-            this.trackBarOpacity.Size = new System.Drawing.Size(580, 32);
-            this.trackBarOpacity.TabIndex = 41;
-            this.trackBarOpacity.TickFrequency = 10;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 118);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(293, 23);
-            this.label4.TabIndex = 40;
-            this.label4.Text = "Window opacity in transparent mode";
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(489, 28);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(96, 29);
-            this.button5.TabIndex = 39;
-            this.button5.Text = "Change...";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // textBoxFont
-            // 
-            this.textBoxFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFont.Location = new System.Drawing.Point(6, 28);
-            this.textBoxFont.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxFont.Name = "textBoxFont";
-            this.textBoxFont.ReadOnly = true;
-            this.textBoxFont.Size = new System.Drawing.Size(479, 29);
-            this.textBoxFont.TabIndex = 38;
-            // 
-            // labelFont
-            // 
-            this.labelFont.AutoSize = true;
-            this.labelFont.Location = new System.Drawing.Point(2, 3);
-            this.labelFont.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelFont.Name = "labelFont";
-            this.labelFont.Size = new System.Drawing.Size(162, 23);
-            this.labelFont.TabIndex = 37;
-            this.labelFont.Text = "Font - main window";
-            // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.textBoxUserDict);
+            this.tabPage5.Controls.Add(this.gridUserDict);
             this.tabPage5.Location = new System.Drawing.Point(4, 27);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1101,54 +1139,65 @@
             this.tabPage5.UseVisualStyleBackColor = true;
             this.tabPage5.Enter += new System.EventHandler(this.tabPage5_Enter);
             // 
-            // textBoxUserDict
+            // gridUserDict
             // 
-            this.textBoxUserDict.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUserDict.Location = new System.Drawing.Point(3, 3);
-            this.textBoxUserDict.Multiline = true;
-            this.textBoxUserDict.Name = "textBoxUserDict";
-            this.textBoxUserDict.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUserDict.Size = new System.Drawing.Size(588, 458);
-            this.textBoxUserDict.TabIndex = 0;
-            this.textBoxUserDict.TextChanged += new System.EventHandler(this.textBoxUserDict_TextChanged);
+            this.gridUserDict.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridUserDict.CausesValidation = false;
+            this.gridUserDict.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridUserDict.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.WordCol,
+            this.ReadingCol,
+            this.TranslationCol,
+            this.EditCol});
+            this.gridUserDict.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridUserDict.Location = new System.Drawing.Point(3, 3);
+            this.gridUserDict.Name = "gridUserDict";
+            this.gridUserDict.RowTemplate.Height = 24;
+            this.gridUserDict.Size = new System.Drawing.Size(588, 458);
+            this.gridUserDict.TabIndex = 0;
+            this.gridUserDict.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridUserDict_CellClick);
+            this.gridUserDict.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridUserDict_CellValueChanged);
+            this.gridUserDict.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridUserDict_KeyDown);
+            // 
+            // WordCol
+            // 
+            this.WordCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.WordCol.HeaderText = "Word";
+            this.WordCol.Name = "WordCol";
+            this.WordCol.Width = 77;
+            // 
+            // ReadingCol
+            // 
+            this.ReadingCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ReadingCol.HeaderText = "Reading";
+            this.ReadingCol.Name = "ReadingCol";
+            this.ReadingCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ReadingCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ReadingCol.Width = 78;
+            // 
+            // TranslationCol
+            // 
+            this.TranslationCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.TranslationCol.HeaderText = "Translation";
+            this.TranslationCol.Name = "TranslationCol";
+            this.TranslationCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.TranslationCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // EditCol
+            // 
+            this.EditCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.EditCol.FillWeight = 25F;
+            this.EditCol.HeaderText = "";
+            this.EditCol.Name = "EditCol";
+            this.EditCol.Text = "...";
+            this.EditCol.ToolTipText = "Edit...";
+            this.EditCol.UseColumnTextForButtonValue = true;
+            this.EditCol.Width = 25;
             // 
             // colorDialog1
             // 
             this.colorDialog1.AnyColor = true;
             this.colorDialog1.FullOpen = true;
-            // 
-            // button7
-            // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Location = new System.Drawing.Point(489, 85);
-            this.button7.Margin = new System.Windows.Forms.Padding(2);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(96, 29);
-            this.button7.TabIndex = 55;
-            this.button7.Text = "Change...";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // textBoxTooltipFont
-            // 
-            this.textBoxTooltipFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTooltipFont.Location = new System.Drawing.Point(6, 85);
-            this.textBoxTooltipFont.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxTooltipFont.Name = "textBoxTooltipFont";
-            this.textBoxTooltipFont.ReadOnly = true;
-            this.textBoxTooltipFont.Size = new System.Drawing.Size(479, 29);
-            this.textBoxTooltipFont.TabIndex = 54;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(2, 60);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(118, 23);
-            this.label9.TabIndex = 53;
-            this.label9.Text = "Font - tooltips";
             // 
             // FormOptions
             // 
@@ -1178,20 +1227,20 @@
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMarginSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxBlocks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarOpacity)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUserDict)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1269,7 +1318,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numMaxBlocks;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.TextBox textBoxUserDict;
         private System.Windows.Forms.ComboBox comboBoxHivemind;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxRepeatingPhrasesAdv;
@@ -1282,5 +1330,10 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TextBox textBoxTooltipFont;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataGridView gridUserDict;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WordCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReadingCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TranslationCol;
+        private System.Windows.Forms.DataGridViewButtonColumn EditCol;
     }
 }

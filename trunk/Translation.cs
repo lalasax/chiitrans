@@ -480,7 +480,7 @@ namespace ChiiTrans
 
         public string TranslateSysTran()
         {
-            string url = "http://www.systranet.com/tt?lp=ja_en&service=translate";
+            string url = "http://www.systranet.com/sai?lp=ja_en&service=translate";
             HttpWebRequest req = CreateHTTPRequest(url);
             string src_s = sourceNew.Replace('\n', ' ');
             byte[] src = Encoding.UTF8.GetBytes(src_s);

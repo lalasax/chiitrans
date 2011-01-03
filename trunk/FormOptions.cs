@@ -219,8 +219,9 @@ namespace ChiiTrans
             {
                 try
                 {
-                    Edict.instance.ReloadUserDictionary(textBoxUserDict.Text);
-                    Edict.instance.SaveDictText("user.txt", textBoxUserDict.Text);
+                    string userDict = GenUserDictText();
+                    Edict.instance.ReloadUserDictionary(userDict);
+                    Edict.instance.SaveDictText("user.txt", userDict);
                 }
                 catch (Exception)
                 {
@@ -439,18 +440,12 @@ namespace ChiiTrans
             {
                 try
                 {
-                    string s = string.Join(Environment.NewLine, Edict.instance.LoadDictText("user.txt"));
-                    textBoxUserDict.Text = s;
+                    InitGridUserDict(Edict.instance.user);
                 }
                 catch (Exception) { }
                 userDictInit = true;
                 userDictChanged = false;
             }
-        }
-
-        private void textBoxUserDict_TextChanged(object sender, EventArgs e)
-        {
-            userDictChanged = true;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -459,6 +454,63 @@ namespace ChiiTrans
             {
                 tooltipFont = fontDialog1.Font;
                 textBoxTooltipFont.Text = (string)(new FontConverter().ConvertToString(tooltipFont));
+            }
+        }
+
+        private void gridUserDict_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            userDictChanged = true;
+        }
+
+        private void InitGridUserDict(EdictEntry[] data)
+        {
+            gridUserDict.Rows.Clear();
+            foreach (EdictEntry entry in data)
+            {
+                gridUserDict.Rows.Add(entry.key, entry.reading, ((entry.pos != null && entry.pos.Length > 0) ? "(" + string.Join(", ", entry.pos) + ") " : "") + string.Join("/", entry.meaning));
+            }
+        }
+
+        private string GenUserDictText()
+        {
+            var res = new StringBuilder();
+            res.AppendLine("# User dictionary (eDict format)");
+            foreach (DataGridViewRow row in gridUserDict.Rows)
+            {
+                if (row.Cells[0].Value.ToString().Trim().Length > 0)
+                    res.AppendLine(string.Format("{0} [{1}]/{2}", row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value));
+            }
+            return res.ToString();
+        }
+
+        private void gridUserDict_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 3)
+            {
+                var row = gridUserDict.Rows[e.RowIndex];
+                EdictEntry entry = new EdictEntry(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString().Split('/'), null, 0);
+                if (FormDictionaryEdit.instance.MyShow(entry) == System.Windows.Forms.DialogResult.OK)
+                {
+                    row.SetValues(entry.key, entry.reading, string.Join("/", entry.meaning));
+                }
+            }
+        }
+
+        private void gridUserDict_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (gridUserDict.SelectedRows.Count > 0)
+                {
+                    if (MessageBox.Show("Delete " + gridUserDict.SelectedRows.Count + " rows?", "Delete", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        foreach (DataGridViewRow row in gridUserDict.SelectedRows)
+                        {
+                            gridUserDict.Rows.Remove(row);
+                        }
+                    }
+                    e.Handled = true;
+                }
             }
         }
     }
