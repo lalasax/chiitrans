@@ -66,6 +66,7 @@ namespace ChiiTrans
                     }
                 }
                 Global.RunGame(comboBoxExe.Text, args);
+                Global.RunScript("ClearWelcome");
             }
             catch (Exception ex)
             {
@@ -110,6 +111,15 @@ namespace ChiiTrans
             if (Global.agth.appProfiles["profiles"].ContainsKey(text))
             {
                 UpdateKeys(Global.agth.appProfiles["profiles"][text].str["keys"]);
+            }
+        }
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            string res = FormAgthKeySearch.instance.ShowSearch(comboBoxExe.Text);
+            if (res != null)
+            {
+                textBoxKey.Text = res;
             }
         }
     }

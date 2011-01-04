@@ -13,6 +13,7 @@ namespace ChiiTrans
     public class ExternalScriptingObject
     {
         public bool transparentMode = false;
+        private static bool welcomed = false;
 
         public void UpdateBrowserSettings()
         {
@@ -41,6 +42,13 @@ namespace ChiiTrans
             else
             {
                 Global.RunScript("TransparentModeOff");
+            }
+            if (!welcomed)
+            {
+                welcomed = true;
+                string appversion = System.Windows.Forms.Application.ProductVersion;
+                appversion = string.Join(".", appversion.Split('.').Take(2).ToArray());
+                Global.RunScript("Welcome", "ChiiTrans v." + appversion);
             }
         }
 
@@ -106,6 +114,11 @@ namespace ChiiTrans
         public void HideTooltip()
         {
             FormTooltip.instance.Hide();
+        }
+
+        public void OnStartClick()
+        {
+            Form1.thisForm.buttonRun_Click(null, null);
         }
     }
 }

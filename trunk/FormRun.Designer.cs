@@ -36,6 +36,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.comboBoxExe = new System.Windows.Forms.ComboBox();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -124,6 +125,17 @@
             this.comboBoxExe.TabIndex = 9;
             this.comboBoxExe.TextChanged += new System.EventHandler(this.comboBoxExe_TextChanged);
             // 
+            // buttonSearch
+            // 
+            this.buttonSearch.Location = new System.Drawing.Point(423, 80);
+            this.buttonSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(100, 29);
+            this.buttonSearch.TabIndex = 10;
+            this.buttonSearch.Text = "Search...";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            // 
             // FormRun
             // 
             this.AcceptButton = this.button3;
@@ -131,6 +143,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button4;
             this.ClientSize = new System.Drawing.Size(535, 165);
+            this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.comboBoxExe);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -165,5 +178,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox comboBoxExe;
+        private System.Windows.Forms.Button buttonSearch;
     }
 }
