@@ -464,7 +464,7 @@ namespace ChiiTrans
             Translation.Translate(GetTextForAction(), null);
         }
 
-        private void buttonRun_Click(object sender, EventArgs e)
+        public void buttonRun_Click(object sender, EventArgs e)
         {
             TopMost = false;
             if (Global.agth.appProfiles["profiles"].dict.Count == 0)
