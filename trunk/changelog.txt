@@ -1,5 +1,14 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.14
+ - UI to work with User Dictionary.
+ - SysTran fixed.
+ - 'Monitor new threads' is checked by default.
+ - New replacements with the same 'old text' now replace old ones.
+ - Added "UserHook" to good thread names.
+ - A new feature: searching for AGTH codes online. Please visit http://agthdb.bakastyle.com/ to help the project.
+ - Added a welcome message.
+
 Version 1.13
  - Improved interface for Hivemind. Now you can just edit the text in-place and it will be saved and visible to all other users.
  - Translit (internal) is added to translators list.
