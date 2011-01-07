@@ -161,7 +161,9 @@
     <Compile Include="FormTooltip.Designer.cs">
       <DependentUpon>FormTooltip.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUpdate.cs" />
+    <Compile Include="FormUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormUpdate.Designer.cs">
       <DependentUpon>FormUpdate.cs</DependentUpon>
     </Compile>
@@ -234,6 +236,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
+    <Content Include="html\base.html" />
+    <Content Include="html\jquery.js" />
     <Content Include="scroll.ico" />
   </ItemGroup>
   <ItemGroup>

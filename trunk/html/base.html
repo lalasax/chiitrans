@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
 <style type="text/css">
@@ -190,10 +190,32 @@ var maxBlocks = 50;
 var largeMargins = false;
 var marginSize = "500px";
 var fontSettings;
-var hotkeysLocked = false; 
+var hotkeysLocked = false;
+var welcomeDisplayed = false;
+
+function Welcome(name)
+{
+    $("#content").html("Welcome to " + name + ". <a href='#' onclick='onStartClick()'>Click here to start</a>.");
+    welcomeDisplayed = true;
+}
+
+function onStartClick()
+{
+    window.external.OnStartClick();
+}
+
+function ClearWelcome()
+{
+    if (welcomeDisplayed)
+    {
+        welcomeDisplayed = false;
+        $("#content").empty();
+    }
+}
 
 function appendBlock(id)
 {
+    ClearWelcome();
     blocks[id].delayed = false;
     if (appendBottom)
     {
