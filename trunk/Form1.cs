@@ -769,7 +769,7 @@ namespace ChiiTrans
 
         private void buttonUpdateEDICT_Click(object sender, EventArgs e)
         {
-            //FormUpdate.instance.ShowDialog();
+            FormUpdate.instance.ShowDialog();
         }
 
         private void buttonUserDict_Click(object sender, EventArgs e)
