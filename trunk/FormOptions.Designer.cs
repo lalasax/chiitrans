@@ -38,6 +38,9 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBoxOkurigana = new System.Windows.Forms.CheckBox();
+            this.checkBoxMonitorJapanese = new System.Windows.Forms.CheckBox();
+            this.checkBoxClipboardMonitoring = new System.Windows.Forms.CheckBox();
             this.checkBoxRepeatingPhrasesAdv = new System.Windows.Forms.CheckBox();
             this.checkBoxDisplayFixed = new System.Windows.Forms.CheckBox();
             this.checkBoxDisplayOriginal = new System.Windows.Forms.CheckBox();
@@ -143,7 +146,7 @@
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(361, 501);
+            this.button3.Location = new System.Drawing.Point(361, 555);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(118, 37);
@@ -156,7 +159,7 @@
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(483, 501);
+            this.button4.Location = new System.Drawing.Point(483, 555);
             this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(123, 37);
@@ -173,7 +176,7 @@
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button6.Location = new System.Drawing.Point(4, 501);
+            this.button6.Location = new System.Drawing.Point(4, 555);
             this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(181, 37);
@@ -207,12 +210,15 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(602, 495);
+            this.tabControl1.Size = new System.Drawing.Size(602, 549);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.checkBoxOkurigana);
+            this.tabPage1.Controls.Add(this.checkBoxMonitorJapanese);
+            this.tabPage1.Controls.Add(this.checkBoxClipboardMonitoring);
             this.tabPage1.Controls.Add(this.checkBoxRepeatingPhrasesAdv);
             this.tabPage1.Controls.Add(this.checkBoxDisplayFixed);
             this.tabPage1.Controls.Add(this.checkBoxDisplayOriginal);
@@ -232,10 +238,40 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(594, 464);
+            this.tabPage1.Size = new System.Drawing.Size(594, 518);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxOkurigana
+            // 
+            this.checkBoxOkurigana.AutoSize = true;
+            this.checkBoxOkurigana.Location = new System.Drawing.Point(40, 421);
+            this.checkBoxOkurigana.Name = "checkBoxOkurigana";
+            this.checkBoxOkurigana.Size = new System.Drawing.Size(256, 27);
+            this.checkBoxOkurigana.TabIndex = 47;
+            this.checkBoxOkurigana.Text = "Include okurigana in furigana";
+            this.checkBoxOkurigana.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMonitorJapanese
+            // 
+            this.checkBoxMonitorJapanese.AutoSize = true;
+            this.checkBoxMonitorJapanese.Location = new System.Drawing.Point(40, 486);
+            this.checkBoxMonitorJapanese.Name = "checkBoxMonitorJapanese";
+            this.checkBoxMonitorJapanese.Size = new System.Drawing.Size(366, 27);
+            this.checkBoxMonitorJapanese.TabIndex = 46;
+            this.checkBoxMonitorJapanese.Text = "Only translate text with Japanese characters";
+            this.checkBoxMonitorJapanese.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxClipboardMonitoring
+            // 
+            this.checkBoxClipboardMonitoring.AutoSize = true;
+            this.checkBoxClipboardMonitoring.Location = new System.Drawing.Point(5, 454);
+            this.checkBoxClipboardMonitoring.Name = "checkBoxClipboardMonitoring";
+            this.checkBoxClipboardMonitoring.Size = new System.Drawing.Size(249, 27);
+            this.checkBoxClipboardMonitoring.TabIndex = 45;
+            this.checkBoxClipboardMonitoring.Text = "Enable clipboard monitoring";
+            this.checkBoxClipboardMonitoring.UseVisualStyleBackColor = true;
             // 
             // checkBoxRepeatingPhrasesAdv
             // 
@@ -273,7 +309,7 @@
             // radioFuriganaRomaji
             // 
             this.radioFuriganaRomaji.AutoSize = true;
-            this.radioFuriganaRomaji.Location = new System.Drawing.Point(40, 421);
+            this.radioFuriganaRomaji.Location = new System.Drawing.Point(293, 388);
             this.radioFuriganaRomaji.Name = "radioFuriganaRomaji";
             this.radioFuriganaRomaji.Size = new System.Drawing.Size(216, 27);
             this.radioFuriganaRomaji.TabIndex = 41;
@@ -509,7 +545,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(594, 464);
+            this.tabPage2.Size = new System.Drawing.Size(594, 518);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Translators";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -521,7 +557,7 @@
             this.comboBoxHivemind.FormattingEnabled = true;
             this.comboBoxHivemind.Items.AddRange(new object[] {
             "http://chii.sorakake.ru/"});
-            this.comboBoxHivemind.Location = new System.Drawing.Point(8, 403);
+            this.comboBoxHivemind.Location = new System.Drawing.Point(8, 427);
             this.comboBoxHivemind.Name = "comboBoxHivemind";
             this.comboBoxHivemind.Size = new System.Drawing.Size(571, 29);
             this.comboBoxHivemind.TabIndex = 26;
@@ -529,7 +565,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 377);
+            this.label6.Location = new System.Drawing.Point(4, 401);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(246, 23);
             this.label6.TabIndex = 25;
@@ -543,7 +579,7 @@
             this.groupBox1.Controls.Add(this.radioJdic);
             this.groupBox1.Controls.Add(this.comboBoxJDic);
             this.groupBox1.Controls.Add(this.radioEdict);
-            this.groupBox1.Location = new System.Drawing.Point(8, 181);
+            this.groupBox1.Location = new System.Drawing.Point(8, 205);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(576, 128);
             this.groupBox1.TabIndex = 24;
@@ -603,9 +639,9 @@
             // checkBoxPromt
             // 
             this.checkBoxPromt.AutoSize = true;
-            this.checkBoxPromt.Location = new System.Drawing.Point(43, 347);
+            this.checkBoxPromt.Location = new System.Drawing.Point(43, 371);
             this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(238, 21);
+            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
             this.checkBoxPromt.TabIndex = 23;
             this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
             this.checkBoxPromt.UseVisualStyleBackColor = true;
@@ -613,7 +649,7 @@
             // textBoxLanguage
             // 
             this.textBoxLanguage.Enabled = false;
-            this.textBoxLanguage.Location = new System.Drawing.Point(265, 313);
+            this.textBoxLanguage.Location = new System.Drawing.Point(265, 337);
             this.textBoxLanguage.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxLanguage.Name = "textBoxLanguage";
             this.textBoxLanguage.Size = new System.Drawing.Size(32, 29);
@@ -623,10 +659,10 @@
             // checkBoxTranslateOther
             // 
             this.checkBoxTranslateOther.AutoSize = true;
-            this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 314);
+            this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 338);
             this.checkBoxTranslateOther.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTranslateOther.Name = "checkBoxTranslateOther";
-            this.checkBoxTranslateOther.Size = new System.Drawing.Size(214, 21);
+            this.checkBoxTranslateOther.Size = new System.Drawing.Size(253, 27);
             this.checkBoxTranslateOther.TabIndex = 18;
             this.checkBoxTranslateOther.Text = "Translate to other language: ";
             this.checkBoxTranslateOther.UseVisualStyleBackColor = true;
@@ -636,7 +672,7 @@
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(557, 40);
+            this.button2.Location = new System.Drawing.Point(558, 40);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(32, 32);
@@ -668,7 +704,7 @@
             this.listBoxTranslators.Location = new System.Drawing.Point(8, 4);
             this.listBoxTranslators.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxTranslators.Name = "listBoxTranslators";
-            this.listBoxTranslators.Size = new System.Drawing.Size(546, 172);
+            this.listBoxTranslators.Size = new System.Drawing.Size(546, 196);
             this.listBoxTranslators.TabIndex = 12;
             // 
             // tabPage4
@@ -695,7 +731,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 27);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(594, 464);
+            this.tabPage4.Size = new System.Drawing.Size(594, 518);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Appearance";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -952,7 +988,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage3.Size = new System.Drawing.Size(594, 464);
+            this.tabPage3.Size = new System.Drawing.Size(594, 518);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Text replacements";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1133,7 +1169,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 27);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(594, 464);
+            this.tabPage5.Size = new System.Drawing.Size(594, 518);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "User dictionary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1204,7 +1240,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button4;
-            this.ClientSize = new System.Drawing.Size(608, 545);
+            this.ClientSize = new System.Drawing.Size(608, 599);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button4);
@@ -1335,5 +1371,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ReadingCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn TranslationCol;
         private System.Windows.Forms.DataGridViewButtonColumn EditCol;
+        private System.Windows.Forms.CheckBox checkBoxOkurigana;
+        private System.Windows.Forms.CheckBox checkBoxMonitorJapanese;
+        private System.Windows.Forms.CheckBox checkBoxClipboardMonitoring;
     }
 }

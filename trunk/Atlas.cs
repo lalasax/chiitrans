@@ -102,7 +102,7 @@ namespace ChiiTrans
         private delegate int TranslatePairType(byte[] inp, out IntPtr outp, out IntPtr dunno, out uint maybeSize);
         private static TranslatePairType TranslatePair;
 
-        private delegate int AtlInitEngineDataType(int x1, int x2, IntPtr x3, int x4, IntPtr x5);
+        private delegate int AtlInitEngineDataType(int x1, int x2, IntPtr x3, int x4, IntPtr x5, int x6, int x7, int x8, int x9);
         private static AtlInitEngineDataType AtlInitEngineData;
 
         //private delegate int SetTransStateType(int dunno);
@@ -195,7 +195,7 @@ namespace ChiiTrans
                 if (!LoadLibraries())
                     return false;
                 LoadInterface();
-                if (AtlInitEngineData(0, 2, Marshal.AllocHGlobal(20000), 0, Marshal.AllocHGlobal(20000)) != 0)
+                if (AtlInitEngineData(0, 2, Marshal.AllocHGlobal(30000), 0, Marshal.AllocHGlobal(30000), 0, 0, 0, 0) != 0)
                     return false;
                 string env = "General";
                 if (CreateEngine(1, 1, 0, Encoding932.GetBytes(env)) != 1)

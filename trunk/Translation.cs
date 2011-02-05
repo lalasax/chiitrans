@@ -24,7 +24,7 @@ namespace ChiiTrans
         private string sourceNew;
         private string sourceFixed;
         public int id { get; private set; }
-        public static string[] Translators = { "Atlas", "Translit (int.)", "Translit (Google)", "Translit (MeCab)", "OCN", "Babylon", "Google", "SysTran", "Excite", "Hivemind (alpha)", "EDICT" };
+        public static string[] Translators = { "Atlas", "OCN", "Babylon", "Google", "SysTran", "Excite", "SDL", "Microsoft", "Honyaku", "BabelFish", "Translit (int.)", "Translit (Google)", "Translit (MeCab)", "Hivemind (alpha)", "EDICT" };
         private int tasksToComplete;
         private Options options;
 
@@ -105,11 +105,8 @@ namespace ChiiTrans
                 {
                     if (Edict.Created())
                     {
-                        //long before = DateTime.Now.Ticks;
                         BuiltinParserLookup();
                         CompleteTask();
-                        //long passed = DateTime.Now.Ticks - before;
-                        //Form1.Debug(((double)passed / 10000000).ToString());
                     }
                     else
                     {
@@ -187,6 +184,11 @@ namespace ChiiTrans
         public static bool isKanji(char ch)
         {
             return char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter && !isKatakana(ch) && !isHiragana(ch);
+        }
+
+        public static bool hasJapanese(string s)
+        {
+            return s.Any(ch => char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter);
         }
 
         public static string KatakanaToHiragana(string s)
@@ -375,6 +377,28 @@ namespace ChiiTrans
             return res;
         }
 
+        public string TranslateSDL()
+        {
+            string url = "http://tets9.freetranslation.com/";
+            string query = "sequence=core&charset=UTF-8&language=Japanese%2FEnglish&srctext=" + UrlEncode(sourceNew);
+            HttpWebRequest req = CreateHTTPRequest(url);
+            WritePost(req, query);
+            return ReadAnswer(req);
+        }
+
+        public string TranslateMicrosoft()
+        {
+            string url = "http://api.microsofttranslator.com/v2/ajax.svc/TranslateArray";
+            JsArray src = new JsArray();
+            src.Add(new JsAtom(sourceNew));
+            string query = "from=%22ja%22&to=%22en%22&appId=%22" + UrlEncode("F84955C82256C25518548EE0C161B0BF87681F2F") + "%22&texts=" + UrlEncode(src.Serialize());
+            HttpWebRequest req = CreateHTTPRequest(url + "?" + query);
+            string ans = ReadAnswer(req);
+            JsObject js = Json.Parse(ans);
+            string result = js["0"]["TranslatedText"].ToString();
+            return result;
+        }
+
         public string TranslateTranslit()
         {
             string url = "http://translate.google.com/translate_a/t";
@@ -420,16 +444,8 @@ namespace ChiiTrans
             }
             string query = "v=1.0&q=" + UrlEncode(sourceNew) + "&langpair=" + srclang + "%7C" + destlang;
             HttpWebRequest req = CreateHTTPRequest(url + "?" + query);
-            //req.Referer = "http://127.0.0.1/";
             JsObject js = Json.Parse(ReadAnswer(req));
-            /*StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < ((JsArray)js["sentences"]).length; ++i)
-            {
-                sb.Append(js["sentences"][i]["trans"].ToString());
-            }
-            return sb.ToString();*/
             return js["responseData"].str["translatedText"];
-            //return js.Serialize();
         }
 
         public string TranslateOCN()
@@ -448,7 +464,6 @@ namespace ChiiTrans
                 throw new Exception();
         }
 
-        /*
         public string TranslateHonyaku()
         {
             string url = "http://honyaku.yahoo.co.jp/transtext";
@@ -463,9 +478,7 @@ namespace ChiiTrans
             else
                 throw new Exception();
         }
-        */
 
-        /*
         public string TranslateBabelFish()
         {
             string url = "http://babelfish.yahoo.com/translate_txt";
@@ -476,7 +489,6 @@ namespace ChiiTrans
             string result = FindSubString(ReadAnswer(req), "<div id=\"result\"><div style=\"padding:0.6em;\">", "</div>");
             return result;
         }
-         */
 
         public string TranslateSysTran()
         {
@@ -1117,6 +1129,21 @@ namespace ChiiTrans
                 res.score = res.key.Length * res.key.Length;
                 if (res.key != res.dict_key)
                     res.score -= 1;
+                if (!Global.options.includeOkurigana)
+                {
+                    if (hasKanji(res.key))
+                    {
+                        int i = 1;
+                        while (res.key.Length - i >= 0 && res.reading.Length - i >= 0 && res.key[res.key.Length - i] == res.reading[res.reading.Length - i])
+                            ++i;
+                        i -= 1;
+                        if (i > 0)
+                        {
+                            res.key = res.key.Substring(0, res.key.Length - i);
+                            res.reading = res.reading.Substring(0, res.reading.Length - i);
+                        }
+                    }
+                }
                 return res;
             }
             EdictEntry entry;
@@ -1142,6 +1169,11 @@ namespace ChiiTrans
                 res.score = res.key.Length * res.key.Length;
                 if (res.key != res.dict_key)
                     res.score -= 1;
+                if (!Global.options.includeOkurigana)
+                {
+                    res.key = stem;
+                    res.reading = entry.reading.Substring(0, len);
+                }
                 return res;
             }
             return null;
@@ -1493,35 +1525,63 @@ namespace ChiiTrans
             return result;
         }
 
-        private static string CheckRepeatingPhrasesAdv(string src, Options options)
+        /*private static int kmp(string src, int[] d, int i, char c)
         {
-            if (src.Length <= 2)
-                return src;
-            src = src.Trim();
-            int y = 2;
-            string key = src.Substring(0, 2);
+            if (i == 0)
+                return 0;
+            if (c == src[d[i - 1]])
+                return d[i - 1] + 1;
+            else
+                return kmp(src, d, d[i - 1], c);
+        }*/
+
+        private static bool _tryRPA(string src, string key)
+        {
+            int expected_at = 0;
+            int bad_chars = 0;
+            int bad = 0;
+            int len = key.Length;
             while (true)
             {
-                int x = src.IndexOf(key, y);
-                if (x <= 0)
-                    return src;
-                string part = src.Substring(0, x);
-                bool found = true;
-                int i;
-                for (i = x; (i + x) <= src.Length; i += x)
+                if (expected_at >= src.Length)
+                    break;
+                int is_at = src.IndexOf(key, expected_at);
+                if (is_at == -1)
                 {
-                    if (part != src.Substring(i, x))
-                    {
-                        found = false;
-                        break;
-                    }
+                    bad_chars += src.Length - expected_at;
+                    break;
                 }
-                if (found && i < src.Length)
-                    found = part.StartsWith(src.Substring(i));
-                if (found)
-                    return part;
-                y = x + 1;
+                if (is_at > expected_at)
+                {
+                    bad += 1;
+                    bad_chars += is_at - expected_at;
+                }
+                expected_at = is_at + len;
             }
+            return !(bad > 2 && bad_chars > src.Length / 10 || bad_chars > len * 2 || bad_chars > src.Length / 3);
+        }
+        
+        private static string CheckRepeatingPhrasesAdv(string src, Options options)
+        {
+            // fuck you knuth - we use dumb force
+            src = src.Trim();
+            if (src.Length < 10)
+                return src;
+            string key = src.Substring(0, 3);
+            int fst = src.IndexOf(key, 3);
+            if (fst == -1)
+                return src;
+            int snd = src.IndexOf(key, fst + 3);
+            if (snd == -1)
+                return src;
+            //trying first and then second
+            key = src.Substring(0, fst);
+            if (_tryRPA(src, key))
+                return key;
+            key = src.Substring(fst, snd - fst);
+            if (_tryRPA(src, key))
+                return key;
+            return src;
         }
 
         public static int NextTransId()
