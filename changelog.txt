@@ -1,5 +1,13 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.15
+ - Two new translators: SDL (http://freetranslation.com/) and Microsoft Bing Translator (http://www.microsofttranslator.com/).
+ - Re-enabled translators Honyaku and BabelFish. They are giving the same results as SysTran and Babylon, though.
+ - Improved Aggressive Check option.
+ - New feature: clipboard monitoring. ChiiTrans will automatically translate text in clipboard if this feature is enabled. You can use it with ITH if you like.
+ - An option to not include okurigana in displaying furigana.
+ - Monitored Threads button (binoculars) moved to the left (to get some attention).
+
 Version 1.14
  - UI to work with User Dictionary.
  - SysTran fixed.

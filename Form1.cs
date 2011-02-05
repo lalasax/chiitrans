@@ -63,6 +63,7 @@ namespace ChiiTrans
                         Mecab.Ready();
                 }
             }
+            Invoke(new Action(() => ClipboardMonitoring.UpdateEnabled()));
         }
 
         private void UseCommandLineArgs()
@@ -352,7 +353,7 @@ namespace ChiiTrans
             {
                 oldKey = e.KeyCode;
                 duplicateWorkaround = true;
-                if (!e.Control && !e.Alt)
+                if (!e.Control && !e.Alt && !e.Shift)
                 {
                     if (e.KeyCode == Keys.Insert)
                         buttonAddReplacement_Click(sender, null);
@@ -387,6 +388,8 @@ namespace ChiiTrans
                         MakeSizable();
                     else if (e.KeyCode == Keys.U)
                         buttonUserDict_Click(sender, null);
+                    else if (e.KeyCode == Keys.C)
+                        buttonClipboardMonitoring_Click(sender, null);
                 }
                 else if (e.Control && e.KeyCode == Keys.V || e.Shift && e.KeyCode == Keys.Insert)
                 {
@@ -640,13 +643,14 @@ namespace ChiiTrans
         {
             Options options = Global.options.Clone();
             options.displayOriginal = true;
-            if (options.wordParseMethod != Options.PARSE_WWWJDIC)
+            if (options.wordParseMethod == Options.PARSE_BUILTIN)
                 options.wordParseMethod = Options.PARSE_WWWJDIC;
             else
                 options.wordParseMethod = Options.PARSE_BUILTIN;
+            string[] exclude = { "Honyaku", "BabelFish", "Translit (int.)", "Translit (Google)", "Translit (MeCab)", "Hivemind (alpha)", "EDICT" };
             foreach (TranslatorRecord rec in options.translators)
             {
-                if (rec.id != 8) //Hivemind off
+                if (Array.IndexOf(exclude, Translation.Translators[rec.id]) == -1)
                     rec.inUse = true;
             }
             Translation.Translate(GetTextForAction(), options);
@@ -665,6 +669,7 @@ namespace ChiiTrans
             menuItemTransparent.Checked = Global.script.transparentMode;
             showToolbarToolStripMenuItem.Enabled = !Global.script.transparentMode;
             showToolbarToolStripMenuItem.Checked = Global.options.toolbarVisible && !Global.script.transparentMode;
+            menuItemClipboardMonitoring.Checked = ClipboardMonitoring.Enabled;
         }
 
         private void menuitemCopy_Click(object sender, EventArgs e)
@@ -788,6 +793,24 @@ namespace ChiiTrans
                 Edict.instance.ReloadUserDictionary(usr_new);
                 Edict.instance.SaveDictText("user.txt", usr_new);
             }
+        }
+
+        public void UpdateClipboardMonitoringButton()
+        {
+            buttonClipboardMonitoring.Checked = ClipboardMonitoring.Enabled;
+            if (ClipboardMonitoring.Enabled)
+            {
+                buttonClipboardMonitoring.Text = "Disable clipboard monitoring (C)";
+            }
+            else
+            {
+                buttonClipboardMonitoring.Text = "Enable clipboard monitoring (C)";
+            }
+        }
+
+        private void buttonClipboardMonitoring_Click(object sender, EventArgs e)
+        {
+            ClipboardMonitoring.Enabled = !ClipboardMonitoring.Enabled;
         }
     }
 }

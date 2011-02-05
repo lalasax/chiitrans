@@ -105,6 +105,9 @@ namespace ChiiTrans
             checkBoxLargeMargin.Checked = options.largeMargins;
             numMarginSize.Value = options.marginSize;
             comboBoxHivemind.Text = options.hivemindServer;
+            checkBoxClipboardMonitoring.Checked = options.clipboardMonitoring;
+            checkBoxMonitorJapanese.Checked = options.clipboardMonitoringJapanese;
+            checkBoxOkurigana.Checked = options.includeOkurigana;
 
             bindingSource1.DataSource = options.replacements;
             bindingSource1.AllowNew = true;
@@ -206,6 +209,9 @@ namespace ChiiTrans
             Global.options.largeMargins = checkBoxLargeMargin.Checked;
             Global.options.marginSize = (int)numMarginSize.Value;
             Global.options.hivemindServer = comboBoxHivemind.Text;
+            Global.options.includeOkurigana = checkBoxOkurigana.Checked;
+            Global.options.clipboardMonitoringJapanese = checkBoxMonitorJapanese.Checked;
+            ClipboardMonitoring.Enabled = checkBoxClipboardMonitoring.Checked;
 
             try
             {

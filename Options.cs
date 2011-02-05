@@ -105,6 +105,9 @@ namespace ChiiTrans
         public string hivemindServer;
         public bool toolbarVisible;
         public bool monitorNewThreads;
+        public bool includeOkurigana;
+        public bool clipboardMonitoring;
+        public bool clipboardMonitoringJapanese;
 
         private Type OptionsType;
         
@@ -151,7 +154,7 @@ namespace ChiiTrans
         public void SetDefault()
         {
             translators = new List<TranslatorRecord>();
-            string[] onByDefault = { "Google", "Atlas", "Hivemind (alpha)" };
+            string[] onByDefault = { "Google", "Atlas", "OCN" };
             for (int i = 0; i < Translation.Translators.Length; ++i)
                 translators.Add(new TranslatorRecord(i, Array.IndexOf(onByDefault, Translation.Translators[i]) != -1));
 
@@ -187,6 +190,9 @@ namespace ChiiTrans
             hivemindServer = "http://chii.sorakake.ru/";
             toolbarVisible = true;
             monitorNewThreads = true;
+            includeOkurigana = true;
+            clipboardMonitoring = false;
+            clipboardMonitoringJapanese = true;
 
             replacements = new List<Replacement>();
         }
@@ -308,6 +314,9 @@ namespace ChiiTrans
             loadOpt(data, "hivemindServer");
             loadOpt(data, "toolbarVisible");
             loadOpt(data, "monitorNewThreads");
+            loadOpt(data, "includeOkurigana");
+            loadOpt(data, "clipboardMonitoring");
+            loadOpt(data, "clipboardMonitoringJapanese");
         }
 
         public void SaveOptions(string filename)
@@ -355,6 +364,9 @@ namespace ChiiTrans
             saveOpt(data, "hivemindServer");
             saveOpt(data, "toolbarVisible");
             saveOpt(data, "monitorNewThreads");
+            saveOpt(data, "includeOkurigana");
+            saveOpt(data, "clipboardMonitoring");
+            saveOpt(data, "clipboardMonitoringJapanese");
 
             File.WriteAllText(filename, data.Serialize());
         }

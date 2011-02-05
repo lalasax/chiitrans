@@ -45,6 +45,7 @@
             this.menuItemFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemTransparent = new System.Windows.Forms.ToolStripMenuItem();
             this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemClipboardMonitoring = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.menuitemOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMore = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,22 +56,25 @@
             this.menuitemMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadUserDictionaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFormBordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addACustomDictionaryEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.buttonOnOff = new System.Windows.Forms.ToolStripButton();
             this.buttonRun = new System.Windows.Forms.ToolStripButton();
             this.buttonOptions = new System.Windows.Forms.ToolStripButton();
+            this.buttonMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonClear = new System.Windows.Forms.ToolStripButton();
             this.buttonTranslateSelected = new System.Windows.Forms.ToolStripButton();
             this.buttonTranslateFull = new System.Windows.Forms.ToolStripButton();
             this.buttonPaste = new System.Windows.Forms.ToolStripButton();
+            this.buttonClipboardMonitoring = new System.Windows.Forms.ToolStripButton();
             this.buttonKataHira = new System.Windows.Forms.ToolStripButton();
             this.buttonDictionary = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonAddReplacement = new System.Windows.Forms.ToolStripButton();
+            this.buttonUserDict = new System.Windows.Forms.ToolStripButton();
             this.buttonClearCache = new System.Windows.Forms.ToolStripButton();
-            this.buttonMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonFullscreen = new System.Windows.Forms.ToolStripButton();
             this.buttonTransparent = new System.Windows.Forms.ToolStripButton();
@@ -78,8 +82,6 @@
             this.buttonUpdateEDICT = new System.Windows.Forms.ToolStripButton();
             this.toolStripHomePage = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogRun = new System.Windows.Forms.OpenFileDialog();
-            this.buttonUserDict = new System.Windows.Forms.ToolStripButton();
-            this.addACustomDictionaryEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -124,11 +126,12 @@
             this.menuItemFullscreen,
             this.menuItemTransparent,
             this.showToolbarToolStripMenuItem,
+            this.menuItemClipboardMonitoring,
             this.toolStripSeparator8,
             this.menuitemOptions,
             this.menuitemMore});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(279, 332);
+            this.contextMenu.Size = new System.Drawing.Size(279, 356);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // menuitemTranslate
@@ -221,6 +224,14 @@
             this.showToolbarToolStripMenuItem.Text = "Show toolbar";
             this.showToolbarToolStripMenuItem.Click += new System.EventHandler(this.showToolbarToolStripMenuItem_Click);
             // 
+            // menuItemClipboardMonitoring
+            // 
+            this.menuItemClipboardMonitoring.Name = "menuItemClipboardMonitoring";
+            this.menuItemClipboardMonitoring.ShortcutKeyDisplayString = "C";
+            this.menuItemClipboardMonitoring.Size = new System.Drawing.Size(278, 24);
+            this.menuItemClipboardMonitoring.Text = "Clipboard monitoring";
+            this.menuItemClipboardMonitoring.Click += new System.EventHandler(this.buttonClipboardMonitoring_Click);
+            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
@@ -303,6 +314,14 @@
             this.showFormBordersToolStripMenuItem.Text = "Show form borders";
             this.showFormBordersToolStripMenuItem.Click += new System.EventHandler(this.showFormBordersToolStripMenuItem_Click);
             // 
+            // addACustomDictionaryEntryToolStripMenuItem
+            // 
+            this.addACustomDictionaryEntryToolStripMenuItem.Name = "addACustomDictionaryEntryToolStripMenuItem";
+            this.addACustomDictionaryEntryToolStripMenuItem.ShortcutKeyDisplayString = "U";
+            this.addACustomDictionaryEntryToolStripMenuItem.Size = new System.Drawing.Size(305, 24);
+            this.addACustomDictionaryEntryToolStripMenuItem.Text = "Add a custom dictionary entry...";
+            this.addACustomDictionaryEntryToolStripMenuItem.Click += new System.EventHandler(this.buttonUserDict_Click);
+            // 
             // textBoxDebug
             // 
             this.textBoxDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -324,18 +343,19 @@
             this.buttonOnOff,
             this.buttonRun,
             this.buttonOptions,
+            this.buttonMonitor,
             this.toolStripSeparator2,
             this.buttonClear,
             this.buttonTranslateSelected,
             this.buttonTranslateFull,
             this.buttonPaste,
+            this.buttonClipboardMonitoring,
             this.buttonKataHira,
             this.buttonDictionary,
             this.toolStripSeparator4,
             this.buttonAddReplacement,
             this.buttonUserDict,
             this.buttonClearCache,
-            this.buttonMonitor,
             this.toolStripSeparator1,
             this.buttonFullscreen,
             this.buttonTransparent,
@@ -379,6 +399,16 @@
             this.buttonOptions.Size = new System.Drawing.Size(26, 26);
             this.buttonOptions.Text = "Options (O)";
             this.buttonOptions.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // buttonMonitor
+            // 
+            this.buttonMonitor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonMonitor.Image = ((System.Drawing.Image)(resources.GetObject("buttonMonitor.Image")));
+            this.buttonMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonMonitor.Name = "buttonMonitor";
+            this.buttonMonitor.Size = new System.Drawing.Size(26, 26);
+            this.buttonMonitor.Text = "Select monitored threads (M)";
+            this.buttonMonitor.Click += new System.EventHandler(this.buttonMonitor_Click);
             // 
             // toolStripSeparator2
             // 
@@ -425,6 +455,16 @@
             this.buttonPaste.Text = "Translate text from clipboard (Ctrl-V)";
             this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
             // 
+            // buttonClipboardMonitoring
+            // 
+            this.buttonClipboardMonitoring.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonClipboardMonitoring.Image = ((System.Drawing.Image)(resources.GetObject("buttonClipboardMonitoring.Image")));
+            this.buttonClipboardMonitoring.ImageTransparentColor = System.Drawing.Color.White;
+            this.buttonClipboardMonitoring.Name = "buttonClipboardMonitoring";
+            this.buttonClipboardMonitoring.Size = new System.Drawing.Size(26, 26);
+            this.buttonClipboardMonitoring.Text = "Enable clipboard monitoring (C)";
+            this.buttonClipboardMonitoring.Click += new System.EventHandler(this.buttonClipboardMonitoring_Click);
+            // 
             // buttonKataHira
             // 
             this.buttonKataHira.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -460,6 +500,16 @@
             this.buttonAddReplacement.Text = "Add a text replacement (Insert)";
             this.buttonAddReplacement.Click += new System.EventHandler(this.buttonAddReplacement_Click);
             // 
+            // buttonUserDict
+            // 
+            this.buttonUserDict.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonUserDict.Image = ((System.Drawing.Image)(resources.GetObject("buttonUserDict.Image")));
+            this.buttonUserDict.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(73)))), ((int)(((byte)(164)))));
+            this.buttonUserDict.Name = "buttonUserDict";
+            this.buttonUserDict.Size = new System.Drawing.Size(26, 26);
+            this.buttonUserDict.Text = "Add a custom dictionary entry (U)";
+            this.buttonUserDict.Click += new System.EventHandler(this.buttonUserDict_Click);
+            // 
             // buttonClearCache
             // 
             this.buttonClearCache.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -469,16 +519,6 @@
             this.buttonClearCache.Size = new System.Drawing.Size(26, 26);
             this.buttonClearCache.Text = "Clear translations cache";
             this.buttonClearCache.Click += new System.EventHandler(this.buttonClearCache_Click);
-            // 
-            // buttonMonitor
-            // 
-            this.buttonMonitor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonMonitor.Image = ((System.Drawing.Image)(resources.GetObject("buttonMonitor.Image")));
-            this.buttonMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonMonitor.Name = "buttonMonitor";
-            this.buttonMonitor.Size = new System.Drawing.Size(26, 26);
-            this.buttonMonitor.Text = "Select monitored threads (M)";
-            this.buttonMonitor.Click += new System.EventHandler(this.buttonMonitor_Click);
             // 
             // toolStripSeparator1
             // 
@@ -535,24 +575,6 @@
             this.openFileDialogRun.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
             this.openFileDialogRun.FilterIndex = 0;
             this.openFileDialogRun.Title = "Select a game to run";
-            // 
-            // buttonUserDict
-            // 
-            this.buttonUserDict.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.buttonUserDict.Image = ((System.Drawing.Image)(resources.GetObject("buttonUserDict.Image")));
-            this.buttonUserDict.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(73)))), ((int)(((byte)(164)))));
-            this.buttonUserDict.Name = "buttonUserDict";
-            this.buttonUserDict.Size = new System.Drawing.Size(26, 26);
-            this.buttonUserDict.Text = "Add a custom dictionary entry (U)";
-            this.buttonUserDict.Click += new System.EventHandler(this.buttonUserDict_Click);
-            // 
-            // addACustomDictionaryEntryToolStripMenuItem
-            // 
-            this.addACustomDictionaryEntryToolStripMenuItem.Name = "addACustomDictionaryEntryToolStripMenuItem";
-            this.addACustomDictionaryEntryToolStripMenuItem.ShortcutKeyDisplayString = "U";
-            this.addACustomDictionaryEntryToolStripMenuItem.Size = new System.Drawing.Size(305, 24);
-            this.addACustomDictionaryEntryToolStripMenuItem.Text = "Add a custom dictionary entry...";
-            this.addACustomDictionaryEntryToolStripMenuItem.Click += new System.EventHandler(this.buttonUserDict_Click);
             // 
             // Form1
             // 
@@ -632,6 +654,8 @@
         private System.Windows.Forms.ToolStripButton buttonUpdateEDICT;
         private System.Windows.Forms.ToolStripMenuItem addACustomDictionaryEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton buttonUserDict;
+        private System.Windows.Forms.ToolStripButton buttonClipboardMonitoring;
+        private System.Windows.Forms.ToolStripMenuItem menuItemClipboardMonitoring;
     }
 }
 
