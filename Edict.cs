@@ -542,7 +542,7 @@ namespace ChiiTrans
             res.Add(entry.key);
             res.Add(string.Join(", ", entry.pos));
             res.Add(Translation.formatReading(entry.key, entry.reading, Global.options.furiganaRomaji));
-            res.Add(Translation.formatMeaning(entry.meaning));
+            res.Add(Translation.formatMeaning(string.Join("; ", entry.meaning)));
         }
         
         private void DictSearchAddDict(HashSet<EdictEntry> added, List<string> res, EdictEntry[] dict, string key)
@@ -611,12 +611,13 @@ namespace ChiiTrans
             return added.ToArray();
         }
 
-        private EdictEntry SearchExact(string key, string pos, bool second, bool byReading)
+        private EdictEntry[] SearchExact(string key, string pos, bool second, bool byReading)
         {
+            var entries = new List<EdictEntry>();
             if (!Ready)
-                return null;
+                return entries.ToArray();
             if (key.Length == 0 || key.Length == 1 && !Translation.isKanji(key[0]))
-                return null;
+                return entries.ToArray();
             int x;
             if (!byReading)
             {
@@ -639,22 +640,27 @@ namespace ChiiTrans
                                 return SearchExact(key, pos, true, false);
                             }
                             else
-                                return entry;
+                                entries.Add(entry);
                         }
                         else
                         {
-                            return entry;
+                            entries.Add(entry);
                         }
+                        ++x;
                     }
+                    if (entries.Count > 0)
+                        return entries.ToArray();
                 }
                 x = BinarySearch(dict, key);
                 while (x < dict.Length && dict[x].key == key)
                 {
                     EdictEntry entry = dict[x];
                     if (pos == null || entry.isPOS(pos))
-                        return entry;
+                        entries.Add(entry);
                     ++x;
                 }
+                if (entries.Count > 0)
+                    return entries.ToArray();
             }
             if (key.ToCharArray().All(Translation.isKatakana))
                 key = Translation.KatakanaToHiragana(key);
@@ -668,17 +674,17 @@ namespace ChiiTrans
                     if (pos == null || entry.isPOS(pos))
                     {
                         if (second || key.Length > 3 || key.Length > 2 && entry.priority >= 1 || entry.priority >= 3)
-                            return entry;
+                            entries.Add(entry);
                     }
                     ++x;
                     if (x < rdict.Length)
                         reading = Translation.KatakanaToHiragana(rdict[x].reading);
                 }
             }
-            return null;
+            return entries.ToArray();
         }
 
-        public EdictEntry SearchExact(string key, string pos)
+        public EdictEntry[] SearchExact(string key, string pos)
         {
             return SearchExact(key, pos, false, false);
         }

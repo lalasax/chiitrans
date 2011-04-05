@@ -873,7 +873,7 @@ namespace ChiiTrans
                     if (newm != "" && Array.IndexOf(JDicCodes, newm) < 0)
                         mm.Add(newm);
                 }
-                res.Add(formatMeaning(mm.ToArray()));
+                res.Add(formatMeaning(string.Join("; ", mm)));
             }
             //Form1.Debug(string.Join("\r", res.ToArray()));
             return string.Join("\r", res.ToArray());
@@ -986,10 +986,11 @@ namespace ChiiTrans
             return HiraganaToRomaji(res.ToString());
         }
 
-        public static string formatMeaning(string[] meaning)
+        public static string formatMeaning(string meaning)
         {
-            string tmp = string.Join("; ", meaning);
-            string tr = Regex.Replace(tmp, @"(?:^|; )\(\d+\)", "$");
+            //string tmp = string.Join("; ", meaning);
+            string tr = Regex.Replace(meaning, @"(?:^|; )\(\d+\)", "$");
+            tr = Regex.Replace(tr, @"\#\(\d+\)", "#$");
             return tr;
         }
 
@@ -1000,21 +1001,27 @@ namespace ChiiTrans
 
         public static string formatReading(string key, string reading, bool romaji)
         {
-            if (hasKanji(reading))
-                return "";
             bool kana = false;
             bool kanji = false;
-            foreach (char ch in key)
+            if (key != null)
             {
-                if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter)
+                foreach (char ch in key)
                 {
-                    kana = true;
-                    if (isKanji(ch))
+                    if (char.GetUnicodeCategory(ch) == UnicodeCategory.OtherLetter)
                     {
-                        kanji = true;
-                        break;
+                        kana = true;
+                        if (isKanji(ch))
+                        {
+                            kanji = true;
+                            break;
+                        }
                     }
                 }
+            }
+            else
+            {
+                kana = true;
+                kanji = true;
             }
             if (!kana)
                 return "";
@@ -1061,7 +1068,7 @@ namespace ChiiTrans
             public string reading;
             public string dict_key;
             public string dict_reading;
-            public string[] meaning;
+            public string meaning;
             public int score;
         }
 
@@ -1106,7 +1113,7 @@ namespace ChiiTrans
                         res.reading = rep;
                         res.dict_key = all;
                         res.dict_reading = "-";
-                        res.meaning = new string[] { rep };
+                        res.meaning = rep;
                         res.score = 1000;
                         return res;
                     }
@@ -1117,15 +1124,15 @@ namespace ChiiTrans
                 if (st > 0 && char.IsLetter(source[st - 1]))
                     continue;
             }*/
-            EdictEntry ex = Edict.instance.SearchExact(all, null);
-            if (ex != null && ex.meaning.Length > 0)
+            EdictEntry[] ex = Edict.instance.SearchExact(all, null);
+            if (ex.Length > 0 && ex[0].meaning.Length > 0)
             {
                 WordRecord res = new WordRecord();
                 res.key = all;
-                res.reading = ex.reading;
-                res.dict_key = ex.key;
-                res.dict_reading = ex.reading;
-                res.meaning = ex.meaning;
+                res.reading = ex[0].reading;
+                res.dict_key = string.Join("#", (from ed in ex select ed.key));
+                res.dict_reading = string.Join("#", (from ed in ex select ed.reading));
+                res.meaning = string.Join("#", (from ed in ex select string.Join("; ", ed.meaning)));
                 res.score = res.key.Length * res.key.Length;
                 if (res.key != res.dict_key)
                     res.score -= 1;
@@ -1146,35 +1153,46 @@ namespace ChiiTrans
                 }
                 return res;
             }
-            EdictEntry entry;
+            EdictEntry[] entries;
             string ending;
             string stem;
             string orig;
-            bool found = Inflect.FindInflected(all, out entry, out stem, out ending, out orig);
+            bool found = Inflect.FindInflected(all, out entries, out stem, out ending, out orig);
             if (found)
             {
-                WordRecord res = new WordRecord();
-                string key = stem + ending;
-                res.key = key;
-                int len = entry.reading.Length - orig.Length;
-                string reading;
-                if (len >= 0)
-                    reading = entry.reading.Substring(0, len) + ending;
-                else
-                    reading = "";
-                res.reading = reading;
-                res.dict_key = entry.key;
-                res.dict_reading = entry.reading;
-                res.meaning = entry.meaning;
-                res.score = res.key.Length * res.key.Length;
-                if (res.key != res.dict_key)
-                    res.score -= 1;
-                if (!Global.options.includeOkurigana)
+                var tmp = new List<WordRecord>();
+                foreach (var entry in entries)
                 {
-                    res.key = stem;
-                    res.reading = entry.reading.Substring(0, len);
+                    WordRecord res = new WordRecord();
+                    string key = stem + ending;
+                    res.key = key;
+                    int len = entry.reading.Length - orig.Length;
+                    string reading;
+                    if (len >= 0)
+                        reading = entry.reading.Substring(0, len) + ending;
+                    else
+                        reading = "";
+                    res.reading = reading;
+                    res.dict_key = entry.key;
+                    res.dict_reading = entry.reading;
+                    res.meaning = string.Join("; ", entry.meaning);
+                    res.score = res.key.Length * res.key.Length;
+                    if (res.key != res.dict_key)
+                        res.score -= 1;
+                    if (!Global.options.includeOkurigana)
+                    {
+                        res.key = stem;
+                        res.reading = entry.reading.Substring(0, len);
+                    }
+                    tmp.Add(res);
                 }
-                return res;
+                WordRecord allres = new WordRecord();
+                allres.key = tmp[0].key;
+                allres.reading = tmp[0].reading;
+                allres.dict_key = string.Join("#", (from ed in tmp select ed.dict_key));
+                allres.dict_reading = string.Join("#", (from ed in tmp select ed.dict_reading));
+                allres.meaning = string.Join("#", (from ed in tmp select ed.meaning));
+                return allres;
             }
             return null;
         }
@@ -1255,18 +1273,20 @@ namespace ChiiTrans
                     res.Add(rr.reading);
                     res.Add(rr.dict_key);
                     res.Add(rr.dict_reading);
-                    res.Add(rr.meaning[0]);
+                    res.Add(rr.meaning);
                 }
                 else
                 {
                     res.Add(rr.key);
                     res.Add(formatReading(rr.key, rr.reading));
                     res.Add(rr.dict_key);
-                    res.Add(formatReading(rr.dict_key, rr.dict_reading));
+                    res.Add(formatReading(null, rr.dict_reading));
                     string meaning;
-                    if (Edict.instance.warodai != null && Edict.instance.warodai.ContainsKey(rr.dict_key))
+                    if (Edict.instance.warodai != null)
                     {
-                        meaning = Regex.Replace(Edict.instance.warodai[rr.dict_key], @"\<.*?\>", "");
+                        meaning = string.Join("#", (from dk in rr.dict_key.Split('#')
+                                                    where Edict.instance.warodai.ContainsKey(dk)
+                                                    select Regex.Replace(Edict.instance.warodai[dk], @"\<.*?\>", "")));
                     }
                     else
                     {
@@ -1407,6 +1427,7 @@ namespace ChiiTrans
             catch (Exception) 
             {
                 Global.RunScript("AbortDelayed", id);
+                throw;
             }
         }
 

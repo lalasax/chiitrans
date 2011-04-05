@@ -1,5 +1,10 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.16
+ - A new feature: multiple entries in tooltips. Scroll with mouse wheel to change pages.
+ - Fixed a bug with clipboard monitoring.
+ - Fixed a couple of minor bugs.
+
 Version 1.15
  - Two new translators: SDL (http://freetranslation.com/) and Microsoft Bing Translator (http://www.microsofttranslator.com/).
  - Re-enabled translators Honyaku and BabelFish. They are giving the same results as SysTran and Babylon, though.

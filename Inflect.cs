@@ -238,7 +238,7 @@ namespace ChiiTrans
             return BinarySearch(conj, form);
         }
 
-        public static bool FindInflected(string source, out EdictEntry entry, out string stem, out string ending, out string orig)
+        public static bool FindInflected(string source, out EdictEntry[] entry, out string stem, out string ending, out string orig)
         {
             int st = 0;
             int f2 = source.Length - 1;
@@ -266,7 +266,7 @@ namespace ChiiTrans
                 {
                     orig = Inflect.instance.conj[id].orig;
                     entry = Edict.instance.SearchExact(stem + orig, Inflect.instance.conj[id].pos);
-                    if (entry != null && entry.meaning.Length > 0)
+                    if (entry.Length > 0 && entry[0].meaning.Length > 0)
                     {
                         found = true;
                         break;
@@ -288,7 +288,7 @@ namespace ChiiTrans
             int f2 = source.Length - 1;
             int f = f2 + 1;
             List<EdictEntry> entries = new List<EdictEntry>();
-            EdictEntry entry;
+            EdictEntry[] entry;
             string stem;
             string ending;
             string orig;
@@ -308,9 +308,9 @@ namespace ChiiTrans
                 {
                     orig = Inflect.instance.conj[id].orig;
                     entry = Edict.instance.SearchExact(stem + orig, Inflect.instance.conj[id].pos);
-                    if (entry != null && entry.meaning.Length > 0)
+                    if (entry.Length > 0 && entry[0].meaning.Length > 0)
                     {
-                        entries.Add(entry);
+                        entries.AddRange(entry);
                     }
                     ++id;
                 }

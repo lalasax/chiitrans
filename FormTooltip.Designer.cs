@@ -42,8 +42,8 @@
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(10, 10);
+            this.panel1.Padding = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.panel1.Size = new System.Drawing.Size(10, 12);
             this.panel1.TabIndex = 0;
             // 
             // panel
@@ -54,7 +54,7 @@
             this.panel.ColumnCount = 2;
             this.panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.panel.Location = new System.Drawing.Point(5, 5);
+            this.panel.Location = new System.Drawing.Point(5, 6);
             this.panel.Margin = new System.Windows.Forms.Padding(0);
             this.panel.Name = "panel";
             this.panel.RowCount = 1;
@@ -64,14 +64,16 @@
             // 
             // FormTooltip
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(394, 367);
             this.Controls.Add(this.panel1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.MaximumSize = new System.Drawing.Size(400, 9999);
             this.Name = "FormTooltip";
             this.Padding = new System.Windows.Forms.Padding(1);

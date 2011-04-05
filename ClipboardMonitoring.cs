@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using FTimer = System.Windows.Forms.Timer;
 
 namespace ChiiTrans
 {
@@ -22,16 +23,20 @@ namespace ChiiTrans
             }
         }
 
-        private static bool _enabled = false;
         private static string oldText = null;
+        private static FTimer timer;
 
+        static ClipboardMonitoring()
+        {
+            timer = new FTimer();
+            timer.Enabled = false;
+            timer.Interval = 50;
+            timer.Tick += MonitorProc;
+        }
+        
         public static void UpdateEnabled()
         {
-            if (Enabled && !_enabled)
-                Application.Idle += MonitorProc;
-            else if (!Enabled && _enabled)
-                Application.Idle -= MonitorProc;
-            _enabled = Enabled;
+            timer.Enabled = Enabled;
             Form1.thisForm.UpdateClipboardMonitoringButton();
         }
 
@@ -39,6 +44,7 @@ namespace ChiiTrans
         {
             if (!Enabled)
             {
+                UpdateEnabled();
                 return;
             }
             try
@@ -62,8 +68,8 @@ namespace ChiiTrans
             catch (Exception ex)
             {
                 MessageBox.Show("Error in ClipboardMonitoring: " + ex.Message);
-                Application.Idle -= MonitorProc;
-                _enabled = false;
+                Enabled = false;
+                UpdateEnabled();
             }
         }
 

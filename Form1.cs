@@ -774,7 +774,9 @@ namespace ChiiTrans
 
         private void buttonUpdateEDICT_Click(object sender, EventArgs e)
         {
+            TopMost = false;
             FormUpdate.instance.ShowDialog();
+            TopMost = Global.isTopMost();
         }
 
         private void buttonUserDict_Click(object sender, EventArgs e)
@@ -785,6 +787,7 @@ namespace ChiiTrans
             if (string.IsNullOrEmpty(s))
                 return;
             EdictEntry entry = new EdictEntry(s, "", new string[] {}, null, 0);
+            TopMost = false;
             if (FormDictionaryEdit.instance.MyShow(entry) == System.Windows.Forms.DialogResult.OK)
             {
                 List<string> usr = new List<string>(Edict.instance.LoadDictText("user.txt"));
@@ -793,6 +796,7 @@ namespace ChiiTrans
                 Edict.instance.ReloadUserDictionary(usr_new);
                 Edict.instance.SaveDictText("user.txt", usr_new);
             }
+            TopMost = Global.isTopMost();
         }
 
         public void UpdateClipboardMonitoringButton()

@@ -94,7 +94,11 @@ namespace ChiiTrans
 
         void customTranslateProc()
         {
-            method.Invoke(translation, null);
+            try
+            {
+                method.Invoke(translation, null);
+            }
+            catch (Exception) { }
             translation.CompleteTask();
         }
 
