@@ -77,6 +77,7 @@ namespace ChiiTrans
             try
             {
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://ftp.monash.edu.au/pub/nihongo/edict.gz");
+                request.Proxy = null;
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
 
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
@@ -88,7 +89,12 @@ namespace ChiiTrans
                 fs.Close();
                 File.Replace(Edict.instance.GetRealFilename("edict.new"), Edict.instance.GetRealFilename("edict"), Edict.instance.GetRealFilename("edict.bak"), true);
                 Edict.instance.Initialize();
-                MessageBox.Show("The EDICT file was updated successfully.", "Update EDICT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Form1.thisForm.Invoke(new Action(() =>
+                {
+                    Form1.thisForm.TopMost = false;
+                    MessageBox.Show("The EDICT file was updated successfully.", "Update EDICT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Form1.thisForm.TopMost = Global.isTopMost();
+                }));
             }
             catch (Exception ex)
             {
@@ -97,7 +103,12 @@ namespace ChiiTrans
                     File.Delete(Edict.instance.GetRealFilename("edict.new"));
                 }
                 catch (Exception) { }
-                MessageBox.Show("The EDICT file was not updated.\r\n" + ex.Message, "Update EDICT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Form1.thisForm.Invoke(new Action(() =>
+                {
+                    Form1.thisForm.TopMost = false;
+                    MessageBox.Show("The EDICT file was not updated.\r\n" + ex.Message, "Update EDICT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Form1.thisForm.TopMost = Global.isTopMost();
+                }));
             }
         }
 
