@@ -29,6 +29,7 @@ namespace ChiiTrans
 
         private Font LabelFont;
         private Label label1;
+        private Label labelPage;
         private Size labelMaxSize;
         protected override bool ShowWithoutActivation
         {
@@ -51,14 +52,18 @@ namespace ChiiTrans
             label1.AutoSize = true;
             label1.MaximumSize = labelMaxSize;
             label1.Margin = new Padding(0, 0, 0, 5);
+
+            labelPage = new Label();
+            labelPage.Width = 35;
+            labelPage.ForeColor = Color.DarkBlue;
+            labelPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
             panel.ColumnStyles[0] = new ColumnStyle(SizeType.Absolute, 35);
             MoveAway();
         }
 
-        public void ShowTooltip(string title, string text)
+        private void ShowTooltipInternal(int cur_tt_index, string title, string text)
         {
-            //SuspendLayout();
-            //panel.SuspendLayout();
             LabelFont = new Font(Global.options.tooltipFont.FontFamily.Name, Global.options.tooltipFont.Size * 0.8f, FontStyle.Regular);
             label1.Font = new Font("MS Mincho", Global.options.tooltipFont.Size * 1.1f, FontStyle.Regular);
             panel.ColumnStyles[0].Width = Global.options.tooltipFont.Size * 3f;
@@ -67,8 +72,9 @@ namespace ChiiTrans
             panel.Controls.Clear();
             panel.Controls.Add(label1, 0, 0);
             panel.SetColumnSpan(label1, 2);
+            panel1.Controls.Remove(labelPage);
             int row = 1;
-            //bool haveList = false;
+
             for (int i = 0; i < meaning.Length; ++i)
             {
                 if (meaning[i] == "" || meaning[i] == "-")
@@ -103,17 +109,48 @@ namespace ChiiTrans
                     panel.Controls.Add(label, 1, row++);
                     label.Margin = new Padding(0);
                     label.Padding = new Padding(0);
-                    //haveList = true;
                 }
             }
-            /*if (haveList)
-            {
-                panel.SetColumn(label1, 1);
-                panel.SetColumnSpan(label1, 1);
-            }*/
-            //panel.ResumeLayout(true);
-            //ResumeLayout();
 
+            if (_key.Length >= 2)
+            {
+                panel1.Controls.Add(labelPage);
+                label1.Margin = new Padding(0, 0, 35, 5);
+                label1.MaximumSize = new System.Drawing.Size(panel.MaximumSize.Width - 35, panel.MaximumSize.Height);
+                var left = panel1.Width - 40;
+                labelPage.Left = left;
+                labelPage.Top = 5;
+                labelPage.Text = string.Format("{0}/{1}", cur_tt_index + 1, _key.Length);
+                labelPage.TextAlign = ContentAlignment.MiddleRight;
+                labelPage.BringToFront();
+            }
+            else
+            {
+                label1.Margin = new Padding(0, 0, 0, 5);
+                label1.MaximumSize = labelMaxSize;
+            }
+        }
+
+        private string[] _key;
+        private string[] _reading;
+        private string[] _text;
+        private Dictionary<string, int> tt_index = new Dictionary<string,int>();
+        private string cur_tt_key;
+        
+        public void ShowTooltip(string key, string reading, string text)
+        {
+            cur_tt_key = key;
+            _key = key.Split('#');
+            _reading = reading.Split('#');
+            _text = text.Split('#');
+            if (!tt_index.ContainsKey(key))
+                tt_index.Add(key, 0);
+            UpdateTooltip();
+            UpdateTooltipPos();
+        }
+
+        private void UpdateTooltipPos()
+        {
             Point newpos = new Point(Cursor.Position.X + 15, Cursor.Position.Y + 15);
             Rectangle workingArea = Screen.GetWorkingArea(Form1.thisForm);
             int screenWidth = workingArea.Width + workingArea.Left;
@@ -127,18 +164,18 @@ namespace ChiiTrans
             if (newpos.Y < workingArea.Top)
                 newpos.Y = workingArea.Top;
             Location = newpos;
-
-            //Form1.thisForm.suspendBottomLayerUpdates = true;
-            //TopLevel = true;
-            //
-            /*bool form1top = Form1.thisForm.TopMost;
-            if (form1top)
-            {
-                //Form1.thisForm.TopMost = false;
-                TopMost = true;
-            }*/
             _Show();
-            //Form1.thisForm.suspendBottomLayerUpdates = false;
+        }
+
+        private void UpdateTooltip()
+        {
+            int cur_tt_index = tt_index[cur_tt_key];
+            var key = _key[cur_tt_index];
+            var reading = _reading[cur_tt_index];
+            var text = _text[cur_tt_index];
+            ShowTooltipInternal(cur_tt_index,
+                string.IsNullOrWhiteSpace(reading) || reading == key || reading == "-" || Translation.KatakanaToHiragana(key) == reading ? key : string.Format("{0} ({1})", _key[cur_tt_index], _reading[cur_tt_index]),
+                _text[cur_tt_index]);
         }
 
         public void _Show()
@@ -155,6 +192,25 @@ namespace ChiiTrans
         private void panel_MouseLeave(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        internal void TooltipPage(int delta)
+        {
+            if (tt_index.ContainsKey(cur_tt_key))
+            {
+                int cur_tt_index = tt_index[cur_tt_key] + delta;
+                if (cur_tt_index < 0) cur_tt_index = 0;
+                if (cur_tt_index >= _key.Length) cur_tt_index = _key.Length - 1;
+                if (tt_index[cur_tt_key] != cur_tt_index)
+                {
+                    tt_index[cur_tt_key] = cur_tt_index;
+                    //this.SuspendLayout();
+                    Hide();
+                    UpdateTooltip();
+                    UpdateTooltipPos();
+                    //this.ResumeLayout(true);
+                }
+            }
         }
     }
 }

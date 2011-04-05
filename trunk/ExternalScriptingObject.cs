@@ -106,9 +106,14 @@ namespace ChiiTrans
             Global.lockHotkeys = false;
         }
 
-        public void ShowTooltip(string title, string text)
+        public void ShowTooltip(string key, string reading, string text)
         {
-            FormTooltip.instance.ShowTooltip(title, text);
+            FormTooltip.instance.ShowTooltip(key, reading, text);
+        }
+
+        public void TooltipPage(int delta)
+        {
+            FormTooltip.instance.TooltipPage(delta);
         }
 
         public void HideTooltip()

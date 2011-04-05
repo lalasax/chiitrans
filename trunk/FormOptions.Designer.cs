@@ -197,9 +197,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
@@ -340,8 +340,8 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -359,8 +359,8 @@
             // 
             // numericClipboardPollInterval
             // 
-            this.numericClipboardPollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericClipboardPollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.numericClipboardPollInterval.Increment = new decimal(new int[] {
             50,
             0,
@@ -389,8 +389,8 @@
             // 
             // numericMaxSourceLength
             // 
-            this.numericMaxSourceLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericMaxSourceLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.numericMaxSourceLength.Increment = new decimal(new int[] {
             10,
             0,
@@ -419,8 +419,8 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Location = new System.Drawing.Point(293, 0);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
@@ -430,8 +430,8 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Location = new System.Drawing.Point(2, 0);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
@@ -473,8 +473,8 @@
             // 
             // textBoxPattern
             // 
-            this.textBoxPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPattern.Enabled = false;
             this.textBoxPattern.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPattern.Location = new System.Drawing.Point(275, 131);
@@ -552,8 +552,8 @@
             // 
             // comboBoxHivemind
             // 
-            this.comboBoxHivemind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxHivemind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxHivemind.FormattingEnabled = true;
             this.comboBoxHivemind.Items.AddRange(new object[] {
             "http://chii.sorakake.ru/"});
@@ -573,8 +573,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.radioNone);
             this.groupBox1.Controls.Add(this.radioJdic);
             this.groupBox1.Controls.Add(this.comboBoxJDic);
@@ -608,8 +608,8 @@
             // 
             // comboBoxJDic
             // 
-            this.comboBoxJDic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxJDic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxJDic.FormattingEnabled = true;
             this.comboBoxJDic.Items.AddRange(new object[] {
             "http://www.csse.monash.edu.au/~jwb/cgi-bin/wwwjdic.cgi",
@@ -698,8 +698,8 @@
             // 
             // listBoxTranslators
             // 
-            this.listBoxTranslators.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxTranslators.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxTranslators.FormattingEnabled = true;
             this.listBoxTranslators.Location = new System.Drawing.Point(8, 4);
             this.listBoxTranslators.Margin = new System.Windows.Forms.Padding(2);
@@ -750,8 +750,8 @@
             // 
             // textBoxTooltipFont
             // 
-            this.textBoxTooltipFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTooltipFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTooltipFont.Location = new System.Drawing.Point(6, 85);
             this.textBoxTooltipFont.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxTooltipFont.Name = "textBoxTooltipFont";
@@ -807,7 +807,7 @@
             this.checkBoxLargeMargin.AutoSize = true;
             this.checkBoxLargeMargin.Location = new System.Drawing.Point(7, 243);
             this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(285, 21);
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
             this.checkBoxLargeMargin.TabIndex = 49;
             this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
             this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
@@ -855,7 +855,7 @@
             // buttonResetColors
             // 
             this.buttonResetColors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonResetColors.Location = new System.Drawing.Point(450, 432);
+            this.buttonResetColors.Location = new System.Drawing.Point(451, 486);
             this.buttonResetColors.Name = "buttonResetColors";
             this.buttonResetColors.Size = new System.Drawing.Size(135, 26);
             this.buttonResetColors.TabIndex = 45;
@@ -878,9 +878,9 @@
             this.gridColors.AllowUserToDeleteRows = false;
             this.gridColors.AllowUserToResizeColumns = false;
             this.gridColors.AllowUserToResizeRows = false;
-            this.gridColors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridColors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridColors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridColors.ColumnHeadersVisible = false;
             this.gridColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -894,7 +894,7 @@
             this.gridColors.RowTemplate.Height = 28;
             this.gridColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridColors.Size = new System.Drawing.Size(579, 126);
+            this.gridColors.Size = new System.Drawing.Size(579, 180);
             this.gridColors.TabIndex = 43;
             this.gridColors.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColors_CellDoubleClick);
             // 
@@ -917,15 +917,15 @@
             this.checkBoxShadow.AutoSize = true;
             this.checkBoxShadow.Location = new System.Drawing.Point(7, 180);
             this.checkBoxShadow.Name = "checkBoxShadow";
-            this.checkBoxShadow.Size = new System.Drawing.Size(244, 21);
+            this.checkBoxShadow.Size = new System.Drawing.Size(294, 27);
             this.checkBoxShadow.TabIndex = 42;
             this.checkBoxShadow.Text = "Drop shadow in transparent mode";
             this.checkBoxShadow.UseVisualStyleBackColor = true;
             // 
             // trackBarOpacity
             // 
-            this.trackBarOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBarOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBarOpacity.AutoSize = false;
             this.trackBarOpacity.LargeChange = 10;
             this.trackBarOpacity.Location = new System.Drawing.Point(6, 143);
@@ -960,8 +960,8 @@
             // 
             // textBoxFont
             // 
-            this.textBoxFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxFont.Location = new System.Drawing.Point(6, 28);
             this.textBoxFont.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxFont.Name = "textBoxFont";
@@ -996,9 +996,9 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -1016,7 +1016,7 @@
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.Size = new System.Drawing.Size(595, 438);
+            this.dataGridView1.Size = new System.Drawing.Size(595, 488);
             this.dataGridView1.TabIndex = 8;
             // 
             // colSource
@@ -1189,7 +1189,7 @@
             this.gridUserDict.Location = new System.Drawing.Point(3, 3);
             this.gridUserDict.Name = "gridUserDict";
             this.gridUserDict.RowTemplate.Height = 24;
-            this.gridUserDict.Size = new System.Drawing.Size(588, 458);
+            this.gridUserDict.Size = new System.Drawing.Size(588, 512);
             this.gridUserDict.TabIndex = 0;
             this.gridUserDict.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridUserDict_CellClick);
             this.gridUserDict.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridUserDict_CellValueChanged);
