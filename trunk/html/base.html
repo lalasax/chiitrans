@@ -439,13 +439,11 @@ function UpdateWords(id, s, status)
             _cls = (nya++ % 2 ? "span_word" : "span_word2");
         }
         var title = (cur.text2 == "" ? cur.text : cur.text2);
+        var title2 = "";
         var hasReadingOrMeaning = false;
         var meaning;
-        if (cur.reading && cur.reading != "")
-        {
-            title += " (" + (cur.reading2 == "" ? cur.reading : cur.reading2) + ")";
-            hasReadingOrMeaning = true;
-        }
+        title2 = cur.reading2 == "" ? cur.reading : cur.reading2;
+        hasReadingOrMeaning = title2 != "";
         if (cur.meaning && cur.meaning != "" && cur.meaning != "-")
         {
             hasReadingOrMeaning = true;
@@ -453,14 +451,16 @@ function UpdateWords(id, s, status)
         var sp = make("span", _cls, textnode(cur.text));
         if (hasReadingOrMeaning)
         {
-            (function(title, meaning)
+            (function(title, title2, meaning)
             {
                 $(sp).mouseover(function()
                 {
-                    window.external.ShowTooltip(title, meaning);
+                    window.external.ShowTooltip(title, title2, meaning);
                 }).mouseout(hideTooltip)
                 .click(hideTooltip);
-            })(title, cur.meaning);
+            })(title, title2, cur.meaning);
+            if (title && title.toString().indexOf('#') >= 0)
+                $(sp)[0].onmousewheel = function() {var ev = window.event; if (ev.wheelDelta < 0) window.external.TooltipPage(1); else window.external.TooltipPage(-1); return false;};
         }
         if (display_readings && cur.reading)
         {

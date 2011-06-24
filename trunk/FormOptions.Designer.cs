@@ -641,7 +641,7 @@
             this.checkBoxPromt.AutoSize = true;
             this.checkBoxPromt.Location = new System.Drawing.Point(43, 371);
             this.checkBoxPromt.Name = "checkBoxPromt";
-            this.checkBoxPromt.Size = new System.Drawing.Size(281, 27);
+            this.checkBoxPromt.Size = new System.Drawing.Size(238, 21);
             this.checkBoxPromt.TabIndex = 23;
             this.checkBoxPromt.Text = "Use PROMT for en-ru translation";
             this.checkBoxPromt.UseVisualStyleBackColor = true;
@@ -662,7 +662,7 @@
             this.checkBoxTranslateOther.Location = new System.Drawing.Point(8, 338);
             this.checkBoxTranslateOther.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTranslateOther.Name = "checkBoxTranslateOther";
-            this.checkBoxTranslateOther.Size = new System.Drawing.Size(253, 27);
+            this.checkBoxTranslateOther.Size = new System.Drawing.Size(214, 21);
             this.checkBoxTranslateOther.TabIndex = 18;
             this.checkBoxTranslateOther.Text = "Translate to other language: ";
             this.checkBoxTranslateOther.UseVisualStyleBackColor = true;
@@ -807,7 +807,7 @@
             this.checkBoxLargeMargin.AutoSize = true;
             this.checkBoxLargeMargin.Location = new System.Drawing.Point(7, 243);
             this.checkBoxLargeMargin.Name = "checkBoxLargeMargin";
-            this.checkBoxLargeMargin.Size = new System.Drawing.Size(341, 27);
+            this.checkBoxLargeMargin.Size = new System.Drawing.Size(285, 21);
             this.checkBoxLargeMargin.TabIndex = 49;
             this.checkBoxLargeMargin.Text = "Large margin between translation blocks";
             this.checkBoxLargeMargin.UseVisualStyleBackColor = true;
@@ -917,7 +917,7 @@
             this.checkBoxShadow.AutoSize = true;
             this.checkBoxShadow.Location = new System.Drawing.Point(7, 180);
             this.checkBoxShadow.Name = "checkBoxShadow";
-            this.checkBoxShadow.Size = new System.Drawing.Size(294, 27);
+            this.checkBoxShadow.Size = new System.Drawing.Size(244, 21);
             this.checkBoxShadow.TabIndex = 42;
             this.checkBoxShadow.Text = "Drop shadow in transparent mode";
             this.checkBoxShadow.UseVisualStyleBackColor = true;

@@ -1,5 +1,8 @@
 If you have any suggestions for this tool, email me at chiitranslator@gmail.com.
 
+Version 1.16b
+ - Fixed a bug in word parsing algorithm.
+
 Version 1.16
  - A new feature: multiple entries in tooltips. Scroll with mouse wheel to change pages.
  - Fixed a bug with clipboard monitoring.

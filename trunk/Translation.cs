@@ -1192,6 +1192,7 @@ namespace ChiiTrans
                 allres.dict_key = string.Join("#", (from ed in tmp select ed.dict_key));
                 allres.dict_reading = string.Join("#", (from ed in tmp select ed.dict_reading));
                 allres.meaning = string.Join("#", (from ed in tmp select ed.meaning));
+                allres.score = tmp[0].score;
                 return allres;
             }
             return null;
