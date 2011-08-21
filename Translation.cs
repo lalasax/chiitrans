@@ -450,9 +450,14 @@ namespace ChiiTrans
 
         public string TranslateOCN()
         {
+            // Защита сумрачных японских гениев :)
+            var req0 = CreateHTTPRequest("http://cgi01.ocn.ne.jp/cgi-bin/translation/counter.cgi?prm=63676930312e6f636e2e6e652e6a70");
+            string huita = ReadAnswer(req0);
+            var param = Regex.Match(huita, @"'(.*?)'").Groups[1].Value;
+
             string url = "http://cgi01.ocn.ne.jp/cgi-bin/translation/index.cgi";
             string src = sourceNew.Replace('-', '‐');
-            string query = "langpair=jaen&sourceText=" + UrlEncode(src);
+            string query = "langpair=jaen&sourceText=" + UrlEncode(src) + "&auth=" + param;
             HttpWebRequest req = CreateHTTPRequest(url);
             WritePost(req, query);
             string result = ReadAnswer(req, Encoding.GetEncoding(932));
